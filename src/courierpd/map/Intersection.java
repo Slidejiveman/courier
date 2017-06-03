@@ -1,4 +1,4 @@
-package courierpd;
+package courierpd.map;
 
 import java.util.Date;
 

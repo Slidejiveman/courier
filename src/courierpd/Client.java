@@ -1,5 +1,7 @@
 package courierpd;
 
+import courierpd.map.Intersection;
+
 /**
  * Represents a customer of Acme Courier Services. 
  * Clients contact the company to have packages of papers picked-up and delivered to another client. 

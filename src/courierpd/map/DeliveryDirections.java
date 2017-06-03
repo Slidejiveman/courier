@@ -1,4 +1,4 @@
-package courierpd;
+package courierpd.map;
 
 /**
  * Handles the printing of Route information out in a usable format by couriers. 

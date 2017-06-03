@@ -1,4 +1,4 @@
-package courierpd;
+package courierpd.map;
 
 /**
  * The Street class represents an edge on the CityMap. 

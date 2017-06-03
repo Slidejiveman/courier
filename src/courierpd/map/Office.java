@@ -1,4 +1,4 @@
-package courierpd;
+package courierpd.map;
 
 /**
  * The Acme Courier Office is located in the center of the City Center. 
