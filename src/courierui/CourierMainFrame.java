@@ -1,25 +1,22 @@
 package courierui;
 
 import java.awt.EventQueue;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class ClientDeleteFrame extends JFrame {
+public class CourierMainFrame extends JFrame {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -134343600698106012L;
-	private JPanel contentPane;
+	private static final long serialVersionUID = -2964820041018829006L;
+	private JPanel contentPane; 
 
 	/**
 	 * Launch the application.
@@ -28,7 +25,7 @@ public class ClientDeleteFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					EmployeeDeleteFrame frame = new EmployeeDeleteFrame();
+					CourierMainFrame frame = new CourierMainFrame();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -40,9 +37,10 @@ public class ClientDeleteFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ClientDeleteFrame() {
+	public CourierMainFrame() {
+		JFrame currentFrame = this;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 864, 552);
+		setBounds(100, 100, 1078, 602);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -64,6 +62,9 @@ public class ClientDeleteFrame extends JFrame {
 		JMenuItem mntmClients = new JMenuItem("Clients");
 		mntmClients.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				getContentPane().removeAll();
+				getContentPane().add(new ClientManagementPanel(currentFrame));
+				getContentPane().revalidate();
 			}
 		});
 		menuBar.add(mntmClients);
@@ -95,49 +96,16 @@ public class ClientDeleteFrame extends JFrame {
 			}
 		});
 		menuBar.add(mntmLogout);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setContentPane(contentPane);
 		
-		JLabel lblDeleteEmployee = new JLabel("Delete Client");
-		lblDeleteEmployee.setBounds(383, 51, 102, 16);
-		contentPane.add(lblDeleteEmployee);
+		currentFrame.getContentPane().removeAll();
+		currentFrame.getContentPane().add(new ClientManagementPanel(currentFrame));
+		currentFrame.getContentPane().revalidate();
 		
-		JLabel lblName = new JLabel("Name:");
-		lblName.setBounds(287, 116, 38, 16);
-		contentPane.add(lblName);
-		
-		JLabel lblNameGoesHere = new JLabel("Name goes here");
-		lblNameGoesHere.setBounds(479, 116, 94, 16);
-		contentPane.add(lblNameGoesHere);
-		
-		JLabel lblIdNumber = new JLabel("ID Number:");
-		lblIdNumber.setBounds(287, 180, 66, 16);
-		contentPane.add(lblIdNumber);
-		
-		JLabel lblNumberGoesHere = new JLabel("Number goes here");
-		lblNumberGoesHere.setBounds(479, 180, 106, 16);
-		contentPane.add(lblNumberGoesHere);
-		
-		JLabel lblDoYouWant = new JLabel("Do you want to delete this client's information?");
-		lblDoYouWant.setBounds(301, 304, 284, 16);
-		contentPane.add(lblDoYouWant);
-		
-		JButton btnDelete = new JButton("Delete");
-		btnDelete.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		btnDelete.setBounds(223, 401, 124, 49);
-		contentPane.add(btnDelete);
-		
-		JButton btnCancel = new JButton("Cancel");
-		btnCancel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnCancel.setBounds(519, 401, 124, 49);
-		contentPane.add(btnCancel);
 	}
+
 }
