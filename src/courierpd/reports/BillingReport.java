@@ -1,4 +1,6 @@
-package courierpd;
+package courierpd.reports;
+
+import courierpd.Client;
 
 /**
  * The report sent out to a client delineating the deliveries made 

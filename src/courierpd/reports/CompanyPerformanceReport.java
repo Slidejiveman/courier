@@ -1,6 +1,9 @@
-package courierpd;
+package courierpd.reports;
 
 import java.util.*;
+
+import courierpd.Client;
+import courierpd.Courier;
 
 /**
  * A report specifically for clients that shows how well the 
