@@ -13,7 +13,9 @@ import java.awt.event.ActionEvent;
 public class ClientManagementPanel extends JPanel {
 
 	/**
-	 * 
+	 * Generated serialization unique identifier.
+	 * This would be used if the object were streamed
+	 * in bit form so that it would be reconstructed correctly.
 	 */
 	private static final long serialVersionUID = -6553392431507855432L;
 
@@ -46,6 +48,9 @@ public class ClientManagementPanel extends JPanel {
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				currentFrame.getContentPane().removeAll();
+				currentFrame.getContentPane().add(new ClientDeletePanel(currentFrame));
+				currentFrame.getContentPane().revalidate();
 			}
 		});
 		btnDelete.setBounds(725, 468, 97, 25);

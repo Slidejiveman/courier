@@ -13,7 +13,9 @@ import javax.swing.border.EmptyBorder;
 public class CourierMainFrame extends JFrame {
 
 	/**
-	 * 
+	 * Generated serialization unique identifier.
+	 * This would be used if the object were streamed
+	 * in bit form so that it would be reconstructed correctly.
 	 */
 	private static final long serialVersionUID = -2964820041018829006L;
 	
