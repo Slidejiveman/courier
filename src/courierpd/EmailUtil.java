@@ -1,5 +1,9 @@
 package courierpd;
 
+import courierpd.core.Client;
+import courierpd.core.Courier;
+import courierpd.core.DeliveryTicket;
+
 /**
  * A static class used to interact with the mail server. 
  * This provides utilities to parse emails from couriers 

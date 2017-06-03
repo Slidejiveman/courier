@@ -1,4 +1,4 @@
-package courierpd;
+package courierpd.core;
 
 /**
  * A static class used for determining the default courier to suggest for a given delivery ticket. 

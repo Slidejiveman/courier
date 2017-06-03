@@ -1,4 +1,4 @@
-package courierpd;
+package courierpd.core;
 
 import courierpd.map.Intersection;
 

@@ -1,6 +1,6 @@
 package courierpd.reports;
 
-import courierpd.Client;
+import courierpd.core.Client;
 
 /**
  * The report sent out to a client delineating the deliveries made 

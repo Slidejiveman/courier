@@ -1,4 +1,4 @@
-package courierpd;
+package courierpd.core;
 
 /**
  * A static utility class which contains the adjustable business 

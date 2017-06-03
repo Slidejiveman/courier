@@ -2,7 +2,7 @@ package courierpd.reports;
 
 import java.util.*;
 
-import courierpd.Courier;
+import courierpd.core.Courier;
 
 /**
  * The report which details how well an individual courier or 

@@ -1,6 +1,6 @@
 package courierpd.map;
 
-import courierpd.DeliveryTicket;
+import courierpd.core.DeliveryTicket;
 
 /**
  * A static class used as a utility by a Route to populate it with the intersections 

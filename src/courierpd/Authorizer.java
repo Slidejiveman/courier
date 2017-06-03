@@ -2,6 +2,8 @@ package courierpd;
 
 import java.util.*;
 
+import courierpd.core.User;
+
 /**
  * The Authorizer class backs the login screen. 
  * It checks that the entered credential match the username and 

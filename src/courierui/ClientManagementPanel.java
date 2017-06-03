@@ -6,7 +6,8 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
-import courierpd.Client;
+import courierpd.core.Client;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 

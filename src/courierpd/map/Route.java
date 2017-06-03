@@ -3,7 +3,7 @@ package courierpd.map;
 import java.sql.Time;
 import java.util.Collection;
 
-import courierpd.DeliveryTicket;
+import courierpd.core.DeliveryTicket;
 import courierpd.enums.Direction;
 
 /**

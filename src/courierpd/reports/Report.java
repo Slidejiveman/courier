@@ -2,7 +2,7 @@ package courierpd.reports;
 
 import java.util.*;
 
-import courierpd.DeliveryTicket;
+import courierpd.core.DeliveryTicket;
 
 /**
  * The abstract class from which reporting objects are derived. 
