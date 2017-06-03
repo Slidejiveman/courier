@@ -3,6 +3,8 @@ package courierpd;
 import java.sql.Time;
 import java.util.Date;
 
+import courierpd.enums.TicketStatus;
+
 /**
  * The Delivery Ticket is the heart of Ubiquity as well as of Acme Courier Services' business. 
  * It contains information related to Couriers, Order Takers, Clients, Routes, and much more. 
@@ -115,7 +117,7 @@ public class DeliveryTicket {
      * Certain actions, reporting, updating, deleting, etc., 
      * are based on the state of the delivery ticket.
      */
-    private TicketStatus status = courierpd.TicketStatus.Opened;
+    private TicketStatus status = courierpd.enums.TicketStatus.Opened;
     /**
      * The estimated time the the courier will have to 
      * depart in order to arrive at the destination on time.

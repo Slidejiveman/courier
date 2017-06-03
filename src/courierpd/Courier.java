@@ -1,5 +1,7 @@
 package courierpd;
 
+import courierpd.enums.EmployeeRole;
+
 /**
  * Represents the courier who performs the delivery of a package. 
  * This class extends the abstract User class and adds some information specific to couriers. 
@@ -23,7 +25,7 @@ public class Courier extends User {
      * It has the lowest level of permissions. 
      * This value should not be changed.
      */
-    private EmployeeRole employeeRole = courierpd.EmployeeRole.Courier;
+    private EmployeeRole employeeRole = courierpd.enums.EmployeeRole.Courier;
 
     /**
      * Sets the number of deliveries the courier has made on a given day.

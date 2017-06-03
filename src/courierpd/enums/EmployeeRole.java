@@ -1,4 +1,4 @@
-package courierpd;
+package courierpd.enums;
 
 /**
  * An enumerator which holds the valid values for an employee's role. 

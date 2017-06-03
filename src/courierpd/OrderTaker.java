@@ -1,5 +1,7 @@
 package courierpd;
 
+import courierpd.enums.EmployeeRole;
+
 /**
  * The OrderTaker is the main user of Ubiquity and has access 
  * to all of the normal business functions. The OrderTaker's name 
@@ -13,7 +15,7 @@ public class OrderTaker extends User {
      * This is an intended redundancy to offer some flexibility 
      * when coding as well to provide an avenue for extending functionality in the future.
      */
-    protected EmployeeRole employeeRole = courierpd.EmployeeRole.OrderTaker;
+    protected EmployeeRole employeeRole = courierpd.enums.EmployeeRole.OrderTaker;
 
     public EmployeeRole getEmployeeRole() {
         return this.employeeRole;

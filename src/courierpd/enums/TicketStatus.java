@@ -1,4 +1,4 @@
-package courierpd;
+package courierpd.enums;
 
 /**
  * Ticket Status is used to specify whether a delivery ticket 

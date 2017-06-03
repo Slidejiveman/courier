@@ -3,6 +3,8 @@ package courierpd;
 import java.sql.Time;
 import java.util.Collection;
 
+import courierpd.enums.Direction;
+
 /**
  * The Route is the path the courier will take throughout 
  * the course of a delivery. This will be the shortest 

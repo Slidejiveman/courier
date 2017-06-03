@@ -1,4 +1,4 @@
-package courierpd;
+package courierpd.enums;
 
 /**
  * An enumerator for use with Routes. 

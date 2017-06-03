@@ -1,5 +1,7 @@
 package courierpd;
 
+import courierpd.enums.EmployeeRole;
+
 /**
  * An abstract class which is extended by Courier, OrderTaker, 
  * Owner, and any future role the company may create. 
