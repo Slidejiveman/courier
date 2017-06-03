@@ -1,7 +1,8 @@
 package courierpd;
 
 /**
- * The Owner has all permissions in the system. This class exists for potential extensibility.
+ * The Owner has all permissions in the system. 
+ * This class exists for potential extensibility.
  */
 public class Owner extends OrderTaker {
 

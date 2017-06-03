@@ -1,20 +1,27 @@
 package courierpd;
 
 /**
- * Represents the courier who performs the delivery of a package. This class extends the abstract User class and adds some information specific to couriers. Note that usernames and passwords assigned to Couriers do not provide access into Ubiquity.
+ * Represents the courier who performs the delivery of a package. 
+ * This class extends the abstract User class and adds some information specific to couriers. 
+ * Note that usernames and passwords assigned to Couriers do not provide access into Ubiquity.
  */
 public class Courier extends User {
 
     /**
-     * The number of deliveries performed during a day. This field is used with the default courier algorithm to determine which courier to suggest to the order taker.
+     * The number of deliveries performed during a day. 
+     * This field is used with the default courier algorithm to 
+     * determine which courier to suggest to the order taker.
      */
     private int deliveriesToday = 0;
     /**
-     * Flag used to determine whether or not the courier is in the office and available to go on another delivery.
+     * Flag used to determine whether or not the courier 
+     * is in the office and available to go on another delivery.
      */
     private boolean isOutForDelivery = false;
     /**
-     * The role assigned to a courier is Courier. It has the lowest level of permissions. This value should not be changed.
+     * The role assigned to a courier is Courier. 
+     * It has the lowest level of permissions. 
+     * This value should not be changed.
      */
     private EmployeeRole employeeRole = courierpd.EmployeeRole.Courier;
 

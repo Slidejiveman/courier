@@ -3,12 +3,16 @@ package courierpd;
 import java.util.*;
 
 /**
- * A report specifically for clients that shows how well the company as a whole has performed for them. Information, such as bonus amounts, is encapsulated into another report.
+ * A report specifically for clients that shows how well the 
+ * company as a whole has performed for them. Information, 
+ * such as bonus amounts, is encapsulated into another report.
  */
 public class CompanyPerformanceReport extends Report {
 
     /**
-     * The couriers within the company required for the report. This should be every courier who was active during the period of performance the report captures.
+     * The couriers within the company required for the report. 
+     * This should be every courier who was active during the 
+     * period of performance the report captures.
      */
     private Collection<Courier> courier;
     /**

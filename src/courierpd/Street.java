@@ -1,7 +1,10 @@
 package courierpd;
 
 /**
- * The Street class represents an edge on the CityMap. The edges are needed to know which intersections are connected to other intersections. Knowing the street that connects to intersections will allow the software to determine directions for the route.
+ * The Street class represents an edge on the CityMap. 
+ * The edges are needed to know which intersections are connected to other intersections. 
+ * Knowing the street that connects to intersections will allow the software to determine 
+ * directions for the route.
  */
 public class Street {
 

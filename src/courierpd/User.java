@@ -1,7 +1,14 @@
 package courierpd;
 
 /**
- * An abstract class which is extended by Courier, OrderTaker, Owner, and any future role the company may create. The User class contains all of the basic information that is common to all users. It does not handle any permissions itself, but contains a field, Employee Role, that is used throughout the system to determine whether the actively logged in employee has adequate permissions to perform a task.
+ * An abstract class which is extended by Courier, OrderTaker, 
+ * Owner, and any future role the company may create. 
+ * The User class contains all of the basic information 
+ * that is common to all users. It does not handle any 
+ * permissions itself, but contains a field, Employee Role, 
+ * that is used throughout the system to determine whether the 
+ * actively logged in employee has adequate permissions to 
+ * perform a task.
  */
 public abstract class User {
 
@@ -14,7 +21,8 @@ public abstract class User {
      */
     protected int number;
     /**
-     * The email associated with an employee. These should all be Gmail accounts.
+     * The email associated with an employee. 
+     * These should all be Gmail accounts.
      */
     protected String email;
     /**
@@ -22,15 +30,28 @@ public abstract class User {
      */
     protected String username;
     /**
-     * The password associated with a given employee. Employees are able to change their own password. Other users should not be able to see the password when navigating through the data management screens.
+     * The password associated with a given employee. 
+     * Employees are able to change their own password. 
+     * Other users should not be able to see the password 
+     * when navigating through the data management screens.
      */
     protected String password;
     /**
-     * The shift that the employee usually works. Acme Courier is open twelve hours a day. Shifts begin at 8 am and end at 8pm. Each shift lasts 8 hours. There are three shifts beginning at 8am, 10am, and 12pm. These are known simply as shift 1, 2, and 3 respectively. Part-time help must work a minimum of four hours.  Part-time shifts are based on the latest shift active from when they begin. Therefore, part-time help starting at 10am would be shift 2. Any time 12pm or later will be shift 3.
+     * The shift that the employee usually works. 
+     * Acme Courier is open twelve hours a day. 
+     * Shifts begin at 8 am and end at 8pm. 
+     * Each shift lasts 8 hours. 
+     * There are three shifts beginning at 8am, 10am, and 12pm. 
+     * These are known simply as shift 1, 2, and 3 respectively. 
+     * Part-time help must work a minimum of four hours.  
+     * Part-time shifts are based on the latest shift active from when they begin. 
+     * Therefore, part-time help starting at 10am would be shift 2. 
+     * Any time 12pm or later will be shift 3.
      */
     protected int shift;
     /**
-     * Flag that determines whether an employee is currently active in the system. Inactive employees are either on a leave of absence or have been terminated from the company.
+     * Flag that determines whether an employee is currently active in the system. 
+     * Inactive employees are either on a leave of absence or have been terminated from the company.
      */
     protected boolean isActive = true;
     protected EmployeeRole employeeRole;
@@ -119,7 +140,8 @@ public abstract class User {
 
     /**
      * Set the password for an employee.
-     * @param employeePassword The string value to be used as an employee's password in the system.
+     * @param employeePassword The string value to be used as 
+     *     an employee's password in the system.
      */
     public void setPassword(String employeePassword) {
         this.password = employeePassword;
@@ -134,7 +156,8 @@ public abstract class User {
 
     /**
      * Sets the usual shift an employee will work in the system.
-     * @param employeeShift The usual shift an employee will work. Represented by the values 1, 2, or 3.
+     * @param employeeShift The usual shift an employee will work. 
+     *     Represented by the values 1, 2, or 3.
      */
     public void setShift(int employeeShift) {
         this.shift = employeeShift;

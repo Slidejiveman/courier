@@ -4,7 +4,9 @@ import java.sql.Time;
 import java.util.Date;
 
 /**
- * The Delivery Ticket is the heart of Ubiquity as well as of Acme Courier Services' business. It contains information related to Couriers, Order Takers, Clients, Routes, and much more. Delivery Tickets are the primary entity of interest in generating reports as well.
+ * The Delivery Ticket is the heart of Ubiquity as well as of Acme Courier Services' business. 
+ * It contains information related to Couriers, Order Takers, Clients, Routes, and much more. 
+ * Delivery Tickets are the primary entity of interest in generating reports as well.
  */
 public class DeliveryTicket {
 
@@ -13,43 +15,60 @@ public class DeliveryTicket {
      */
     private Date orderDate;
     /**
-     * The time the order is placed in the system. This is the moment that the delivery ticket's status becomes "opened."
+     * The time the order is placed in the system. 
+     * This is the moment that the delivery ticket's status becomes "opened."
      */
     private Time orderPlacedTime;
     /**
-     * This is the pick up time the courier is supposed to shoot for. This is used when determining the departure time.
+     * This is the pick up time the courier is supposed to shoot for. 
+     * This is used when determining the departure time.
      */
     private Date requestedPickUpTime;
     /**
-     * The flag that determines which of the two clients to bill. By default, the pickup client is assumed to be the one who is billed because this is the client that initiated the delivery ticket. It can be manually changed to the delivery client.
+     * The flag that determines which of the two clients to bill. 
+     * By default, the pickup client is assumed to be the one who is 
+     * billed because this is the client that initiated the delivery ticket. 
+     * It can be manually changed to the delivery client.
      */
     private boolean isBillPickUp = true;
     /**
-     * The unique identifier of the package as well as the delivery ticket in the system. A package is not of much interest to the company or the software other than the fact that it exists. The Delivery Ticket itself is a package's primary agency in Ubiquity.
+     * The unique identifier of the package as well as the delivery ticket in the system. 
+     * A package is not of much interest to the company or the software other than 
+     * the fact that it exists. The Delivery Ticket itself is a package's primary agency in Ubiquity.
      */
     private int packageID;
     /**
-     * The time the courier left from the Office. This is recorded by the Order Taker when the courier notifies them that they are leaving.
+     * The time the courier left from the Office. 
+     * This is recorded by the Order Taker when the 
+     * courier notifies them that they are leaving.
      */
     private Date actualDepartureTime;
     /**
-     * The time the courier received the package from the pick-up client. This should be recorded in the system by the courier via an email.
+     * The time the courier received the package from the pick-up client. 
+     * This should be recorded in the system by the courier via an email.
      */
     private Date actualPickUpTime;
     /**
-     * The time at which the courier delivered the package to the receiving client. This should be reported by the courier via an email to Ubiquity.
+     * The time at which the courier delivered the package to the receiving client. 
+     * This should be reported by the courier via an email to Ubiquity.
      */
     private Date actualDeliveryTime;
     /**
-     * The time at which the courier returned to Acme Courier Services. This is recorded by the order taker when the courier checks back in.
+     * The time at which the courier returned to Acme Courier Services. 
+     * This is recorded by the order taker when the courier checks back in.
      */
     private Date courierReturnTime;
     /**
-     * A flag determined based on the actual delivery time and the bonus window business parameter. If the actual delivery time is less than the estimated delivery time minus the bonus window, then this flag is set to true and a bonus is received.
+     * A flag determined based on the actual delivery time and the bonus window business parameter. 
+     * If the actual delivery time is less than the estimated delivery time minus the bonus window, 
+     * then this flag is set to true and a bonus is received.
      */
     private boolean isBonusEarned = false;
     /**
-     * Special instructions that are provided to the Order Taker over the phone by the client. Special Instructions are made available on the delivery instructions document so that the courier can more easily fulfill them. These are not required, but they should be held in the system to help the courier after arriving on site.
+     * Special instructions that are provided to the Order Taker over the phone by the client. 
+     * Special Instructions are made available on the delivery instructions document 
+     * so that the courier can more easily fulfill them. These are not required, 
+     * but they should be held in the system to help the courier after arriving on site.
      */
     private String specialDeliveryInstructions;
     /**
@@ -65,19 +84,26 @@ public class DeliveryTicket {
      */
     private Client pickUpClient;
     /**
-     * The route that the courier will take to perform the delivery and return back to the office. This route is also used to determine the estimated price and delivery time.
+     * The route that the courier will take to perform the delivery and return 
+     * back to the office. This route is also used to determine the estimated 
+     * price and delivery time.
      */
     private Route shortestPath;
     /**
-     * The estimated delivery time of the package. The estimated delivery time is determined using the Route, but it is stored in the database as part of the delivery ticket.
+     * The estimated delivery time of the package. The estimated delivery 
+     * time is determined using the Route, but it is stored in the database 
+     * as part of the delivery ticket.
      */
     private Date estDeliveryTime;
     /**
-     * The estimated number of blocks traveled, round-trip, for the delivery. This is determined with the help of a Route but stored as part of a delivery ticket.
+     * The estimated number of blocks traveled, round-trip, for the delivery. 
+     * This is determined with the help of a Route but stored as part of a delivery ticket.
      */
     private int estBlocks;
     /**
-     * The estimated price is the estimated amount that the client will be billed for the service. This is determined with the help of a route, but it is stored as part of a delivery ticket.
+     * The estimated price is the estimated amount that the client will be 
+     * billed for the service. This is determined with the help of a route, 
+     * but it is stored as part of a delivery ticket.
      */
     private float estPrice;
     /**
@@ -85,11 +111,14 @@ public class DeliveryTicket {
      */
     private OrderTaker orderTaker;
     /**
-     * The state of the delivery ticket. Certain actions, reporting, updating, deleting, etc., are based on the state of the delivery ticket.
+     * The state of the delivery ticket. 
+     * Certain actions, reporting, updating, deleting, etc., 
+     * are based on the state of the delivery ticket.
      */
     private TicketStatus status = courierpd.TicketStatus.Opened;
     /**
-     * The estimated time the the courier will have to depart in order to arrive at the destination on time.
+     * The estimated time the the courier will have to 
+     * depart in order to arrive at the destination on time.
      */
     private Date estimatedDepartureTime;
 
@@ -297,7 +326,8 @@ public class DeliveryTicket {
     }
 
     /**
-     * Returns the estimated number of blocks it will take to complete a delivery rounded to a whole number.
+     * Returns the estimated number of blocks it will take to 
+     * complete a delivery rounded to a whole number.
      */
     public int getEstBlocks() {
         return this.estBlocks;
@@ -334,7 +364,8 @@ public class DeliveryTicket {
     }
 
     /**
-     * Sets the estimated departure time that a courier will have to meet in order to arrive on time.
+     * Sets the estimated departure time that a courier will 
+     * have to meet in order to arrive on time.
      * @param estimatedDepartureTime The estimated departure time required for the delivery to arrive on time.
      */
     public void setEstimatedDepartureTime(Date estimatedDepartureTime) {
@@ -342,7 +373,8 @@ public class DeliveryTicket {
     }
 
     /**
-     * Creates a unique ID for the package associated with a delivery ticket. Therefore, this also creates a unique ID for a delivery ticket.
+     * Creates a unique ID for the package associated with a delivery ticket. 
+     * Therefore, this also creates a unique ID for a delivery ticket.
      */
     public void generatePackageID() {
         // TODO - implement DeliveryTicket.generatePackageID

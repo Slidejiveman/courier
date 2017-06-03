@@ -1,7 +1,9 @@
 package courierpd;
 
 /**
- * Represents a customer of Acme Courier Services. Clients contact the company to have packages of papers picked-up and delivered to another client. Therefore, clients often come in pairs.
+ * Represents a customer of Acme Courier Services. 
+ * Clients contact the company to have packages of papers picked-up and delivered to another client. 
+ * Therefore, clients often come in pairs.
  */
 public class Client {
 
@@ -14,15 +16,22 @@ public class Client {
      */
     private int accountNumber;
     /**
-     * Specifies whether the client is actively using Acme Couriers services. Clients that are inactive no longer appear on the normal reports, and they do not receive reports that are generated and distributed to all clients on a regular basis.
+     * Specifies whether the client is actively using Acme Couriers services. 
+     * Clients that are inactive no longer appear on the normal reports, 
+     * and they do not receive reports that are generated and distributed 
+     * to all clients on a regular basis.
      */
     private boolean isActive = true;
     /**
-     * The email provided by the client will receive delivery confirmation notices from Ubiquity. This is required for the system to work as intended.
+     * The email provided by the client will receive delivery confirmation notices from Ubiquity. 
+     * This is required for the system to work as intended.
      */
     private String email;
     /**
-     * The phone number of the client, which is not used by Ubiquity for processing. Ubiquity stores this number in case their is an issue with the email system. This will allow Order Takers to call, as they once did, to verify that a package has been delivered.
+     * The phone number of the client, which is not used by Ubiquity for processing. 
+     * Ubiquity stores this number in case their is an issue with the email system. 
+     * This will allow Order Takers to call, as they once did, to verify that a 
+     * package has been delivered.
      */
     private String phoneNumber;
     /**

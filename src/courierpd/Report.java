@@ -3,16 +3,22 @@ package courierpd;
 import java.util.*;
 
 /**
- * The abstract class from which reporting objects are derived. Reporting objects are a logical structure that have access to the main problem domain classes they require to generate report files. All other reports extend this class.
+ * The abstract class from which reporting objects are derived. 
+ * Reporting objects are a logical structure that have access 
+ * to the main problem domain classes they require to generate 
+ * report files. All other reports extend this class.
  */
 public abstract class Report {
 
     /**
-     * A flag used to determine whether the generated report should be monthly or weekly.
+     * A flag used to determine whether the generated 
+     * report should be monthly or weekly.
      */
     protected boolean isMonthly = false;
     /**
-     * The collection of delivery tickets that a report needs to know about in order to print the necessary details. All reports need knowledge of delivery tickets.
+     * The collection of delivery tickets that a report 
+     * needs to know about in order to print the necessary details. 
+     * All reports need knowledge of delivery tickets.
      */
     protected Collection<DeliveryTicket> deliveryTicket;
     /**
@@ -33,14 +39,16 @@ public abstract class Report {
     protected int reportID;
 
     /**
-     * Returns the flag which determines whether the report is weekly or monthly.
+     * Returns the flag which determines whether the report is 
+     * weekly or monthly.
      */
     public boolean getIsMonthly() {
         return this.isMonthly;
     }
 
     /**
-     * Set the monthly or weekly flag used to determine whether the generated report should be weekly or monthly.
+     * Set the monthly or weekly flag used to determine whether 
+     * the generated report should be weekly or monthly.
      * @param isMonthly The value for the monthly or weekly flag.
      */
     public void setIsMonthly(boolean isMonthly) {
@@ -86,7 +94,9 @@ public abstract class Report {
     }
 
     /**
-     * Creates the report required. This method should be overridden in the subclasses to provide the specific details and form of a given report.
+     * Creates the report required. This method should be overridden 
+     * in the subclasses to provide the specific details and form 
+     * of a given report.
      */
     public void generate() {
         // TODO - implement Report.generate
