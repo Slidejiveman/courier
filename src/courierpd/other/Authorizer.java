@@ -1,4 +1,4 @@
-package courierpd;
+package courierpd.other;
 
 import java.util.*;
 
