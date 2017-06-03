@@ -16,6 +16,7 @@ public class CourierMainFrame extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = -2964820041018829006L;
+	
 	private JPanel contentPane; 
 
 	/**
@@ -40,7 +41,7 @@ public class CourierMainFrame extends JFrame {
 	public CourierMainFrame() {
 		JFrame currentFrame = this;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1078, 602);
+		setBounds(100, 100, 1017, 602);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -48,6 +49,10 @@ public class CourierMainFrame extends JFrame {
 		JMenuItem mntmDeliveryTickets = new JMenuItem("Delivery Tickets");
 		mntmDeliveryTickets.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				getContentPane().removeAll();
+				// In the add, place the constructor for your panel
+				//getContentPane().add();
+				getContentPane().revalidate();
 			}
 		});
 		menuBar.add(mntmDeliveryTickets);
@@ -55,6 +60,10 @@ public class CourierMainFrame extends JFrame {
 		JMenuItem mntmEmployees = new JMenuItem("Employees");
 		mntmEmployees.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				getContentPane().removeAll();
+				// In the add, place the constructor for your panel
+				//getContentPane().add();
+				getContentPane().revalidate();
 			}
 		});
 		menuBar.add(mntmEmployees);
@@ -72,6 +81,10 @@ public class CourierMainFrame extends JFrame {
 		JMenuItem mntmBusinessParameters = new JMenuItem("Business Parameters");
 		mntmBusinessParameters.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				getContentPane().removeAll();
+				// In the add, place the constructor for your panel
+				//getContentPane().add();
+				getContentPane().revalidate();
 			}
 		});
 		menuBar.add(mntmBusinessParameters);
@@ -79,6 +92,10 @@ public class CourierMainFrame extends JFrame {
 		JMenuItem mntmMapConfiguration = new JMenuItem("Map Configuration");
 		mntmMapConfiguration.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				getContentPane().removeAll();
+				// In the add, place the constructor for your panel
+				//getContentPane().add();
+				getContentPane().revalidate();
 			}
 		});
 		menuBar.add(mntmMapConfiguration);
@@ -86,6 +103,10 @@ public class CourierMainFrame extends JFrame {
 		JMenuItem mntmReports = new JMenuItem("Reports");
 		mntmReports.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				getContentPane().removeAll();
+				// In the add, place the constructor for your panel
+				//getContentPane().add();
+				getContentPane().revalidate();
 			}
 		});
 		menuBar.add(mntmReports);
@@ -93,17 +114,18 @@ public class CourierMainFrame extends JFrame {
 		JMenuItem mntmLogout = new JMenuItem("Logout");
 		mntmLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				getContentPane().removeAll();
+				// In the add, place the constructor for your panel
+				//getContentPane().add();
+				getContentPane().revalidate();
 			}
 		});
 		menuBar.add(mntmLogout);
 		
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(null);
-		setContentPane(contentPane);
-		
+		// The default panel to display should be added here.
+		// This will eventually be the login screen.
 		currentFrame.getContentPane().removeAll();
-		currentFrame.getContentPane().add(new ClientManagementPanel(currentFrame));
+		//currentFrame.getContentPane().add();
 		currentFrame.getContentPane().revalidate();
 		
 	}

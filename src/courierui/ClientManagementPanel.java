@@ -24,7 +24,7 @@ public class ClientManagementPanel extends JPanel {
 		setLayout(null);
 		
 		JList<Client> list = new JList<Client>();
-		list.setBounds(84, 108, 791, 406);
+		list.setBounds(84, 108, 791, 335);
 		add(list);
 		
 		JButton btnAdd = new JButton("Add");
@@ -32,7 +32,7 @@ public class ClientManagementPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnAdd.setBounds(152, 547, 97, 25);
+		btnAdd.setBounds(145, 468, 97, 25);
 		add(btnAdd);
 		
 		JButton btnUpdate = new JButton("Update");
@@ -40,7 +40,7 @@ public class ClientManagementPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnUpdate.setBounds(450, 547, 97, 25);
+		btnUpdate.setBounds(443, 468, 97, 25);
 		add(btnUpdate);
 		
 		JButton btnDelete = new JButton("Delete");
@@ -48,7 +48,7 @@ public class ClientManagementPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnDelete.setBounds(732, 547, 97, 25);
+		btnDelete.setBounds(725, 468, 97, 25);
 		add(btnDelete);
 		
 		JLabel lblClientList = new JLabel("Client List");
