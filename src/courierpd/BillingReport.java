@@ -1,4 +1,4 @@
-package CourierPD;
+package courierpd;
 
 /**
  * The report sent out to a client delineating the deliveries made for a set period of time. This report shows an itemized list of the deliveries performed and the cost of each.

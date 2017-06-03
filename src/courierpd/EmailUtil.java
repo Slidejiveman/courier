@@ -1,4 +1,4 @@
-package CourierPD;
+package courierpd;
 
 /**
  * A static class used to interact with the mail server. This provides utilities to parse emails from couriers as well as send confirmation emails out to clients when a delivery has been reported as complete.

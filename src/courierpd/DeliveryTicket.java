@@ -1,4 +1,4 @@
-package CourierPD;
+package courierpd;
 
 import java.sql.Time;
 import java.util.Date;
@@ -87,7 +87,7 @@ public class DeliveryTicket {
     /**
      * The state of the delivery ticket. Certain actions, reporting, updating, deleting, etc., are based on the state of the delivery ticket.
      */
-    private TicketStatus status = CourierPD.TicketStatus.Opened;
+    private TicketStatus status = courierpd.TicketStatus.Opened;
     /**
      * The estimated time the the courier will have to depart in order to arrive at the destination on time.
      */

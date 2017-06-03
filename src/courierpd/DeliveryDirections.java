@@ -1,4 +1,4 @@
-package CourierPD;
+package courierpd;
 
 /**
  * Handles the printing of Route information out in a usable format by couriers. This will create a file, which may be referenced multiple times, should the need arise.

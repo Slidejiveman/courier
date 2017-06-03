@@ -1,4 +1,4 @@
-package CourierPD;
+package courierpd;
 
 /**
  * An abstract class which is extended by Courier, OrderTaker, Owner, and any future role the company may create. The User class contains all of the basic information that is common to all users. It does not handle any permissions itself, but contains a field, Employee Role, that is used throughout the system to determine whether the actively logged in employee has adequate permissions to perform a task.

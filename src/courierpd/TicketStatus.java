@@ -1,4 +1,4 @@
-package CourierPD;
+package courierpd;
 
 /**
  * Ticket Status is used to specify whether a delivery ticket is in one of three valid states in the system: Open, Closed, or Canceled.

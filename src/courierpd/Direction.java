@@ -1,4 +1,4 @@
-package CourierPD;
+package courierpd;
 
 /**
  * An enumerator for use with Routes. The enumerator has been added so that generated directions contain human readable turn information.

@@ -1,4 +1,4 @@
-package CourierPD;
+package courierpd;
 
 /**
  * A static class used for determining the default courier to suggest for a given delivery ticket. All active couriers can be read in from the database, and that information can be used to determine which courier to use.

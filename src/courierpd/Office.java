@@ -1,4 +1,4 @@
-package CourierPD;
+package courierpd;
 
 /**
  * The Acme Courier Office is located in the center of the City Center. For extensibility reasons, the office is encapsulated in its own class. Should there be reasons to extend functionality in the future or should their be another office open up, this class would be useful.

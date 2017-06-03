@@ -1,4 +1,4 @@
-package CourierPD;
+package courierpd;
 
 /**
  * Represents a customer of Acme Courier Services. Clients contact the company to have packages of papers picked-up and delivered to another client. Therefore, clients often come in pairs.

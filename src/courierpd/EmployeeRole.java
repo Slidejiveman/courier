@@ -1,4 +1,4 @@
-package CourierPD;
+package courierpd;
 
 /**
  * An enumerator which holds the valid values for an employee's role. These are Courier, OrderTaker, and Owner. These values will be used when checking for permissions in the system.

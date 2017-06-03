@@ -1,4 +1,4 @@
-package CourierPD;
+package courierpd;
 
 /**
  * A static class used as a utility by a Route to populate it with the intersections the courier must traverse while on delivery.

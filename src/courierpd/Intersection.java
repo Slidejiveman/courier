@@ -1,4 +1,4 @@
-package CourierPD;
+package courierpd;
 
 import java.util.Date;
 

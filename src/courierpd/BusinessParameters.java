@@ -1,4 +1,4 @@
-package CourierPD;
+package courierpd;
 
 /**
  * A static utility class which contains the adjustable business parameters which may be changed by the Owner. The business parameters are used primarily with the delivery ticket and routes.

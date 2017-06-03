@@ -1,4 +1,4 @@
-package CourierPD;
+package courierpd;
 
 /**
  * Represents the courier who performs the delivery of a package. This class extends the abstract User class and adds some information specific to couriers. Note that usernames and passwords assigned to Couriers do not provide access into Ubiquity.
@@ -16,7 +16,7 @@ public class Courier extends User {
     /**
      * The role assigned to a courier is Courier. It has the lowest level of permissions. This value should not be changed.
      */
-    private EmployeeRole employeeRole = CourierPD.EmployeeRole.Courier;
+    private EmployeeRole employeeRole = courierpd.EmployeeRole.Courier;
 
     /**
      * Sets the number of deliveries the courier has made on a given day.
