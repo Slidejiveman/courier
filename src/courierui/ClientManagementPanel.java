@@ -1,11 +1,9 @@
 package courierui;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-
 import courierpd.core.Client;
 
 import java.awt.event.ActionListener;
@@ -23,7 +21,7 @@ public class ClientManagementPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public ClientManagementPanel(JFrame currentFrame) {
+	public ClientManagementPanel(CourierMainFrame currentFrame) {
 		setLayout(null);
 		
 		JList<Client> list = new JList<Client>();

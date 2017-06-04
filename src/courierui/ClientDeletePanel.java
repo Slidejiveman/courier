@@ -20,7 +20,7 @@ public class ClientDeletePanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public ClientDeletePanel(JFrame currentFrame) {
+	public ClientDeletePanel(CourierMainFrame currentFrame) {
 		setLayout(null);
 		
 		JLabel lblDeleteEmployee = new JLabel("Delete Client");

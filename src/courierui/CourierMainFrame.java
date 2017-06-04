@@ -10,6 +10,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+@SuppressWarnings("unused")
 public class CourierMainFrame extends JFrame {
 
 	/**
@@ -41,7 +42,7 @@ public class CourierMainFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public CourierMainFrame() {
-		JFrame currentFrame = this;
+		CourierMainFrame currentFrame = this;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1017, 602);
 		
@@ -54,6 +55,7 @@ public class CourierMainFrame extends JFrame {
 				getContentPane().removeAll();
 				// In the add, place the constructor for your panel
 				//getContentPane().add();
+				getContentPane().add(new DeliveryTicketListPanel(currentFrame));
 				getContentPane().revalidate();
 			}
 		});
@@ -97,6 +99,7 @@ public class CourierMainFrame extends JFrame {
 				getContentPane().removeAll();
 				// In the add, place the constructor for your panel
 				//getContentPane().add();
+				getContentPane().add(new MapConfigPanel(currentFrame));
 				getContentPane().revalidate();
 			}
 		});
@@ -128,6 +131,7 @@ public class CourierMainFrame extends JFrame {
 		// This will eventually be the login screen.
 		currentFrame.getContentPane().removeAll();
 		//currentFrame.getContentPane().add();
+		currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame));
 		currentFrame.getContentPane().revalidate();
 		
 	}
