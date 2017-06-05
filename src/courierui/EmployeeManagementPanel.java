@@ -16,7 +16,7 @@ public class EmployeeManagementPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public EmployeeManagementPanel() {
+	public EmployeeManagementPanel(CourierMainFrame currentFrame) {
 		setLayout(null);
 		
 		JButton btnAdd = new JButton("Add");

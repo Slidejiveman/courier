@@ -10,6 +10,11 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 
 public class AddUpdateClientPanel extends JPanel {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5368791176130275696L;
 	private JTextField textField;
 	private JTextField textField_2;
 	private JTextField textField_3;
@@ -17,7 +22,7 @@ public class AddUpdateClientPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public AddUpdateClientPanel() {
+	public AddUpdateClientPanel(CourierMainFrame currentFrame) {
 		setLayout(null);
 		
 		JLabel lblAddClient = new JLabel("Add Client");
@@ -60,6 +65,9 @@ public class AddUpdateClientPanel extends JPanel {
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				currentFrame.getContentPane().removeAll();
+				currentFrame.getContentPane().add(new ClientManagementPanel(currentFrame));
+				currentFrame.getContentPane().revalidate();
 			}
 		});
 		cancelButton.setBounds(385, 438, 89, 23);

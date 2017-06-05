@@ -1,13 +1,14 @@
 package courierui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import courierpd.core.Client;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import courierpd.core.Client;
 
 public class ClientManagementPanel extends JPanel {
 
@@ -31,6 +32,9 @@ public class ClientManagementPanel extends JPanel {
 		JButton btnAdd = new JButton("Add");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				currentFrame.getContentPane().removeAll();
+				currentFrame.getContentPane().add(new AddUpdateClientPanel(currentFrame));
+				currentFrame.getContentPane().revalidate();
 			}
 		});
 		btnAdd.setBounds(145, 468, 97, 25);
@@ -39,6 +43,9 @@ public class ClientManagementPanel extends JPanel {
 		JButton btnUpdate = new JButton("Update");
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				currentFrame.getContentPane().removeAll();
+				currentFrame.getContentPane().add(new AddUpdateClientPanel(currentFrame));
+				currentFrame.getContentPane().revalidate();
 			}
 		});
 		btnUpdate.setBounds(443, 468, 97, 25);

@@ -75,8 +75,7 @@ public class CourierMainFrame extends JFrame {
 		mntmEmployees.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				getContentPane().removeAll();
-				// In the add, place the constructor for your panel
-				//getContentPane().add();
+				getContentPane().add(new EmployeeManagementPanel(currentFrame));
 				getContentPane().revalidate();
 			}
 		});
