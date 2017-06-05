@@ -56,6 +56,11 @@ public abstract class User {
      * Inactive employees are either on a leave of absence or have been terminated from the company.
      */
     protected boolean isActive = true;
+    
+    /**
+     * The role the employee will serve in the company.
+     * This enumerator is overridden in each child class.
+     */
     protected EmployeeRole employeeRole;
 
     /**
@@ -182,6 +187,8 @@ public abstract class User {
 
     /**
      * Generates a new unique identifier for a user.
+     * This method should check against all employees currently
+     * stored in the database to ensure its uniqueness.
      */
     public void generateUserID() {
         // TODO - implement User.generateUserID

@@ -92,10 +92,18 @@ public class AddUpdateEmployeePanel extends JPanel {
 		
 		JComboBox<Integer> comboBox = new JComboBox<Integer>();
 		comboBox.setBounds(222, 407, 57, 22);
+		for(int i = 1; i <= 3; i++) {
+			comboBox.addItem(i);
+		}
+		
 		add(comboBox);
 		
+		// An Owner cannot be added to the system under normal operating
+		// circumstances. This would require special intervention at present
 		JComboBox<EmployeeRole> comboBox_1 = new JComboBox<EmployeeRole>();
 		comboBox_1.setBounds(492, 407, 57, 22);
+		comboBox_1.addItem(courierpd.enums.EmployeeRole.Courier);
+		comboBox_1.addItem(courierpd.enums.EmployeeRole.OrderTaker);
 		add(comboBox_1);
 		
 		JButton btnSave = new JButton("Save");
@@ -109,6 +117,7 @@ public class AddUpdateEmployeePanel extends JPanel {
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// Go back to employee list panel
 			}
 		});
 		btnCancel.setBounds(458, 508, 97, 25);

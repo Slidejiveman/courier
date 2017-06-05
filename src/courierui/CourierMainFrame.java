@@ -24,6 +24,16 @@ public class CourierMainFrame extends JFrame {
 
 	/**
 	 * Launch the application.
+	 * 
+	 * We'll probably want to create the login screen as a separate frame
+	 * since there will be different menu items depending on which user
+	 * logs in. We could also control the display of the menu based on
+	 * whether the login panel was currently displayed and the employee role
+	 * of the current authorized user.
+	 * 
+	 * The Main method is where we should probably read in stuff from the
+	 * database so it will be available while the application. This way it
+	 * isn't read in each time we access a particular panel.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {

@@ -18,7 +18,7 @@ public class Authorizer {
      * The entered login credentials of a user are compared with the credentials the 
      * Authorizer has to grant access into the system.
      */
-    private Collection<User> authorizedUser;
+    private Collection<User> authorizedUsers;
     /**
      * The message string that displays onscreen if invalid credentials are 
      * entered at the login window.

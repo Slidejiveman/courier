@@ -18,6 +18,9 @@ public class EmployeeDeletePanel extends JPanel {
 
 	/**
 	 * Create the panel.
+	 * Delete panels will take the selected employee from the list
+	 * panel as part of the constructor once we get to that point.
+	 * This employee will be the candidate for deletion.
 	 */
 	public EmployeeDeletePanel() {
         setLayout(null);
