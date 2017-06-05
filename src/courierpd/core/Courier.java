@@ -10,6 +10,11 @@ import courierpd.enums.EmployeeRole;
 public class Courier extends User {
 
     /**
+	 * Allows Serialization so that the item may be stored in the
+	 * database
+	 */
+	private static final long serialVersionUID = 1216271864510733589L;
+	/**
      * The number of deliveries performed during a day. 
      * This field is used with the default courier algorithm to 
      * determine which courier to suggest to the order taker.

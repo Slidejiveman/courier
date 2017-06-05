@@ -1,5 +1,6 @@
 package courierpd.core;
 
+import java.io.Serializable;
 import java.sql.Time;
 import java.util.Date;
 
@@ -11,9 +12,14 @@ import courierpd.map.Route;
  * It contains information related to Couriers, Order Takers, Clients, Routes, and much more. 
  * Delivery Tickets are the primary entity of interest in generating reports as well.
  */
-public class DeliveryTicket {
+public class DeliveryTicket implements Serializable {
 
     /**
+	 * Allows Serialization so that the item may be stored in the
+	 * database
+	 */
+	private static final long serialVersionUID = 4198685346241980809L;
+	/**
      * The date the delivery ticket was opened.
      */
     private Date orderDate;
@@ -375,6 +381,14 @@ public class DeliveryTicket {
         this.estimatedDepartureTime = estimatedDepartureTime;
     }
 
+    /**
+     * Gets the serialization unique identifier
+     * @return serialVersionUID
+     */
+    public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+    
     /**
      * Creates a unique ID for the package associated with a delivery ticket. 
      * Therefore, this also creates a unique ID for a delivery ticket.

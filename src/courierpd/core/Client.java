@@ -1,5 +1,7 @@
 package courierpd.core;
 
+import java.io.Serializable;
+
 import courierpd.map.Intersection;
 
 /**
@@ -7,9 +9,14 @@ import courierpd.map.Intersection;
  * Clients contact the company to have packages of papers picked-up and delivered to another client. 
  * Therefore, clients often come in pairs.
  */
-public class Client {
+public class Client implements Serializable{
 
     /**
+	 * Allows Serialization so that the item may be stored in the
+	 * database
+	 */
+	private static final long serialVersionUID = 2312995381938814489L;
+	/**
      * The name of the client's organization
      */
     private String name;
@@ -138,5 +145,13 @@ public class Client {
     public void setLocation(Intersection location) {
         this.location = location;
     }
+    
+    /**
+     * Gets the serialization unique identifier
+     * @return serialVersionUID
+     */
+    public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
 }

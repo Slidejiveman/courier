@@ -9,6 +9,11 @@ import courierpd.enums.EmployeeRole;
 public class Owner extends OrderTaker {
 
     /**
+	 * Allows Serialization so that the item may be stored in the
+	 * database
+	 */
+	private static final long serialVersionUID = -6994515854910072640L;
+	/**
      * The role of the Owner is "Owner" and should not change. The role or the class name is used to determine whether not actions may be taken within the system.
      */
     private EmployeeRole employeeRole = courierpd.enums.EmployeeRole.Owner;

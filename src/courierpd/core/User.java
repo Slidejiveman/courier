@@ -1,5 +1,7 @@
 package courierpd.core;
 
+import java.io.Serializable;
+
 import courierpd.enums.EmployeeRole;
 
 /**
@@ -12,9 +14,15 @@ import courierpd.enums.EmployeeRole;
  * actively logged in employee has adequate permissions to 
  * perform a task.
  */
-public abstract class User {
+public abstract class User implements Serializable {
 
     /**
+	 * Allows Serialization so that the item may be stored in the
+	 * database
+	 */
+	private static final long serialVersionUID = 1499726952634178487L;
+
+	/**
      * The name of the employee.
      */
     protected String name;
@@ -185,6 +193,14 @@ public abstract class User {
         this.isActive = employeeActive;
     }
 
+    /**
+     * Gets the serialization unique identifier
+     * @return serialVersionUID
+     */
+    public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+    
     /**
      * Generates a new unique identifier for a user.
      * This method should check against all employees currently

@@ -10,6 +10,11 @@ import courierpd.enums.EmployeeRole;
 public class OrderTaker extends User {
 
     /**
+	 * Allows Serialization so that the item may be stored in the
+	 * database
+	 */
+	private static final long serialVersionUID = -7049422626028170867L;
+	/**
      * The role employees of this class fulfill in the system. 
      * The OrderTaker class fulfills the OrderTaker roll. 
      * This is an intended redundancy to offer some flexibility 
