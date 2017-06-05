@@ -28,7 +28,7 @@ public class AddUpdateEmployeePanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public AddUpdateEmployeePanel() {
+	public AddUpdateEmployeePanel(CourierMainFrame currentFrame) {
 		setLayout(null);
 		
 		JLabel lblName = new JLabel("Name:");
@@ -116,7 +116,9 @@ public class AddUpdateEmployeePanel extends JPanel {
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Go back to employee list panel
+				currentFrame.getContentPane().removeAll();
+				currentFrame.getContentPane().add(new EmployeeManagementPanel(currentFrame));
+				currentFrame.getContentPane().revalidate();
 			}
 		});
 		btnCancel.setBounds(458, 508, 97, 25);

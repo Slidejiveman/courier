@@ -22,7 +22,7 @@ public class EmployeeDeletePanel extends JPanel {
 	 * panel as part of the constructor once we get to that point.
 	 * This employee will be the candidate for deletion.
 	 */
-	public EmployeeDeletePanel() {
+	public EmployeeDeletePanel(CourierMainFrame currentFrame) {
         setLayout(null);
         
         JLabel lblDeleteEmployee = new JLabel("Delete Employee");
@@ -60,6 +60,9 @@ public class EmployeeDeletePanel extends JPanel {
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				currentFrame.getContentPane().removeAll();
+				currentFrame.getContentPane().add(new EmployeeManagementPanel(currentFrame));
+				currentFrame.getContentPane().revalidate();
 			}
 		});
 		btnCancel.setBounds(519, 401, 124, 49);

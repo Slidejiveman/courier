@@ -1,12 +1,13 @@
 package courierui;
 
-import javax.swing.JPanel;
-import javax.swing.JList;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
 
 public class EmployeeManagementPanel extends JPanel {
 
@@ -23,6 +24,9 @@ public class EmployeeManagementPanel extends JPanel {
 		JButton btnAdd = new JButton("Add");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				currentFrame.getContentPane().removeAll();
+				currentFrame.getContentPane().add(new AddUpdateEmployeePanel(currentFrame));
+				currentFrame.getContentPane().revalidate();
 			}
 		});
 		btnAdd.setBounds(145, 468, 97, 25);
@@ -31,6 +35,9 @@ public class EmployeeManagementPanel extends JPanel {
 		JButton btnUpdate = new JButton("Update");
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				currentFrame.getContentPane().removeAll();
+				currentFrame.getContentPane().add(new AddUpdateEmployeePanel(currentFrame));
+				currentFrame.getContentPane().revalidate();
 			}
 		});
 		btnUpdate.setBounds(443, 468, 97, 25);
@@ -39,6 +46,9 @@ public class EmployeeManagementPanel extends JPanel {
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				currentFrame.getContentPane().removeAll();
+				currentFrame.getContentPane().add(new EmployeeDeletePanel(currentFrame));
+				currentFrame.getContentPane().revalidate();
 			}
 		});
 		btnDelete.setBounds(725, 468, 97, 25);
