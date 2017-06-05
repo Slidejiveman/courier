@@ -1,5 +1,8 @@
 package courierui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -8,9 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import courierpd.core.User;
 import courierpd.enums.EmployeeRole;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class AddUpdateEmployeePanel extends JPanel {
 
@@ -28,7 +30,7 @@ public class AddUpdateEmployeePanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public AddUpdateEmployeePanel(CourierMainFrame currentFrame) {
+	public AddUpdateEmployeePanel(CourierMainFrame currentFrame, User employee) {
 		setLayout(null);
 		
 		JLabel lblName = new JLabel("Name:");

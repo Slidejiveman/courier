@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
+import courierpd.core.User;
+
 public class EmployeeManagementPanel extends JPanel {
 
 	/**
@@ -25,7 +27,7 @@ public class EmployeeManagementPanel extends JPanel {
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new AddUpdateEmployeePanel(currentFrame));
+				currentFrame.getContentPane().add(new AddUpdateEmployeePanel(currentFrame, new User()));
 				currentFrame.getContentPane().revalidate();
 			}
 		});
@@ -36,7 +38,8 @@ public class EmployeeManagementPanel extends JPanel {
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new AddUpdateEmployeePanel(currentFrame));
+				// when we update the user, it shouldn't be a new User, but one from the list
+				currentFrame.getContentPane().add(new AddUpdateEmployeePanel(currentFrame, new User()));
 				currentFrame.getContentPane().revalidate();
 			}
 		});

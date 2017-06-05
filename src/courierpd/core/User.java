@@ -18,7 +18,7 @@ import courierpd.enums.EmployeeRole;
  * perform a task.
  */
 @Entity
-public abstract class User implements Serializable {
+public class User implements Serializable {
 
     /**
 	 * Allows Serialization so that the item may be stored in the
