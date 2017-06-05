@@ -2,6 +2,9 @@ package courierpd.core;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 import courierpd.map.Intersection;
 
 /**
@@ -9,6 +12,7 @@ import courierpd.map.Intersection;
  * Clients contact the company to have packages of papers picked-up and delivered to another client. 
  * Therefore, clients often come in pairs.
  */
+@Entity
 public class Client implements Serializable{
 
     /**
@@ -23,6 +27,7 @@ public class Client implements Serializable{
     /**
      * The unique identifier of a client organization.
      */
+    @Id
     private int accountNumber;
     /**
      * Specifies whether the client is actively using Acme Couriers services. 

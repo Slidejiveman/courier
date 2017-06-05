@@ -1,5 +1,7 @@
 package courierpd.core;
 
+import javax.persistence.Entity;
+
 import courierpd.enums.EmployeeRole;
 
 /**
@@ -7,6 +9,7 @@ import courierpd.enums.EmployeeRole;
  * to all of the normal business functions. The OrderTaker's name 
  * is required on each Delivery Ticket the OrderTaker creates.
  */
+@Entity
 public class OrderTaker extends User {
 
     /**

@@ -2,6 +2,9 @@ package courierpd.core;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 import courierpd.enums.EmployeeRole;
 
 /**
@@ -14,6 +17,7 @@ import courierpd.enums.EmployeeRole;
  * actively logged in employee has adequate permissions to 
  * perform a task.
  */
+@Entity
 public abstract class User implements Serializable {
 
     /**
@@ -29,6 +33,7 @@ public abstract class User implements Serializable {
     /**
      * The unique identifier assigned to an employee.
      */
+    @Id
     protected int number;
     /**
      * The email associated with an employee. 

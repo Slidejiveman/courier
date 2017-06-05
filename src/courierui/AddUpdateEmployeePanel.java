@@ -94,8 +94,7 @@ public class AddUpdateEmployeePanel extends JPanel {
 		comboBox.setBounds(222, 407, 57, 22);
 		for(int i = 1; i <= 3; i++) {
 			comboBox.addItem(i);
-		}
-		
+		}		
 		add(comboBox);
 		
 		// An Owner cannot be added to the system under normal operating

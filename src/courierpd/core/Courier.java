@@ -1,5 +1,7 @@
 package courierpd.core;
 
+import javax.persistence.Entity;
+
 import courierpd.enums.EmployeeRole;
 
 /**
@@ -7,6 +9,7 @@ import courierpd.enums.EmployeeRole;
  * This class extends the abstract User class and adds some information specific to couriers. 
  * Note that usernames and passwords assigned to Couriers do not provide access into Ubiquity.
  */
+@Entity
 public class Courier extends User {
 
     /**

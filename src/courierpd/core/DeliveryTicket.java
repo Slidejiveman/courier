@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.sql.Time;
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 import courierpd.enums.TicketStatus;
 import courierpd.map.Route;
 
@@ -12,6 +15,7 @@ import courierpd.map.Route;
  * It contains information related to Couriers, Order Takers, Clients, Routes, and much more. 
  * Delivery Tickets are the primary entity of interest in generating reports as well.
  */
+@Entity
 public class DeliveryTicket implements Serializable {
 
     /**
@@ -45,6 +49,7 @@ public class DeliveryTicket implements Serializable {
      * A package is not of much interest to the company or the software other than 
      * the fact that it exists. The Delivery Ticket itself is a package's primary agency in Ubiquity.
      */
+    @Id
     private int packageID;
     /**
      * The time the courier left from the Office. 
