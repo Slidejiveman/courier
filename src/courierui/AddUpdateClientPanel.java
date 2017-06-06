@@ -1,13 +1,19 @@
 package courierui;
 
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
+import java.awt.event.ActionListener;
+
+import javax.persistence.EntityTransaction;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import courierdm.CourierEntityManager;
+import courierpd.core.Client;
+import courierpd.map.Intersection;
 
 public class AddUpdateClientPanel extends JPanel {
 	
@@ -18,15 +24,30 @@ public class AddUpdateClientPanel extends JPanel {
 	private JTextField textField;
 	private JTextField textField_2;
 	private JTextField textField_3;
-
+	private JComboBox<String> comboBox;
+	JLabel lblAddClient;
+	
 	/**
 	 * Create the panel.
 	 */
-	public AddUpdateClientPanel(CourierMainFrame currentFrame) {
+	public AddUpdateClientPanel(CourierMainFrame currentFrame, Client client, boolean isAdd) {
 		setLayout(null);
 		
-		JLabel lblAddClient = new JLabel("Add Client");
-		lblAddClient.setBounds(321, 72, 58, 14);
+		// Refresh the object so that it is up to date in the database
+		// This will cause the update button to throw an exception if
+		// there isn't a selected client
+		if(!isAdd) {
+			//CourierEntityManager.getEntityManager().refresh(client);
+		}
+		
+		// Determine which label should be displayed on the screen
+		if(isAdd) {
+			lblAddClient = new JLabel("Add Client");
+		} else {
+			lblAddClient = new JLabel("Update Client");
+		}
+		
+		lblAddClient.setBounds(321, 72, 75, 14);
 		add(lblAddClient);
 		
 		JLabel lblName = new JLabel("Name");
@@ -34,7 +55,7 @@ public class AddUpdateClientPanel extends JPanel {
 		add(lblName);
 		
 		JLabel lblAccountNumber = new JLabel("Account Number");
-		lblAccountNumber.setBounds(162, 200, 94, 14);
+		lblAccountNumber.setBounds(162, 200, 120, 14);
 		add(lblAccountNumber);
 		
 		JLabel lblEmail = new JLabel("Email");
@@ -57,6 +78,25 @@ public class AddUpdateClientPanel extends JPanel {
 		JButton saveButton = new JButton("Save");
 		saveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				EntityTransaction userTransaction = CourierEntityManager.getEntityManager().getTransaction();
+				userTransaction.begin();
+				if(textField.getText() != null) {
+					client.setName(textField.getText());
+				}
+				if(textField_2.getText() != null) {
+					client.setEmail(textField_2.getText());
+				}
+				if(textField_3.getText() != null) {
+					client.setPhoneNumber(textField_3.getText());
+				}			
+				client.setLocation(new Intersection((String)comboBox.getSelectedItem()));
+				client.setIsActive(clientActiveCheckBox.isSelected());
+				userTransaction.commit();
+				
+				currentFrame.getContentPane().removeAll();
+				currentFrame.getContentPane().add(new ClientManagementPanel(currentFrame));
+				currentFrame.getContentPane().revalidate();
 			}
 		});
 		saveButton.setBounds(232, 438, 89, 23);
@@ -88,7 +128,7 @@ public class AddUpdateClientPanel extends JPanel {
 		textField_3.setBounds(266, 268, 232, 20);
 		add(textField_3);
 		
-		JComboBox<String> comboBox = new JComboBox<String>();
+		comboBox = new JComboBox<String>();
 		comboBox.setBounds(227, 336, 94, 20);
 		comboBox.addItem("A St. & 1st");
 		comboBox.addItem("A St. & 2nd");
@@ -147,7 +187,7 @@ public class AddUpdateClientPanel extends JPanel {
 		comboBox.addItem("G St. & 7th");
 		add(comboBox);
 		
-		JLabel lblAcctGoes = new JLabel("Acct # goes here");
+		JLabel lblAcctGoes = new JLabel(Integer.valueOf(client.getAccountNumber()).toString());
 		lblAcctGoes.setBounds(266, 200, 232, 14);
 		add(lblAcctGoes);
 

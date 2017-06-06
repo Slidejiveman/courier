@@ -33,7 +33,7 @@ public class ClientManagementPanel extends JPanel {
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new AddUpdateClientPanel(currentFrame));
+				currentFrame.getContentPane().add(new AddUpdateClientPanel(currentFrame, new Client(), true));
 				currentFrame.getContentPane().revalidate();
 			}
 		});
@@ -44,7 +44,7 @@ public class ClientManagementPanel extends JPanel {
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new AddUpdateClientPanel(currentFrame));
+				currentFrame.getContentPane().add(new AddUpdateClientPanel(currentFrame, new Client(), false));
 				currentFrame.getContentPane().revalidate();
 			}
 		});

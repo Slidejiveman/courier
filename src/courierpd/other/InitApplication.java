@@ -19,6 +19,8 @@ public class InitApplication {
 
 	public static void main(String[] args) {
 		CourierEntityManager.initEM();
+		// In here, we can read something out of the database and then pass
+		// it on to the main frame here. There's an example in the League code.
 		CourierMainFrame.startGUI(args);
 
 	}
