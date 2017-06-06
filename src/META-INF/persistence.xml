@@ -7,8 +7,12 @@
          <class>courierpd.core.Client</class>
          <class>courierpd.core.DeliveryTicket</class>
          <class>courierpd.core.User</class>
+         <class>courierpd.core.Owner</class>
+         <class>courierpd.core.OrderTaker</class>
+         <class>courierpd.core.Courier</class>
+         <class>courierpd.map.Intersection</class>
 
-        <properties>
+         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/courierdb" />
             <property name="javax.persistence.jdbc.user" value="root" />
@@ -16,9 +20,10 @@
 
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
             <property name="hibernate.show_sql" value="true" />
-            <property name="hibernate.hbm2ddl.auto" value="update" />
+            <property name="hibernate.hbm2ddl.auto" value="update" /><property
+            	name='eclipselink.ddl-generation' value="drop-and-create-tables" />
 
-            <property name="eclipselink.logging.level" value="INFO" />
+         	<property name="eclipselink.logging.level" value="INFO" />
 			<property name="eclipselink.ddl-generation" value="create-tables" />
         </properties>
     </persistence-unit>

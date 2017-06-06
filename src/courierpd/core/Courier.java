@@ -1,6 +1,12 @@
 package courierpd.core;
 
+import java.util.Collection;
+
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import courierpd.enums.EmployeeRole;
 
@@ -9,7 +15,8 @@ import courierpd.enums.EmployeeRole;
  * This class extends the abstract User class and adds some information specific to couriers. 
  * Note that usernames and passwords assigned to Couriers do not provide access into Ubiquity.
  */
-@Entity
+@Entity(name = "courier")
+@DiscriminatorValue("Courier")
 public class Courier extends User {
 
     /**
@@ -21,20 +28,31 @@ public class Courier extends User {
      * The number of deliveries performed during a day. 
      * This field is used with the default courier algorithm to 
      * determine which courier to suggest to the order taker.
+     * This is a transient because it is assumed that deliveries
+     * in a day will only be tracked during a single run of the
+     * software.
      */
-    private int deliveriesToday = 0;
+	@Transient
+    private transient int deliveriesToday = 0;
     /**
      * Flag used to determine whether or not the courier 
      * is in the office and available to go on another delivery.
+     * This is transient because a courier's out for delivery
+     * status does not need to be persisted to the next day.
      */
-    private boolean isOutForDelivery = false;
+	@Transient
+    private transient boolean isOutForDelivery = false;
     /**
      * The role assigned to a courier is Courier. 
      * It has the lowest level of permissions. 
      * This value should not be changed.
      */
+	@Column(name = "employee_role", nullable = false)
     private EmployeeRole employeeRole = courierpd.enums.EmployeeRole.Courier;
 
+	@OneToMany(targetEntity = DeliveryTicket.class, mappedBy = "courier")
+	protected Collection<DeliveryTicket> deliveryTickets;
+	
     /**
      * Sets the number of deliveries the courier has made on a given day.
      * @param deliveriesToday The number of deliveries made today.

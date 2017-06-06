@@ -1,11 +1,19 @@
 package courierpd.core;
 
 import java.io.Serializable;
-import java.sql.Time;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import courierpd.enums.TicketStatus;
 import courierpd.map.Route;
@@ -15,7 +23,7 @@ import courierpd.map.Route;
  * It contains information related to Couriers, Order Takers, Clients, Routes, and much more. 
  * Delivery Tickets are the primary entity of interest in generating reports as well.
  */
-@Entity
+@Entity(name = "delivery_ticket")
 public class DeliveryTicket implements Serializable {
 
     /**
@@ -24,18 +32,18 @@ public class DeliveryTicket implements Serializable {
 	 */
 	private static final long serialVersionUID = 4198685346241980809L;
 	/**
-     * The date the delivery ticket was opened.
+     * The date and time the delivery ticket was opened.
      */
+	@Column(name = "order_date", columnDefinition="DATETIME")
+	@Temporal(TemporalType.TIMESTAMP)
     private Date orderDate;
-    /**
-     * The time the order is placed in the system. 
-     * This is the moment that the delivery ticket's status becomes "opened."
-     */
-    private Time orderPlacedTime;
+    
     /**
      * This is the pick up time the courier is supposed to shoot for. 
      * This is used when determining the departure time.
      */
+	@Column(name = "requested_pickup_time", columnDefinition="DATETIME")
+	@Temporal(TemporalType.TIMESTAMP)
     private Date requestedPickUpTime;
     /**
      * The flag that determines which of the two clients to bill. 
@@ -43,40 +51,52 @@ public class DeliveryTicket implements Serializable {
      * billed because this is the client that initiated the delivery ticket. 
      * It can be manually changed to the delivery client.
      */
+	@Column(name = "is_bill_pick_up", nullable = false)
     private boolean isBillPickUp = true;
     /**
      * The unique identifier of the package as well as the delivery ticket in the system. 
      * A package is not of much interest to the company or the software other than 
      * the fact that it exists. The Delivery Ticket itself is a package's primary agency in Ubiquity.
      */
-    @Id
+    @Id //signifies the primary key
+    @Column(name = "delivery_ticket_id", updatable = false, nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int packageID;
     /**
      * The time the courier left from the Office. 
      * This is recorded by the Order Taker when the 
      * courier notifies them that they are leaving.
      */
+    @Column(name = "departure_time", columnDefinition="DATETIME")
+	@Temporal(TemporalType.TIMESTAMP)
     private Date actualDepartureTime;
     /**
      * The time the courier received the package from the pick-up client. 
      * This should be recorded in the system by the courier via an email.
      */
+    @Column(name = "pick_up_time", columnDefinition="DATETIME")
+	@Temporal(TemporalType.TIMESTAMP)
     private Date actualPickUpTime;
     /**
      * The time at which the courier delivered the package to the receiving client. 
      * This should be reported by the courier via an email to Ubiquity.
      */
+    @Column(name = "delivery_time", columnDefinition="DATETIME")
+	@Temporal(TemporalType.TIMESTAMP)
     private Date actualDeliveryTime;
     /**
      * The time at which the courier returned to Acme Courier Services. 
      * This is recorded by the order taker when the courier checks back in.
      */
+    @Column(name = "return_time", columnDefinition="DATETIME")
+	@Temporal(TemporalType.TIMESTAMP)
     private Date courierReturnTime;
     /**
      * A flag determined based on the actual delivery time and the bonus window business parameter. 
      * If the actual delivery time is less than the estimated delivery time minus the bonus window, 
      * then this flag is set to true and a bonus is received.
      */
+    @Column(name = "bonus_earned", nullable = false)
     private boolean isBonusEarned = false;
     /**
      * Special instructions that are provided to the Order Taker over the phone by the client. 
@@ -84,56 +104,75 @@ public class DeliveryTicket implements Serializable {
      * so that the courier can more easily fulfill them. These are not required, 
      * but they should be held in the system to help the courier after arriving on site.
      */
+    @Column(name = "special_instructions")
     private String specialDeliveryInstructions;
     /**
      * The courier assigned to perform the delivery.
      */
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "dt_courier_id", nullable = false, referencedColumnName="employee_id")
     private Courier courier;
-    /**
+
+	/**
      * The client who will be receiving the package.
      */
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "dt_delivery_client_id", nullable = false, referencedColumnName="client_id")
     private Client deliveryClient;
     /**
      * The client who is sending the package.
      */
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "dt_pick_up_client_id", nullable = false, referencedColumnName="client_id")
     private Client pickUpClient;
     /**
      * The route that the courier will take to perform the delivery and return 
      * back to the office. This route is also used to determine the estimated 
      * price and delivery time.
      */
-    private Route shortestPath;
-    /**
+    @Transient
+    private transient Route shortestPath;
+    
+	/**
      * The estimated delivery time of the package. The estimated delivery 
      * time is determined using the Route, but it is stored in the database 
      * as part of the delivery ticket.
      */
+    @Column(name = "estimated_delivery_time", columnDefinition="DATETIME")
+	@Temporal(TemporalType.TIMESTAMP)
     private Date estDeliveryTime;
     /**
      * The estimated number of blocks traveled, round-trip, for the delivery. 
      * This is determined with the help of a Route but stored as part of a delivery ticket.
      */
+    @Column(name = "estimated_blocks", nullable = false)
     private int estBlocks;
     /**
      * The estimated price is the estimated amount that the client will be 
      * billed for the service. This is determined with the help of a route, 
      * but it is stored as part of a delivery ticket.
      */
+    @Column(name = "estimated_price", nullable = false)
     private float estPrice;
     /**
      * The employee who took the order from the calling client.
      */
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "dt_order_taker_id", nullable = false, referencedColumnName="employee_id")
     private OrderTaker orderTaker;
     /**
      * The state of the delivery ticket. 
      * Certain actions, reporting, updating, deleting, etc., 
      * are based on the state of the delivery ticket.
      */
+    @Column(name = "ticket_status", nullable = false)
     private TicketStatus status = courierpd.enums.TicketStatus.Opened;
     /**
      * The estimated time the the courier will have to 
      * depart in order to arrive at the destination on time.
      */
+    @Column(name = "estimated_departure_time", columnDefinition="DATETIME")
+	@Temporal(TemporalType.TIMESTAMP)
     private Date estimatedDepartureTime;
 
     /**
@@ -170,23 +209,7 @@ public class DeliveryTicket implements Serializable {
      * The default constructor of a delivery ticket.
      */
     public DeliveryTicket() {
-        // TODO - implement DeliveryTicket.DeliveryTicket
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Returns the time the order was placed.
-     */
-    public Time getOrderPlacedTime() {
-        return this.orderPlacedTime;
-    }
-
-    /**
-     * Sets the time the order was placed in the system.
-     * @param orderPlacedTime The time the order was placed, meaning when the delivery ticket became Open.
-     */
-    public void setOrderPlacedTime(Time orderPlacedTime) {
-        this.orderPlacedTime = orderPlacedTime;
+        
     }
 
     /**
@@ -403,4 +426,43 @@ public class DeliveryTicket implements Serializable {
         throw new UnsupportedOperationException();
     }
 
+    public Courier getCourier() {
+		return courier;
+	}
+
+	public void setCourier(Courier courier) {
+		this.courier = courier;
+	}
+
+	public Client getDeliveryClient() {
+		return deliveryClient;
+	}
+
+	public void setDeliveryClient(Client deliveryClient) {
+		this.deliveryClient = deliveryClient;
+	}
+
+	public Client getPickUpClient() {
+		return pickUpClient;
+	}
+
+	public void setPickUpClient(Client pickUpClient) {
+		this.pickUpClient = pickUpClient;
+	}
+
+	public OrderTaker getOrderTaker() {
+		return orderTaker;
+	}
+
+	public void setOrderTaker(OrderTaker orderTaker) {
+		this.orderTaker = orderTaker;
+	}
+	
+	public Route getShortestPath() {
+		return shortestPath;
+	}
+
+	public void setShortestPath(Route shortestPath) {
+		this.shortestPath = shortestPath;
+	}
 }

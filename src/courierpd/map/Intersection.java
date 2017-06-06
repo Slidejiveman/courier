@@ -1,6 +1,19 @@
 package courierpd.map;
 
+import java.io.Serializable;
 import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import courierpd.core.Client;
 
 /**
  * An intersection is the point on the city map where two streets overlap. 
@@ -11,12 +24,24 @@ import java.util.Date;
  * that represent their location in the City Center apart from their names. 
  * This internal representation for an intersection should not change.
  */
-public class Intersection {
+@Entity(name = "intersection")
+public class Intersection implements Serializable {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	@Id //signifies the primary key
+    @Column(name = "intersection_id", updatable = false, nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	private int intersectionId;
+
+	/**
      * Used to determine whether a given intersection is open or closed. 
      * An open intersection is traversable by a courier. A closed intersection is not.
      */
+	@Column(name = "intersection_status", nullable = false)
     private boolean isOpen = true;
     /**
      * The name of an intersection within the City Center. 
@@ -25,12 +50,15 @@ public class Intersection {
      * by parsing the street names our of the intersection by splitting on '&'.
      * An example Intersection name is "A St. & 1st Ave."
      */
+	@Column(name = "intersection_name", nullable = false)
     private String name;
     /**
      * Represents the initial date of a reported intersection closing. 
      * This is not a required field, but might be useful for an enhancement 
      * which would allow scheduling closures ahead of time.
      */
+	@Column(name = "closed_start_date", columnDefinition="DATETIME")
+	@Temporal(TemporalType.DATE)
     private Date closedDateStart;
     /**
      * Represents the end date when an intersection should be reopened. 
@@ -39,20 +67,39 @@ public class Intersection {
      * be to allow automated reactivation of an intersection after 
      * the system date exceeds the value of this variable.
      */
+	@Column(name = "closed_end_date", columnDefinition="DATETIME")
+	@Temporal(TemporalType.DATE)
     private Date closedDateEnd;
     /**
      * The Horizontal position of an intersection. 
      * The upper left-hand corner of the city map is 0. 
      * The numbers increase going South.
      */
+	@Column(name = "x_coordinate", nullable = false)
     private int xCoord;
     /**
      * The Vertical position of an intersection on the City Map. 
      * The upper left-hand corner is 0. The numbers increase heading East.
      */
+	@Column(name = "y_coordinate", nullable = false)
     private int yCoord;
 
-    /**
+	/**
+	 * The client that whose place of business is at this intersection
+	 */
+	@OneToOne(optional = false)
+	@JoinColumn(name = "client_at_intersection", nullable = false, referencedColumnName = "client_id")
+	private Client client;
+	
+    public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
+
+	/**
      * Returns the current status of an intersection. 
      * The intersection is open if the return value is true. 
      * If the return value is false, then the intersection is closed.
@@ -123,8 +170,7 @@ public class Intersection {
      * The default name is not unique.
      */
     public Intersection() {
-        // TODO - implement Intersection.Intersection
-        throw new UnsupportedOperationException();
+        
     }
 
     /**
@@ -135,8 +181,9 @@ public class Intersection {
      * @param name The name to be given to the intersection.
      */
     public Intersection(String name) {
-        // TODO - implement Intersection.Intersection
-        throw new UnsupportedOperationException();
+        setName(name);
+        // this constructor should also set the X and Y coordinate values
+        // for the location.
     }
 
     /**
@@ -168,5 +215,12 @@ public class Intersection {
     public void setYCoord(int yCoord) {
         this.yCoord = yCoord;
     }
+    
+    public int getIntersectionId() {
+		return intersectionId;
+	}
 
+	public void setIntersectionId(int intersectionId) {
+		this.intersectionId = intersectionId;
+	}
 }

@@ -8,7 +8,7 @@ public class CourierEntityManager {
 	static EntityManagerFactory entityManagerFactory;
 	static EntityManager em;
 	
-	private static void initEM() {
+	public static void initEM() {
 		entityManagerFactory = Persistence.createEntityManagerFactory("courierdb");
 		em = entityManagerFactory.createEntityManager();
 	}

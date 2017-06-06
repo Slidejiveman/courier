@@ -1,12 +1,16 @@
 package courierpd.core;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import courierpd.map.Intersection;
 
@@ -26,12 +30,13 @@ public class Client implements Serializable{
 	/**
      * The name of the client's organization
      */
+	@Column(name = "client_name", nullable = false)
     private String name;
     /**
      * The unique identifier of a client organization.
      */
     @Id //signifies the primary key
-    @Column(name = "client_id", nullable = false)
+    @Column(name = "client_id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int accountNumber;
     /**
@@ -40,11 +45,13 @@ public class Client implements Serializable{
      * and they do not receive reports that are generated and distributed 
      * to all clients on a regular basis.
      */
+    @Column(name = "client_is_active", nullable = false)
     private boolean isActive = true;
     /**
      * The email provided by the client will receive delivery confirmation notices from Ubiquity. 
      * This is required for the system to work as intended.
      */
+    @Column(name = "client_email", nullable = false)
     private String email;
     /**
      * The phone number of the client, which is not used by Ubiquity for processing. 
@@ -52,12 +59,21 @@ public class Client implements Serializable{
      * This will allow Order Takers to call, as they once did, to verify that a 
      * package has been delivered.
      */
+    @Column(name = "client_phone_number", nullable = false)
     private String phoneNumber;
     /**
      * The intersection at which the client's office building is located.
      */
+    @OneToOne(optional = false)
+    @JoinColumn(name = "client_location_id", nullable = false, referencedColumnName = "intersection_id")
     private Intersection location;
 
+    @OneToMany(targetEntity = DeliveryTicket.class, mappedBy = "pickUpClient")
+	protected Collection<DeliveryTicket> pickUpDeliveryTickets;
+    
+    @OneToMany(targetEntity = DeliveryTicket.class, mappedBy = "deliveryClient")
+	protected Collection<DeliveryTicket> deliveryDeliveryTickets;
+    
     /**
      * Returns the name of the client's organization.
      */

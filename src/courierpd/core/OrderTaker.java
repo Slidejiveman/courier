@@ -1,6 +1,11 @@
 package courierpd.core;
 
+import java.util.Collection;
+
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 import courierpd.enums.EmployeeRole;
 
@@ -9,7 +14,8 @@ import courierpd.enums.EmployeeRole;
  * to all of the normal business functions. The OrderTaker's name 
  * is required on each Delivery Ticket the OrderTaker creates.
  */
-@Entity
+@Entity(name = "order_taker")
+@DiscriminatorValue("OrderTaker")
 public class OrderTaker extends User {
 
     /**
@@ -23,8 +29,12 @@ public class OrderTaker extends User {
      * This is an intended redundancy to offer some flexibility 
      * when coding as well to provide an avenue for extending functionality in the future.
      */
+	@Column(name = "employee_role", nullable = false)
     protected EmployeeRole employeeRole = courierpd.enums.EmployeeRole.OrderTaker;
 
+	@OneToMany(targetEntity = DeliveryTicket.class, mappedBy = "orderTaker")
+	protected Collection<DeliveryTicket> deliveryTickets;
+	
     public EmployeeRole getEmployeeRole() {
         return this.employeeRole;
     }

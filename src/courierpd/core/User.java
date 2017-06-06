@@ -2,8 +2,14 @@ package courierpd.core;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 import courierpd.enums.EmployeeRole;
 
@@ -17,7 +23,9 @@ import courierpd.enums.EmployeeRole;
  * actively logged in employee has adequate permissions to 
  * perform a task.
  */
-@Entity
+@Entity(name = "employee")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "employee_role")
 public class User implements Serializable {
 
     /**
@@ -29,27 +37,35 @@ public class User implements Serializable {
 	/**
      * The name of the employee.
      */
+	@Column(name = "employee_name")
     protected String name;
     /**
      * The unique identifier assigned to an employee.
      */
-    @Id
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "employee_id", updatable = false, nullable = false)
     protected int number;
     /**
      * The email associated with an employee. 
      * These should all be Gmail accounts.
      */
+	@Column(name = "employee_email", nullable = false)
     protected String email;
     /**
      * The username associated with an employee.
+     * A Courier does not have a username.
      */
+	@Column(name = "employee_username")
     protected String username;
     /**
      * The password associated with a given employee. 
      * Employees are able to change their own password. 
      * Other users should not be able to see the password 
      * when navigating through the data management screens.
+     * A Courier does not have a password
      */
+	@Column(name = "employee_password")
     protected String password;
     /**
      * The shift that the employee usually works. 
@@ -63,19 +79,24 @@ public class User implements Serializable {
      * Therefore, part-time help starting at 10am would be shift 2. 
      * Any time 12pm or later will be shift 3.
      */
+	@Column(name = "employee_shift", nullable = false)
     protected int shift;
     /**
      * Flag that determines whether an employee is currently active in the system. 
      * Inactive employees are either on a leave of absence or have been terminated from the company.
      */
+	@Column(name = "employee_is_active", nullable = false)
     protected boolean isActive = true;
     
     /**
      * The role the employee will serve in the company.
      * This enumerator is overridden in each child class.
      */
+	@Column(name = "employee_role", nullable = false)
     protected EmployeeRole employeeRole;
 
+	
+	
     /**
      * Returns the employee's name in the system.
      */

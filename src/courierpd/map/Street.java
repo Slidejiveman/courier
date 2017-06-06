@@ -14,7 +14,11 @@ public class Street {
     private String name;
     private Intersection to;
     private Intersection from;
-    /**
+    public Intersection getTo() {
+		return to;
+	}
+
+	/**
      * The length of the street from end to end in the City Center.
      */
     private int length;
@@ -49,4 +53,15 @@ public class Street {
         this.length = length;
     }
 
+    public void setTo(Intersection to) {
+		this.to = to;
+	}
+
+	public Intersection getFrom() {
+		return from;
+	}
+
+	public void setFrom(Intersection from) {
+		this.from = from;
+	}
 }
