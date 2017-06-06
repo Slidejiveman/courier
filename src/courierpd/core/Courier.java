@@ -69,8 +69,7 @@ public class Courier extends User {
      * The default constructor for a courier.
      */
     public Courier() {
-        // TODO - implement Courier.Courier
-        throw new UnsupportedOperationException();
+        
     }
 
 }

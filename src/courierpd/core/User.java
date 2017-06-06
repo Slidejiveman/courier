@@ -215,5 +215,9 @@ public class User implements Serializable {
         // TODO - implement User.generateUserID
         throw new UnsupportedOperationException();
     }
+    
+    public User() {
+    	
+    }
 
 }

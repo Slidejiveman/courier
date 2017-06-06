@@ -2,7 +2,10 @@ package courierpd.core;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import courierpd.map.Intersection;
@@ -12,7 +15,7 @@ import courierpd.map.Intersection;
  * Clients contact the company to have packages of papers picked-up and delivered to another client. 
  * Therefore, clients often come in pairs.
  */
-@Entity
+@Entity(name = "client")
 public class Client implements Serializable{
 
     /**
@@ -27,7 +30,9 @@ public class Client implements Serializable{
     /**
      * The unique identifier of a client organization.
      */
-    @Id
+    @Id //signifies the primary key
+    @Column(name = "client_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int accountNumber;
     /**
      * Specifies whether the client is actively using Acme Couriers services. 
@@ -132,8 +137,8 @@ public class Client implements Serializable{
      * The default constructor for a client.
      */
     public Client() {
-        // TODO - implement Client.Client
-        throw new UnsupportedOperationException();
+        //JPA handles making the collections for me, so I don't need to do
+    	// that here.
     }
 
     /**

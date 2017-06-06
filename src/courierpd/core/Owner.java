@@ -34,8 +34,7 @@ public class Owner extends OrderTaker {
      * Default constructor for the Owner.
      */
     public Owner() {
-        // TODO - implement Owner.Owner
-        throw new UnsupportedOperationException();
+        
     }
 
 }

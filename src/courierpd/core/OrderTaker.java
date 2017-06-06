@@ -37,8 +37,7 @@ public class OrderTaker extends User {
      * The default no argument constructor.
      */
     public OrderTaker() {
-        // TODO - implement OrderTaker.OrderTaker
-        throw new UnsupportedOperationException();
+        
     }
 
 }
