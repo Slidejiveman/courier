@@ -2,11 +2,16 @@ package courierui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map.Entry;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import courierpd.core.Client;
 
@@ -23,11 +28,9 @@ public class ClientManagementPanel extends JPanel {
 	 * Create the panel.
 	 */
 	public ClientManagementPanel(CourierMainFrame currentFrame) {
-		setLayout(null);
+		DefaultListModel listModel;
 		
-		JList<Client> list = new JList<Client>();
-		list.setBounds(84, 108, 791, 335);
-		add(list);
+		setLayout(null);
 		
 		JButton btnAdd = new JButton("Add");
 		btnAdd.addActionListener(new ActionListener() {
@@ -82,5 +85,30 @@ public class ClientManagementPanel extends JPanel {
 		lblEmail.setBounds(788, 79, 56, 16);
 		add(lblEmail);
 
+		//listModel = new DefaultListModel();
+		//for(Entry<String, Client> tcEntry : store.getTaxCategories().entrySet())
+		//	listModel.addElement(tcEntry.getValue());
+				
+		JList<Client> list = new JList<Client>();
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) 
+			{
+				if (list.isSelectionEmpty())
+				{
+					btnDelete.setEnabled(false);
+					btnUpdate.setEnabled(false);
+				}
+				else
+				{
+					Client client = (Client)list.getSelectedValue();
+					btnDelete.setEnabled(true);
+					 		
+					btnUpdate.setEnabled(true);
+				}
+			}
+		});
+		list.setBounds(84, 108, 791, 335);
+		add(list);
 	}
 }

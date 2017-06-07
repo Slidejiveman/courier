@@ -128,7 +128,7 @@ public class AddUpdateClientPanel extends JPanel {
 		textField_3.setBounds(266, 268, 232, 20);
 		add(textField_3);
 		
-		comboBox = new JComboBox<String>();
+		comboBox = new JComboBox<String>(); // Occupied intersections probably shouldn't be assignable.
 		comboBox.setBounds(227, 336, 94, 20);
 		comboBox.addItem("A St. & 1st");
 		comboBox.addItem("A St. & 2nd");
@@ -157,8 +157,8 @@ public class AddUpdateClientPanel extends JPanel {
 		comboBox.addItem("D St. & 1st");
 		comboBox.addItem("D St. & 2nd");
 		comboBox.addItem("D St. & 3rd");
-		comboBox.addItem("D St. & 4th"); // Location of the office. Might want to take this out of the drop down.
-		comboBox.addItem("D St. & 5th"); // Occupied intersections probably shouldn't be assignable.
+		// Location of the office.
+		comboBox.addItem("D St. & 5th"); 
 		comboBox.addItem("D St. & 6th");
 		comboBox.addItem("D St. & 7th");
 		
