@@ -5,6 +5,8 @@ import java.util.Collection;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
 
 import courierpd.enums.EmployeeRole;
@@ -29,6 +31,7 @@ public class OrderTaker extends User {
      * This is an intended redundancy to offer some flexibility 
      * when coding as well to provide an avenue for extending functionality in the future.
      */
+	@Enumerated(EnumType.STRING)
 	@Column(name = "employee_role", nullable = false)
     protected EmployeeRole employeeRole = courierpd.enums.EmployeeRole.OrderTaker;
 

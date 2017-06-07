@@ -87,8 +87,8 @@ public class Intersection implements Serializable {
 	/**
 	 * The client that whose place of business is at this intersection
 	 */
-	@OneToOne(optional = false)
-	@JoinColumn(name = "client_at_intersection", nullable = false, referencedColumnName = "client_id")
+	@OneToOne(optional = true)
+	@JoinColumn(name = "client_at_intersection", nullable = true, referencedColumnName = "client_id")
 	private Client client;
 	
     public Client getClient() {

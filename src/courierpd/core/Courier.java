@@ -5,6 +5,8 @@ import java.util.Collection;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
@@ -47,6 +49,7 @@ public class Courier extends User {
      * It has the lowest level of permissions. 
      * This value should not be changed.
      */
+	@Enumerated(EnumType.STRING)
 	@Column(name = "employee_role", nullable = false)
     private EmployeeRole employeeRole = courierpd.enums.EmployeeRole.Courier;
 

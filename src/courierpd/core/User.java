@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -92,6 +94,7 @@ public class User implements Serializable {
      * The role the employee will serve in the company.
      * This enumerator is overridden in each child class.
      */
+	@Enumerated(EnumType.STRING)
 	@Column(name = "employee_role", nullable = false)
     protected EmployeeRole employeeRole;
 

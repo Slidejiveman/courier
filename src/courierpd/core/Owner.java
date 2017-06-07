@@ -3,6 +3,8 @@ package courierpd.core;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 import courierpd.enums.EmployeeRole;
 
@@ -22,6 +24,7 @@ public class Owner extends OrderTaker {
 	/**
      * The role of the Owner is "Owner" and should not change. The role or the class name is used to determine whether not actions may be taken within the system.
      */
+	@Enumerated(EnumType.STRING)
 	@Column(name = "employee_role", nullable = false)
     private EmployeeRole employeeRole = courierpd.enums.EmployeeRole.Owner;
 

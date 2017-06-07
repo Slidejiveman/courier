@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -165,6 +167,7 @@ public class DeliveryTicket implements Serializable {
      * Certain actions, reporting, updating, deleting, etc., 
      * are based on the state of the delivery ticket.
      */
+    @Enumerated(EnumType.STRING)
     @Column(name = "ticket_status", nullable = false)
     private TicketStatus status = courierpd.enums.TicketStatus.Opened;
     /**
