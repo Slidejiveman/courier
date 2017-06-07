@@ -8,24 +8,31 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.DefaultListModel;
 
 import courierpd.core.User;
 
-public class EmployeeManagementPanel extends JPanel {
+public class EmployeeManagementPanel<Employee> extends JPanel {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	protected Employee Employee;
 	/**
 	 * Create the panel.
 	 */
 	public EmployeeManagementPanel(CourierMainFrame currentFrame) {
-		setLayout(null);
+			setLayout(null);
+		DefaultListModel listModel;
 		
 		JButton btnAdd = new JButton("Add");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				currentFrame.getContentPane().removeAll();
 				currentFrame.getContentPane().add(new AddUpdateEmployeePanel(currentFrame, new User()));
 				currentFrame.getContentPane().revalidate();
@@ -56,8 +63,26 @@ public class EmployeeManagementPanel extends JPanel {
 		});
 		btnDelete.setBounds(725, 468, 97, 25);
 		add(btnDelete);
+	// This will disable Update and Delete if there is nothing in the Employee list
 		
-		JList list = new JList();
+	JList<Employee> list = new JList<Employee>();
+	list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) 
+			{
+				if (list.getSelectedValue() != null) 
+		        {
+		          btnUpdate.setEnabled(true);
+		        }
+		        
+		        else
+		        {
+		          btnDelete.setEnabled(true);
+		        }
+			}
+		});
+	//Employee List
+	JList Employeelist = new JList();
 		list.setBounds(84, 108, 791, 335);
 		add(list);
 		
