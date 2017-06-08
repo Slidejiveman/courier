@@ -241,7 +241,11 @@ public class User implements Serializable {
     }
     
     public User() {
-    	
-    }
 
+    }
+    @Override
+	public String toString() {
+	String finalString = name + number + employeeRole + email;
+	return finalString;
+}
 }

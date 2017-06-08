@@ -3,6 +3,7 @@ package courierui;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -10,6 +11,9 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionListener;
+
+import courierdm.EmployeeDBAO;
+
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.DefaultListModel;
 
@@ -20,6 +24,7 @@ public class EmployeeManagementPanel<Employee> extends JPanel {
 	/**
 	 * 
 	 */
+	List<User> persistedEmployees = EmployeeDBAO.listUsers();
 	private static final long serialVersionUID = 1L;
 	protected Employee Employee;
 	/**
@@ -65,9 +70,13 @@ public class EmployeeManagementPanel<Employee> extends JPanel {
 		add(btnDelete);
 	// This will disable Update and Delete if there is nothing in the Employee list
 		
-	JList<Employee> list = new JList<Employee>();
+	listModel = new DefaultListModel();
+	for(User employee: persistedEmployees)
+		listModel.addElement(employee);
+		
+	JList<Employee> list = new JList(listModel);
 	list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		list.addListSelectionListener(new ListSelectionListener() {
+	list.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) 
 			{
 				if (list.getSelectedValue() != null) 
@@ -82,6 +91,7 @@ public class EmployeeManagementPanel<Employee> extends JPanel {
 			}
 		});
 	//Employee List
+		
 	JList Employeelist = new JList();
 		list.setBounds(84, 108, 791, 335);
 		add(list);
