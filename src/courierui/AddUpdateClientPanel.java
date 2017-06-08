@@ -113,17 +113,26 @@ public class AddUpdateClientPanel extends JPanel {
 		cancelButton.setBounds(385, 438, 89, 23);
 		add(cancelButton);
 		
-		textField = new JTextField();
+		String strName = "";
+		if(client.getName() != null)
+			strName = client.getName();
+		textField = new JTextField(strName);
 		textField.setBounds(266, 161, 232, 20);
 		add(textField);
 		textField.setColumns(10);
 		
-		textField_2 = new JTextField();
+		String strEmail = "";
+		if(client.getEmail() != null)
+			strEmail = client.getEmail();
+		textField_2 = new JTextField(strEmail);
 		textField_2.setColumns(10);
 		textField_2.setBounds(266, 233, 232, 20);
 		add(textField_2);
 		
-		textField_3 = new JTextField();
+		String strPhoneNumber = "";
+		if(client.getPhoneNumber() != null)
+			strPhoneNumber = client.getPhoneNumber();
+		textField_3 = new JTextField(strPhoneNumber);
 		textField_3.setColumns(10);
 		textField_3.setBounds(266, 268, 232, 20);
 		add(textField_3);
