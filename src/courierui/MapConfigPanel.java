@@ -86,9 +86,12 @@ public class MapConfigPanel extends JPanel {
 						closingDate.getMonth(),closingDate.getDate()));
 				
 				//set reopening date
-				String[] reopeningDateComponents = textField.getText().split("/");
-				intersectionToClose.setClosedDateEnd(new Date(Integer.parseInt(reopeningDateComponents[2])-1900, 
-						Integer.parseInt(reopeningDateComponents[0])-1, Integer.parseInt(reopeningDateComponents[1])));
+				System.out.println("Content of the field: "+textField.getText());
+				if(!textField.getText().equals("")){
+					String[] reopeningDateComponents = textField.getText().split("/");
+					intersectionToClose.setClosedDateEnd(new Date(Integer.parseInt(reopeningDateComponents[2])-1900, 
+							Integer.parseInt(reopeningDateComponents[0])-1, Integer.parseInt(reopeningDateComponents[1])));
+				}
 				map.closeIntersection(intersectionToClose);//Now, close the intersection
 				userTransaction.commit(); // Finish the transaction with a commit
 				
