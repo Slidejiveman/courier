@@ -81,7 +81,7 @@ public class DeleteTicketPanel extends JPanel {
 		}else
 			 label_1 = new JLabel("*");
 		
-		label_1.setBounds(587, 244, 80, 14);
+		label_1.setBounds(587, 244, 200, 14);
 		add(label_1);
 		
 		JLabel label_2;
@@ -89,7 +89,7 @@ public class DeleteTicketPanel extends JPanel {
 			 label_2 = new JLabel(deliveryTicket.getDeliveryClient().getName());
 		}else
 			 label_2 = new JLabel("*");
-		label_2.setBounds(587, 288, 80, 14);
+		label_2.setBounds(587, 288, 200, 14);
 		add(label_2);
 
 	}
