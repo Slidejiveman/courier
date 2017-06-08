@@ -34,7 +34,7 @@ public class IntersectionDBAO {
 		List<Intersection> queryResult= query.getResultList();
 		for(Intersection intersection: queryResult){
 			if(!intersection.getIsOpen()){
-				intersection.setClosedDateStart(DateParser.parseDatabaseDate(intersection.getClosedDateStart()));
+				//intersection.setClosedDateStart(DateParser.parseDatabaseDate(intersection.getClosedDateStart()));
 			}
 		}
 		return query.getResultList();
