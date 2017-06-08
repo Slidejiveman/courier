@@ -1,6 +1,7 @@
 package courierpd.core;
 
 import java.io.Serializable;
+import java.sql.Time;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -429,6 +430,7 @@ public class DeliveryTicket implements Serializable {
         throw new UnsupportedOperationException();
     }
 
+
     public Courier getCourier() {
 		return courier;
 	}
@@ -467,5 +469,26 @@ public class DeliveryTicket implements Serializable {
 
 	public void setShortestPath(Route shortestPath) {
 		this.shortestPath = shortestPath;
+	}
+
+	public void setPickupCustomer(Client client) {
+		this.pickUpClient=client;
+		
+	}
+
+	public void setDeliveryCustomer(Client client) {
+		this.deliveryClient=client;
+	}
+	@SuppressWarnings("deprecation")
+	public Time getOrderPlacementTime(){
+		return new Time(this.orderDate.getHours(), this.orderDate.getMinutes(),this.orderDate.getSeconds());
+	}
+	@Override
+	public String toString (){
+		return "                       "+this.getPackageID()
+		+ "                                "+this.getOrderDate()
+		+"                             "+this.courier.number
+		+"                             "+this.getPickUpClient().getName()
+		+"                                 "+this.getDeliveryClient().getName();
 	}
 }

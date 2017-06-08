@@ -181,9 +181,12 @@ public class Intersection implements Serializable {
      * @param name The name to be given to the intersection.
      */
     public Intersection(String name) {
+
         setName(name);
         // this constructor should also set the X and Y coordinate values
         // for the location.
+        //set the intersection name
+    	this.setName(name);
     }
 
     /**
@@ -219,6 +222,14 @@ public class Intersection implements Serializable {
     public int getIntersectionId() {
 		return intersectionId;
 	}
+
+    @Override 
+    public String toString(){
+
+    	return "                      "+this.name +"                        "+ this.getClosedDateStart()+"            "
+    			+ "      "+this.getClosedDateEnd();
+    }
+
 
 	public void setIntersectionId(int intersectionId) {
 		this.intersectionId = intersectionId;

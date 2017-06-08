@@ -53,6 +53,7 @@ public class Street {
         this.length = length;
     }
 
+
     public void setTo(Intersection to) {
 		this.to = to;
 	}
@@ -64,4 +65,5 @@ public class Street {
 	public void setFrom(Intersection from) {
 		this.from = from;
 	}
+
 }

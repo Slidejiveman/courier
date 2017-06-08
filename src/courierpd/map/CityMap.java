@@ -1,6 +1,7 @@
 package courierpd.map;
 
 import java.util.*;
+import courierdm.IntersectionDBAO;
 
 /**
  * Contains the all the intersections in the City Center as well as all of the streets. 
@@ -33,25 +34,30 @@ public class CityMap {
      * the current state of the intersections within its collections.
      */
     public CityMap() {
-        
+    	
+    	  	
     }
 
-    /**
+	/**
      * This method closes the given intersection. 
      * If the intersection is already closed, there is no effect.
-     * @param intersection The intersection to be closed.
+     * @param string The intersection to be closed.
      */
     public void closeIntersection(Intersection intersection) {
-        
+    	Intersection intersectionToClose = IntersectionDBAO.findIntersectionById(intersection.getIntersectionId());
+		intersectionToClose.setIsOpen(false);
+		IntersectionDBAO.saveIntersection(intersectionToClose);
+    	
     }
-
     /**
      * Opens the given intersection. 
      * If the intersection is already happened, there is no effect.
      * @param intersection The intersection to be opened.
      */
     public void openIntersection(Intersection intersection) {
-        
+
+    	Intersection intersectionToOpen = IntersectionDBAO.findIntersectionById(intersection.getIntersectionId());
+		intersectionToOpen.setIsOpen(true);
     }
 
     public void setAcmeOffice(Office acmeOffice) {
@@ -73,4 +79,9 @@ public class CityMap {
 	public void setStreets(Collection<Street> streets) {
 		this.streets = streets;
 	}
+    
+    public Collection<Intersection> getAllIntersections(){
+    	return this.intersections;
+    }
+ 
 }

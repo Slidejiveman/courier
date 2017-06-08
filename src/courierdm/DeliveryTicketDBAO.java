@@ -3,6 +3,7 @@ package courierdm;
 import java.util.List;
 
 import javax.persistence.TypedQuery;
+import java.util.TreeMap;
 
 import courierpd.core.DeliveryTicket;
 
@@ -64,5 +65,33 @@ public class DeliveryTicketDBAO {
 	 */
 	public static void deleteDeliveryTicket(DeliveryTicket deliveryTicket) {
 		CourierEntityManager.getEntityManager().remove(deliveryTicket);
+	}	
+	/*
+	 * This function reads from the database all the delivery tickets,then
+	 * returns a collection of them.
+	 */
+	private TreeMap<Integer, DeliveryTicket> deliveryTickets;
+	public DeliveryTicketDBAO(){
+		deliveryTickets = new TreeMap<Integer,DeliveryTicket>();
+	}
+	public TreeMap<Integer, DeliveryTicket> listTickets(){
+		return this.deliveryTickets;
+	}
+	/*
+	 * This function, given a delivery ticket object updates it in the database
+	 */
+	public void updateTicket(DeliveryTicket ticket){
+		
+	}
+	/*
+	 * This function, given a delivery ticket object deletes it from the database
+	 */
+	public void deleteTicket(DeliveryTicket ticket){
+		this.deliveryTickets.remove(ticket.getPackageID());
+	}
+	public void addNewTicket(DeliveryTicket ticket){
+		this.deliveryTickets.put(ticket.getPackageID(), ticket);
 	}
 }
+
+
