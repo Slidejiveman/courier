@@ -13,9 +13,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import courierdm.CourierEntityManager;
+import courierdm.EmployeeDBAO;
 import courierpd.core.User;
 import courierpd.enums.EmployeeRole;
-import courierpd.map.Intersection;
 
 public class AddUpdateEmployeePanel extends JPanel {
 
@@ -33,7 +33,7 @@ public class AddUpdateEmployeePanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public AddUpdateEmployeePanel(CourierMainFrame currentFrame, User employee) {
+	public AddUpdateEmployeePanel(CourierMainFrame currentFrame, User employee, boolean isAdd) {
 		setLayout(null);
 		
 		JLabel lblName = new JLabel("Name:");
@@ -135,9 +135,16 @@ public class AddUpdateEmployeePanel extends JPanel {
 				}
 				if(textField_2.getText() != null) {
 					employee.setUsername(textField_2.getText());
-				}			
+				}
+				if(passwordField.getPassword() != null) {
+					employee.setPassword(passwordField.getPassword().toString());
+				}
 								
 				employee.setIsActive(chckbxIsEmployeeActive.isSelected());
+				if(isAdd)
+				{
+					EmployeeDBAO.addUser(employee);
+				}
 				userTransaction.commit();
 				
 				currentFrame.getContentPane().removeAll();

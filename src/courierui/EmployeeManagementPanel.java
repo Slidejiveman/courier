@@ -40,7 +40,7 @@ public class EmployeeManagementPanel<Employee> extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new AddUpdateEmployeePanel(currentFrame, new User()));
+				currentFrame.getContentPane().add(new AddUpdateEmployeePanel(currentFrame, new User(), true));
 				currentFrame.getContentPane().revalidate();
 			}
 		});
@@ -52,7 +52,7 @@ public class EmployeeManagementPanel<Employee> extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				currentFrame.getContentPane().removeAll();
 				// when we update the user, it shouldn't be a new User, but one from the list
-				currentFrame.getContentPane().add(new AddUpdateEmployeePanel(currentFrame, list.getSelectedValue()));
+				currentFrame.getContentPane().add(new AddUpdateEmployeePanel(currentFrame, list.getSelectedValue(), false));
 				currentFrame.getContentPane().revalidate();
 			}
 		});
