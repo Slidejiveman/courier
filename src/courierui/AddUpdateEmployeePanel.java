@@ -3,6 +3,7 @@ package courierui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.persistence.EntityTransaction;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -11,8 +12,10 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import courierdm.CourierEntityManager;
 import courierpd.core.User;
 import courierpd.enums.EmployeeRole;
+import courierpd.map.Intersection;
 
 public class AddUpdateEmployeePanel extends JPanel {
 
@@ -110,6 +113,24 @@ public class AddUpdateEmployeePanel extends JPanel {
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				EntityTransaction userTransaction = CourierEntityManager.getEntityManager().getTransaction();
+				userTransaction.begin();
+				if(textField.getText() != null) {
+					employee.setName(textField.getText());
+				}
+				if(textField_1.getText() != null) {
+					employee.setEmail(textField_1.getText());
+				}
+				if(textField_2.getText() != null) {
+					employee.setUsername(textField_2.getText());
+				}			
+								
+				employee.setIsActive(chckbxIsEmployeeActive.isSelected());
+				userTransaction.commit();
+				
+				currentFrame.getContentPane().removeAll();
+				currentFrame.getContentPane().add(new EmployeeManagementPanel(currentFrame));
+				currentFrame.getContentPane().revalidate();
 			}
 		});
 		btnSave.setBounds(182, 508, 97, 25);

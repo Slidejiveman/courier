@@ -179,9 +179,17 @@ public class Client implements Serializable{
     public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-    @Override
+   /* @Override
     public String toString(){
     	return this.name;
-    }
+    }*/
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		String finalString = accountNumber + "\t" + name + "\t" + phoneNumber + "\t" + email;
+		
+		return finalString;
+	}
 
 }

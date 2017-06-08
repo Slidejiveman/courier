@@ -7,7 +7,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import courierdm.EmployeeDBAO;
+
+import javax.swing.DefaultListModel;
+
 public class EmployeeDeletePanel extends JPanel {
+	  DefaultListModel<EmployeeDBAO> listModel;
 
 	/**
 	 * Generated serialization unique identifier.
@@ -52,6 +57,12 @@ public class EmployeeDeletePanel extends JPanel {
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				//EmployeeDBAO.removeEmployee((employee)listModel.getSelectedValue());
+				//listModel.removeElement((employee)listModel.getSelectedValue());
+				// EmployeeDBAO.removeEmployee(employee);
+				currentFrame.getContentPane().removeAll();
+				currentFrame.getContentPane().add(new EmployeeManagementPanel(currentFrame));
+				currentFrame.getContentPane().revalidate();
 			}
 		});
 		btnDelete.setBounds(223, 401, 124, 49);
