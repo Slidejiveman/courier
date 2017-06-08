@@ -129,7 +129,7 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 		JLabel lblCourierReturnTime = new JLabel("Courier Return Time: ");
 		lblCourierReturnTime.setBounds(78, 96, 120, 23);
 		DeliveryInfopanel.add(lblCourierReturnTime);
-		if(!isAdd){
+		if(!isAdd && (deliveryTicket.getActualDepartureTime()!=null)){
 			departureTimetextField = new JTextField(deliveryTicket.getActualDepartureTime().toString());
 		}else{
 			departureTimetextField = new JTextField();
@@ -143,7 +143,7 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 		DeliveryInfopanel.add(departureTimetextField);
 		departureTimetextField.setColumns(10);
 		
-		if(!isAdd){
+		if(!isAdd&&(deliveryTicket.getCourierReturnTime()!=null)){
 			returnTimetextField = new JTextField(deliveryTicket.getCourierReturnTime().toString());
 		}else{
 			returnTimetextField = new JTextField();
@@ -250,7 +250,7 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 		packageIdtextField.setBounds(205, 62, 150, 20);
 		OrderInfopanel.add(packageIdtextField);
 		packageIdtextField.setColumns(10);
-		if(!isAdd){
+		if(!isAdd && (deliveryTicket.getOrderDate()!=null)){
 			orderDatetextField = new JTextField(deliveryTicket.getOrderDate().toString());		
 			}else{
 				orderDatetextField = new JTextField();
@@ -263,7 +263,7 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 		orderDatetextField.setBounds(487, 87, 86, 20);
 		OrderInfopanel.add(orderDatetextField);
 		orderDatetextField.setColumns(10);
-		if(!isAdd){
+		if(!isAdd&&(deliveryTicket.getOrderDate()!=null)){
 			orderTimetextField = new JTextField(deliveryTicket.getOrderPlacementTime().toString());	
 			}else{
 				orderTimetextField = new JTextField();
