@@ -3,6 +3,7 @@ package courierdm;
 import java.util.List;
 
 import javax.persistence.TypedQuery;
+import javax.swing.JList;
 
 import courierpd.core.Client;
 

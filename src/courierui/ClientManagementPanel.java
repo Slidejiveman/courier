@@ -14,6 +14,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import courierpd.core.Client;
+import courierdm.ClientDBAO;
 
 public class ClientManagementPanel extends JPanel {
 
@@ -90,6 +91,7 @@ public class ClientManagementPanel extends JPanel {
 		//	listModel.addElement(tcEntry.getValue());
 				
 		JList<Client> list = new JList<Client>();
+		//list = ClientDBAO.listClients();
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) 

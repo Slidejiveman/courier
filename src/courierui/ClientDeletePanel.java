@@ -8,6 +8,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import courierpd.core.Client;
+import courierdm.ClientDBAO;
+
 public class ClientDeletePanel extends JPanel {
 
 	/**
@@ -50,6 +53,10 @@ public class ClientDeletePanel extends JPanel {
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				// ClientDBAO.removeClient(client);
+				currentFrame.getContentPane().removeAll();
+				currentFrame.getContentPane().add(new ClientManagementPanel(currentFrame));
+				currentFrame.getContentPane().revalidate();
 			}
 		});
 		btnDelete.setBounds(223, 401, 124, 49);
