@@ -180,4 +180,12 @@ public class Client implements Serializable{
 		return serialVersionUID;
 	}
 
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		String finalString = accountNumber + "\t" + name + "\t" + phoneNumber + "\t" + email;
+		
+		return finalString;
+	}
+
 }
