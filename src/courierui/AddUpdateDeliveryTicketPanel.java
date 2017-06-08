@@ -7,13 +7,28 @@ import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import courierdm.ClientDBAO;
+import courierdm.CourierEntityManager;
+import courierdm.DeliveryTicketDBAO;
+import courierdm.EmployeeDBAO;
+import courierpd.core.Client;
+import courierpd.core.Courier;
+import courierpd.core.DeliveryTicket;
+import courierpd.core.OrderTaker;
+import courierpd.core.User;
+import courierpd.enums.EmployeeRole;
+import courierpd.enums.TicketStatus;
+
 import javax.swing.JRadioButton;
 import javax.swing.JCheckBox;
+import javax.persistence.EntityTransaction;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 
-public class UpdateDeliveryTicketPanel extends JPanel {
+public class AddUpdateDeliveryTicketPanel extends JPanel {
 	/**
 	 * 
 	 */
@@ -26,8 +41,11 @@ public class UpdateDeliveryTicketPanel extends JPanel {
 
 	/**
 	 * Create the panel.
+	 * @param b 
+	 * @param deliveryTicket 
 	 */
-	public UpdateDeliveryTicketPanel(CourierMainFrame currentFrame) {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public AddUpdateDeliveryTicketPanel(CourierMainFrame currentFrame, DeliveryTicket deliveryTicket, boolean isAdd) {
 		setLayout(null);
 		
 		JPanel CustomerInfopanel = new JPanel();
@@ -45,6 +63,12 @@ public class UpdateDeliveryTicketPanel extends JPanel {
 		CustomerInfopanel.add(lblDeliveryCustomer);
 		
 		JComboBox PickupCustomercomboBox = new JComboBox();
+		JComboBox deliveryCustomercomboBox = new JComboBox();
+
+		for(Client client: ClientDBAO.listClients()){
+			PickupCustomercomboBox.addItem(client);
+			deliveryCustomercomboBox.addItem(client);
+		}
 		PickupCustomercomboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
@@ -52,7 +76,6 @@ public class UpdateDeliveryTicketPanel extends JPanel {
 		PickupCustomercomboBox.setBounds(205, 46, 150, 21);
 		CustomerInfopanel.add(PickupCustomercomboBox);
 		
-		JComboBox deliveryCustomercomboBox = new JComboBox();
 		deliveryCustomercomboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -68,7 +91,7 @@ public class UpdateDeliveryTicketPanel extends JPanel {
 		lblSpecialDelivery.setBounds(675, 26, 100, 14);
 		CustomerInfopanel.add(lblSpecialDelivery);
 		
-		JTextArea specialDeliverytextArea = new JTextArea();
+		JTextArea specialDeliverytextArea = new JTextArea(deliveryTicket.getSpecialDeliveryInstructions());
 		specialDeliverytextArea.setBounds(600, 59, 250, 50);
 		CustomerInfopanel.add(specialDeliverytextArea);
 		
@@ -87,6 +110,11 @@ public class UpdateDeliveryTicketPanel extends JPanel {
 		DeliveryInfopanel.add(lblCourier);
 		
 		JComboBox courierNamecomboBox = new JComboBox();
+		for(User user: EmployeeDBAO.listUsers()){
+			if(user.getEmployeeRole().equals(EmployeeRole.Courier)){
+				courierNamecomboBox.addItem(user);
+			}
+		}
 		courierNamecomboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -101,8 +129,12 @@ public class UpdateDeliveryTicketPanel extends JPanel {
 		JLabel lblCourierReturnTime = new JLabel("Courier Return Time: ");
 		lblCourierReturnTime.setBounds(78, 96, 120, 23);
 		DeliveryInfopanel.add(lblCourierReturnTime);
+		if(!isAdd){
+			departureTimetextField = new JTextField(deliveryTicket.getActualDepartureTime().toString());
+		}else{
+			departureTimetextField = new JTextField();
+		}
 		
-		departureTimetextField = new JTextField();
 		departureTimetextField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -111,7 +143,11 @@ public class UpdateDeliveryTicketPanel extends JPanel {
 		DeliveryInfopanel.add(departureTimetextField);
 		departureTimetextField.setColumns(10);
 		
-		returnTimetextField = new JTextField();
+		if(!isAdd){
+			returnTimetextField = new JTextField(deliveryTicket.getCourierReturnTime().toString());
+		}else{
+			returnTimetextField = new JTextField();
+		}
 		returnTimetextField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -162,6 +198,7 @@ public class UpdateDeliveryTicketPanel extends JPanel {
 		lblOrderInfo.setBounds(420, 11, 86, 14);
 		OrderInfopanel.add(lblOrderInfo);
 		
+	
 		JLabel lblOrderTaker = new JLabel("Order Taker: ");
 		lblOrderTaker.setBounds(75, 38, 120, 14);
 		OrderInfopanel.add(lblOrderTaker);
@@ -199,18 +236,13 @@ public class UpdateDeliveryTicketPanel extends JPanel {
 		OrderInfopanel.add(lblStatus);
 		
 		JComboBox statusComboBox = new JComboBox();
+		statusComboBox.addItem(TicketStatus.Opened);
+		statusComboBox.addItem(TicketStatus.Closed);
+		statusComboBox.addItem(TicketStatus.Canceled);
 		statusComboBox.setBounds(720, 102, 130, 20);
 		OrderInfopanel.add(statusComboBox);
 		
-		JComboBox orderComboBox = new JComboBox();
-		orderComboBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		orderComboBox.setBounds(205, 35, 150, 20);
-		OrderInfopanel.add(orderComboBox);
-		
-		packageIdtextField = new JTextField();
+		packageIdtextField = new JTextField(Integer.toString(deliveryTicket.getPackageID()));
 		packageIdtextField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -218,8 +250,12 @@ public class UpdateDeliveryTicketPanel extends JPanel {
 		packageIdtextField.setBounds(205, 62, 150, 20);
 		OrderInfopanel.add(packageIdtextField);
 		packageIdtextField.setColumns(10);
-		
-		orderDatetextField = new JTextField();
+		if(!isAdd){
+			orderDatetextField = new JTextField(deliveryTicket.getOrderDate().toString());		
+			}else{
+				orderDatetextField = new JTextField();
+		}
+
 		orderDatetextField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -227,8 +263,11 @@ public class UpdateDeliveryTicketPanel extends JPanel {
 		orderDatetextField.setBounds(487, 87, 86, 20);
 		OrderInfopanel.add(orderDatetextField);
 		orderDatetextField.setColumns(10);
-		
-		orderTimetextField = new JTextField();
+		if(!isAdd){
+			orderTimetextField = new JTextField(deliveryTicket.getOrderPlacementTime().toString());	
+			}else{
+				orderTimetextField = new JTextField();
+		}
 		orderTimetextField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -241,9 +280,56 @@ public class UpdateDeliveryTicketPanel extends JPanel {
 		lblToBeCalculated.setBounds(205, 90, 150, 14);
 		OrderInfopanel.add(lblToBeCalculated);
 		
+		JComboBox orderTakerBox = new JComboBox();
+
+		for(User user: EmployeeDBAO.listUsers()){
+
+			if(user.getEmployeeRole().equals(EmployeeRole.OrderTaker)){
+				orderTakerBox.addItem(user);
+			}
+		}
+		PickupCustomercomboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		orderTakerBox.setBounds(205, 38, 150, 20);
+		OrderInfopanel.add(orderTakerBox);
+		
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				EntityTransaction userTransaction = CourierEntityManager.getEntityManager().getTransaction();
+				userTransaction.begin();
+				deliveryTicket.setActualDeliveryTime(null);
+				deliveryTicket.setActualDepartureTime(null);
+				deliveryTicket.setActualPickUpTime(null);
+				deliveryTicket.setCourier((Courier)courierNamecomboBox.getSelectedItem());
+				deliveryTicket.setCourierReturnTime(null);
+				deliveryTicket.setDeliveryClient((Client)deliveryCustomercomboBox.getSelectedItem());
+				deliveryTicket.setEstBlocks(0);
+				deliveryTicket.setEstDeliveryTime(null);
+				deliveryTicket.setEstimatedDepartureTime(null);
+				deliveryTicket.setEstPrice(0.0f);
+				deliveryTicket.setIsBillPickUp(false);
+				deliveryTicket.setIsBonusEarned(true);
+				deliveryTicket.setOrderDate(null);
+				deliveryTicket.setOrderTaker((OrderTaker)orderTakerBox.getSelectedItem());
+				if(packageIdtextField.getText()==""){
+					deliveryTicket.setPackageID(0);
+				}else{
+					deliveryTicket.setPackageID(Integer.parseInt(packageIdtextField.getText()));
+				}
+				deliveryTicket.setPickUpClient((Client)PickupCustomercomboBox.getSelectedItem());
+				deliveryTicket.setRequestedPickUpTime(null);
+				deliveryTicket.setSpecialDeliveryInstructions(specialDeliverytextArea.getText());
+				deliveryTicket.setStatus((TicketStatus)statusComboBox.getSelectedItem());
+				if(isAdd){
+					DeliveryTicketDBAO.addDeliveryTicket(deliveryTicket);
+				}
+				DeliveryTicketDBAO.saveDeliveryTicket(deliveryTicket);
+				userTransaction.commit();
+				
 				currentFrame.getContentPane().removeAll();
 				currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame));
 				currentFrame.revalidate();

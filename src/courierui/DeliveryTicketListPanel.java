@@ -1,12 +1,17 @@
 package courierui;
 
 import javax.swing.JPanel;
+
+import courierdm.DeliveryTicketDBAO;
+import courierpd.core.DeliveryTicket;
+
 import javax.swing.JLabel;
 import javax.swing.JList;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 
 public class DeliveryTicketListPanel extends JPanel {
@@ -19,6 +24,7 @@ public class DeliveryTicketListPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public DeliveryTicketListPanel(CourierMainFrame mainFrame) {
 		setLayout(null);
 		
@@ -26,26 +32,41 @@ public class DeliveryTicketListPanel extends JPanel {
 		lblDeliveryTicketList.setBounds(450, 26, 229, 14);
 		add(lblDeliveryTicketList);
 		
-		JList list = new JList();
+		DefaultListModel listModel = new DefaultListModel();
+		for (DeliveryTicket ticket: DeliveryTicketDBAO.listDeliveryTickets()){		
+			listModel.addElement(ticket);
+		}
+		JList list = new JList(listModel);
+		
 		list.setBounds(50, 100, 900,380);
 		add(list);
+		JButton btnAdd = new JButton("Add");
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mainFrame.getContentPane().removeAll();
+				mainFrame.getContentPane().add(new AddUpdateDeliveryTicketPanel(mainFrame,new DeliveryTicket(),true));
+				mainFrame.getContentPane().revalidate();
+			}
+		});
+		btnAdd.setBounds(211, 500, 89, 23);
+		add(btnAdd);
 		
 		JButton btnUpdate = new JButton("Update");
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				mainFrame.getContentPane().removeAll();
-				mainFrame.getContentPane().add(new UpdateDeliveryTicketPanel(mainFrame));
+				mainFrame.getContentPane().add(new AddUpdateDeliveryTicketPanel(mainFrame,(DeliveryTicket)list.getSelectedValue(),false));
 				mainFrame.getContentPane().revalidate();
 			}
 		});
-		btnUpdate.setBounds(203, 500, 89, 23);
+		btnUpdate.setBounds(456, 500, 89, 23);
 		add(btnUpdate);
 		
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				mainFrame.getContentPane().removeAll();
-				mainFrame.getContentPane().add(new DeleteTicketPanel(mainFrame));
+				mainFrame.getContentPane().add(new DeleteTicketPanel(mainFrame,(DeliveryTicket)list.getSelectedValue() ));
 				mainFrame.getContentPane().revalidate();
 			}
 		});

@@ -179,5 +179,9 @@ public class Client implements Serializable{
     public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+    @Override
+    public String toString(){
+    	return this.name;
+    }
 
 }

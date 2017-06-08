@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.TypedQuery;
 
 import courierpd.map.Intersection;
+import courierpd.other.DateParser;
 
 public class IntersectionDBAO {
 	/**
@@ -30,6 +31,12 @@ public class IntersectionDBAO {
 	 */
 	public static List<Intersection> listIntersections() {
 		TypedQuery<Intersection> query = CourierEntityManager.getEntityManager().createQuery("SELECT intersection FROM intersection intersection", Intersection.class);
+		List<Intersection> queryResult= query.getResultList();
+		for(Intersection intersection: queryResult){
+			if(!intersection.getIsOpen()){
+				intersection.setClosedDateStart(DateParser.parseDatabaseDate(intersection.getClosedDateStart()));
+			}
+		}
 		return query.getResultList();
 	}
 	

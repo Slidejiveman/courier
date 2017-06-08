@@ -10,6 +10,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import courierpd.map.CityMap;
+
 @SuppressWarnings("unused")
 public class CourierMainFrame extends JFrame {
 
@@ -48,6 +50,7 @@ public class CourierMainFrame extends JFrame {
 	 */
 	public CourierMainFrame() {
 		CourierMainFrame currentFrame = this;
+		CityMap map = new CityMap();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1017, 602);
 		
@@ -103,7 +106,7 @@ public class CourierMainFrame extends JFrame {
 				getContentPane().removeAll();
 				// In the add, place the constructor for your panel
 				//getContentPane().add();
-				getContentPane().add(new MapConfigPanel(currentFrame));
+				getContentPane().add(new MapConfigPanel(currentFrame, map));
 				getContentPane().revalidate();
 			}
 		});

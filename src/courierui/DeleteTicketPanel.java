@@ -1,7 +1,13 @@
 package courierui;
 
 import javax.swing.JPanel;
+
+import courierdm.CourierEntityManager;
+import courierdm.DeliveryTicketDBAO;
+import courierpd.core.DeliveryTicket;
+
 import javax.swing.JLabel;
+import javax.persistence.EntityTransaction;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -15,8 +21,9 @@ public class DeleteTicketPanel extends JPanel {
 
 	/**
 	 * Create the panel.
+	 * @param deliveryTicket 
 	 */
-	public DeleteTicketPanel(CourierMainFrame currentFrame) {
+	public DeleteTicketPanel(CourierMainFrame currentFrame, DeliveryTicket deliveryTicket) {
 		setLayout(null);
 		
 		JLabel lblDeleteDeliveryTiceket = new JLabel("Delete Delivery Ticket");
@@ -24,7 +31,7 @@ public class DeleteTicketPanel extends JPanel {
 		add(lblDeleteDeliveryTiceket);
 		
 		JLabel lblPackageIdNumber = new JLabel("Package Id Number: ");
-		lblPackageIdNumber.setBounds(385, 203, 116, 14);
+		lblPackageIdNumber.setBounds(385, 203, 140, 14);
 		add(lblPackageIdNumber);
 		
 		JLabel lblSenderClient = new JLabel("Sender Client: ");
@@ -42,6 +49,10 @@ public class DeleteTicketPanel extends JPanel {
 		JButton btnYesDelete = new JButton("Yes, Delete");
 		btnYesDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				EntityTransaction userTransaction = CourierEntityManager.getEntityManager().getTransaction();
+				userTransaction.begin();
+				DeliveryTicketDBAO.deleteDeliveryTicket(deliveryTicket);
+				userTransaction.commit();
 				currentFrame.getContentPane().removeAll();
 				currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame));
 				currentFrame.revalidate();
@@ -61,16 +72,24 @@ public class DeleteTicketPanel extends JPanel {
 		btnNoCancel.setBounds(587, 400, 100, 23);
 		add(btnNoCancel);
 		
-		JLabel label = new JLabel("*");
-		label.setBounds(587, 203, 46, 14);
+		JLabel label = new JLabel(Integer.toString(deliveryTicket.getPackageID()));
+		label.setBounds(587, 203, 62, 14);
 		add(label);
+		JLabel label_1;
+		if(deliveryTicket.getPickUpClient()!=null){
+			 label_1 = new JLabel(deliveryTicket.getPickUpClient().getName());
+		}else
+			 label_1 = new JLabel("*");
 		
-		JLabel label_1 = new JLabel("*");
-		label_1.setBounds(587, 244, 46, 14);
+		label_1.setBounds(587, 244, 80, 14);
 		add(label_1);
 		
-		JLabel label_2 = new JLabel("*");
-		label_2.setBounds(587, 288, 46, 14);
+		JLabel label_2;
+		if(deliveryTicket.getPickUpClient()!=null){
+			 label_2 = new JLabel(deliveryTicket.getDeliveryClient().getName());
+		}else
+			 label_2 = new JLabel("*");
+		label_2.setBounds(587, 288, 80, 14);
 		add(label_2);
 
 	}
