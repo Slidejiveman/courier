@@ -15,7 +15,9 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import courierpd.core.Client;
+import courierpd.map.Intersection;
 import courierdm.ClientDBAO;
+import courierdm.IntersectionDBAO;
 
 public class ClientManagementPanel extends JPanel {
 
@@ -35,6 +37,7 @@ public class ClientManagementPanel extends JPanel {
 	public ClientManagementPanel(CourierMainFrame currentFrame) {
 		DefaultListModel listModel;
 		List<Client> persistedClients = ClientDBAO.listClients();
+		
 		
 		
 		setLayout(null);
