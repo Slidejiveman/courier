@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import courierdm.ClientDBAO;
 import courierdm.CourierEntityManager;
 import courierpd.core.Client;
 import courierpd.map.Intersection;
@@ -92,6 +93,10 @@ public class AddUpdateClientPanel extends JPanel {
 				}			
 				client.setLocation(new Intersection((String)comboBox.getSelectedItem()));
 				client.setIsActive(clientActiveCheckBox.isSelected());
+				if(isAdd)
+				{
+					ClientDBAO.addClient(client);
+				}
 				userTransaction.commit();
 				
 				currentFrame.getContentPane().removeAll();

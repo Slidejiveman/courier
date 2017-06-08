@@ -3,6 +3,7 @@ package courierui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.persistence.EntityTransaction;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -10,6 +11,7 @@ import javax.swing.JPanel;
 
 import courierpd.core.Client;
 import courierdm.ClientDBAO;
+import courierdm.CourierEntityManager;
 
 public class ClientDeletePanel extends JPanel {
 
@@ -53,7 +55,16 @@ public class ClientDeletePanel extends JPanel {
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ClientDBAO.removeClient(client);
+				try{
+					EntityTransaction userTransaction = CourierEntityManager.getEntityManager().getTransaction();
+					userTransaction.begin();
+					ClientDBAO.removeClient(client);
+					userTransaction.commit();
+				} catch(Exception e)
+				{
+					
+				}
+				
 				currentFrame.getContentPane().removeAll();
 				currentFrame.getContentPane().add(new ClientManagementPanel(currentFrame));
 				currentFrame.getContentPane().revalidate();
