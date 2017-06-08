@@ -2,6 +2,7 @@ package courierui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Map.Entry;
 
 import javax.swing.DefaultListModel;
@@ -24,7 +25,9 @@ public class ClientManagementPanel extends JPanel {
 	 * in bit form so that it would be reconstructed correctly.
 	 */
 	private static final long serialVersionUID = -6553392431507855432L;
-
+	
+	List<Client> persistedClients = ClientDBAO.listClients();
+	
 	/**
 	 * Create the panel.
 	 */
@@ -86,12 +89,11 @@ public class ClientManagementPanel extends JPanel {
 		lblEmail.setBounds(788, 79, 56, 16);
 		add(lblEmail);
 
-		//listModel = new DefaultListModel();
-		//for(Entry<String, Client> tcEntry : store.getTaxCategories().entrySet())
-		//	listModel.addElement(tcEntry.getValue());
+		listModel = new DefaultListModel();
+		for(Client client: persistedClients)
+			listModel.addElement(client);
 				
-		JList<Client> list = new JList<Client>();
-		//list = ClientDBAO.listClients();
+		JList<Client> list = new JList(listModel);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) 
