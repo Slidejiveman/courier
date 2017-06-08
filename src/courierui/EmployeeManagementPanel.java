@@ -25,6 +25,7 @@ public class EmployeeManagementPanel<Employee> extends JPanel {
 	 * 
 	 */
 	List<User> persistedEmployees = EmployeeDBAO.listUsers();
+	JList<User> list;
 	private static final long serialVersionUID = 1L;
 	protected Employee Employee;
 	/**
@@ -51,7 +52,7 @@ public class EmployeeManagementPanel<Employee> extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				currentFrame.getContentPane().removeAll();
 				// when we update the user, it shouldn't be a new User, but one from the list
-				currentFrame.getContentPane().add(new AddUpdateEmployeePanel(currentFrame, new User()));
+				currentFrame.getContentPane().add(new AddUpdateEmployeePanel(currentFrame, list.getSelectedValue()));
 				currentFrame.getContentPane().revalidate();
 			}
 		});
@@ -62,7 +63,7 @@ public class EmployeeManagementPanel<Employee> extends JPanel {
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new EmployeeDeletePanel(currentFrame));
+				currentFrame.getContentPane().add(new EmployeeDeletePanel(currentFrame, list.getSelectedValue()));
 				currentFrame.getContentPane().revalidate();
 			}
 		});
@@ -74,7 +75,7 @@ public class EmployeeManagementPanel<Employee> extends JPanel {
 	for(User employee: persistedEmployees)
 		listModel.addElement(employee);
 		
-	JList<Employee> list = new JList(listModel);
+	list = new JList(listModel);
 	list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	list.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) 

@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import courierdm.EmployeeDBAO;
-
+import courierpd.core.User;
 import javax.swing.DefaultListModel;
 
 public class EmployeeDeletePanel extends JPanel {
@@ -27,7 +27,7 @@ public class EmployeeDeletePanel extends JPanel {
 	 * panel as part of the constructor once we get to that point.
 	 * This employee will be the candidate for deletion.
 	 */
-	public EmployeeDeletePanel(CourierMainFrame currentFrame) {
+	public EmployeeDeletePanel(CourierMainFrame currentFrame, User employee) {
         setLayout(null);
         
         JLabel lblDeleteEmployee = new JLabel("Delete Employee");
@@ -38,7 +38,7 @@ public class EmployeeDeletePanel extends JPanel {
 		lblName.setBounds(287, 116, 38, 16);
 		add(lblName);
 		
-		JLabel lblNameGoesHere = new JLabel("Name goes here");
+		JLabel lblNameGoesHere = new JLabel(employee.getName());
 		lblNameGoesHere.setBounds(479, 116, 94, 16);
 		add(lblNameGoesHere);
 		
@@ -46,7 +46,7 @@ public class EmployeeDeletePanel extends JPanel {
 		lblIdNumber.setBounds(287, 180, 66, 16);
 		add(lblIdNumber);
 		
-		JLabel lblNumberGoesHere = new JLabel("Number goes here");
+		JLabel lblNumberGoesHere = new JLabel(Integer.valueOf(employee.getNumber()).toString());
 		lblNumberGoesHere.setBounds(479, 180, 106, 16);
 		add(lblNumberGoesHere);
 		
@@ -57,8 +57,7 @@ public class EmployeeDeletePanel extends JPanel {
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//EmployeeDBAO.removeEmployee((employee)listModel.getSelectedValue());
-				//listModel.removeElement((employee)listModel.getSelectedValue());
+				
 				// EmployeeDBAO.removeEmployee(employee);
 				currentFrame.getContentPane().removeAll();
 				currentFrame.getContentPane().add(new EmployeeManagementPanel(currentFrame));
