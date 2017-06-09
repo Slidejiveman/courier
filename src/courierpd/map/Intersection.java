@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import courierpd.core.Client;
 
@@ -31,7 +32,11 @@ public class Intersection implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private  Integer nodeValue;
+
+
+	@Transient
+	private transient Integer nodeValue;
+	
 	@Id //signifies the primary key
     @Column(name = "intersection_id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -182,11 +187,12 @@ public class Intersection implements Serializable {
      */
     public Intersection(String name) {
 
+    	// The named constructor can be used to
+    	// create the office.
         setName(name);
-        // this constructor should also set the X and Y coordinate values
-        // for the location.
-        //set the intersection name
-    	this.setName(name);
+        setXCoord(3);
+        setYCoord(3);
+        setNodeValue(0);
     }
 
     /**

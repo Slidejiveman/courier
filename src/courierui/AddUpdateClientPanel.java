@@ -154,61 +154,6 @@ public class AddUpdateClientPanel extends JPanel {
 		for(Intersection intersection: persistedIntersections)
 			comboBox.addItem(intersection);
 		
-/*		comboBox.addItem("A St. & 1st");
-		comboBox.addItem("A St. & 2nd");
-		comboBox.addItem("A St. & 3rd");
-		comboBox.addItem("A St. & 4th");
-		comboBox.addItem("A St. & 5th");
-		comboBox.addItem("A St. & 6th");
-		comboBox.addItem("A St. & 7th");
-		
-		comboBox.addItem("B St. & 1st");
-		comboBox.addItem("B St. & 2nd");
-		comboBox.addItem("B St. & 3rd");
-		comboBox.addItem("B St. & 4th");
-		comboBox.addItem("B St. & 5th");
-		comboBox.addItem("B St. & 6th");
-		comboBox.addItem("B St. & 7th");
-		
-		comboBox.addItem("C St. & 1st");
-		comboBox.addItem("C St. & 2nd");
-		comboBox.addItem("C St. & 3rd");
-		comboBox.addItem("C St. & 4th");
-		comboBox.addItem("C St. & 5th");
-		comboBox.addItem("C St. & 6th");
-		comboBox.addItem("C St. & 7th");
-		
-		comboBox.addItem("D St. & 1st");
-		comboBox.addItem("D St. & 2nd");
-		comboBox.addItem("D St. & 3rd");
-		// Location of the office.
-		comboBox.addItem("D St. & 5th"); 
-		comboBox.addItem("D St. & 6th");
-		comboBox.addItem("D St. & 7th");
-		
-		comboBox.addItem("E St. & 1st");
-		comboBox.addItem("E St. & 2nd");
-		comboBox.addItem("E St. & 3rd");
-		comboBox.addItem("E St. & 4th");
-		comboBox.addItem("E St. & 5th");
-		comboBox.addItem("E St. & 6th");
-		comboBox.addItem("E St. & 7th");
-		
-		comboBox.addItem("F St. & 1st");
-		comboBox.addItem("F St. & 2nd");
-		comboBox.addItem("F St. & 3rd");
-		comboBox.addItem("F St. & 4th");
-		comboBox.addItem("F St. & 5th");
-		comboBox.addItem("F St. & 6th");
-		comboBox.addItem("F St. & 7th");
-		
-		comboBox.addItem("G St. & 1st");
-		comboBox.addItem("G St. & 2nd");
-		comboBox.addItem("G St. & 3rd");
-		comboBox.addItem("G St. & 4th");
-		comboBox.addItem("G St. & 5th");
-		comboBox.addItem("G St. & 6th");
-		comboBox.addItem("G St. & 7th"); */
 		add(comboBox);
 		
 		JLabel lblAcctGoes = new JLabel(Integer.valueOf(client.getAccountNumber()).toString());
