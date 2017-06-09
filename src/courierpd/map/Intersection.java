@@ -31,7 +31,7 @@ public class Intersection implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+	private Integer nodeValue;
 	@Id //signifies the primary key
     @Column(name = "intersection_id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -233,5 +233,13 @@ public class Intersection implements Serializable {
 
 	public void setIntersectionId(int intersectionId) {
 		this.intersectionId = intersectionId;
+	}
+
+	public Integer getNodeValue() {
+		return nodeValue;
+	}
+
+	public void setNodeValue(Integer nodeValue) {
+		this.nodeValue = nodeValue;
 	}
 }

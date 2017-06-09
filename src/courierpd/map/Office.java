@@ -12,12 +12,13 @@ public class Office {
      * The location of the Acme Courier Services office in the City Center.
      */
     private Intersection location = new Intersection("D St. & 4th");
-
+    	
     /**
      * Returns the Intersection where the Acme Courier Office is located.
      */
     public Intersection getLocation() {
         return this.location;
+        
     }
 
     /**

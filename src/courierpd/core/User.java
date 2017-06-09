@@ -244,14 +244,15 @@ public class User implements Serializable {
 
     	
     }
-    /*@Override
+    @Override
     public String toString(){
     	return this.name;
-    }*/
-    
+    }
+    /*
     @Override
 	public String toString() {
 	String finalString = name + number + employeeRole + email;
 	return finalString;
-}
+
+}	*/
 }
