@@ -31,7 +31,7 @@ public class Intersection implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Integer nodeValue;
+	private  Integer nodeValue;
 	@Id //signifies the primary key
     @Column(name = "intersection_id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
