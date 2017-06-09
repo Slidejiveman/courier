@@ -31,6 +31,10 @@ public class IntersectionDBAO {
 	 */
 	public static List<Intersection> listIntersections() {
 		TypedQuery<Intersection> query = CourierEntityManager.getEntityManager().createQuery("SELECT intersection FROM intersection intersection", Intersection.class);
+
+		List<Intersection> queryResult= query.getResultList();
+				
+
 		return query.getResultList();
 	}
 	

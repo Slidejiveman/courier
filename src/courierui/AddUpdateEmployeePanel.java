@@ -13,9 +13,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import courierdm.CourierEntityManager;
+import courierdm.EmployeeDBAO;
 import courierpd.core.User;
 import courierpd.enums.EmployeeRole;
-import courierpd.map.Intersection;
 
 public class AddUpdateEmployeePanel extends JPanel {
 
@@ -33,7 +33,7 @@ public class AddUpdateEmployeePanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public AddUpdateEmployeePanel(CourierMainFrame currentFrame, User employee) {
+	public AddUpdateEmployeePanel(CourierMainFrame currentFrame, User employee, boolean isAdd) {
 		setLayout(null);
 		
 		JLabel lblName = new JLabel("Name:");
@@ -76,22 +76,34 @@ public class AddUpdateEmployeePanel extends JPanel {
 		chckbxIsEmployeeActive.setBounds(314, 458, 146, 25);
 		add(chckbxIsEmployeeActive);
 		
-		textField = new JTextField();
+		String strName ="";
+		if(employee.getName() !=null)
+		strName = employee.getName();
+		textField = new JTextField(strName);
 		textField.setBounds(220, 125, 335, 22);
 		add(textField);
 		textField.setColumns(10);
 		
-		textField_1 = new JTextField();
+		String strEmail ="";
+		if(employee.getEmail() !=null)
+		strEmail = employee.getEmail();
+		textField_1 = new JTextField(strEmail);
 		textField_1.setBounds(220, 231, 335, 22);
 		add(textField_1);
 		textField_1.setColumns(10);
 		
-		textField_2 = new JTextField();
+		String strUsername ="";
+		if(employee.getUsername() !=null)
+		strUsername = employee.getUsername();
+		textField_2 = new JTextField(strUsername);
 		textField_2.setBounds(220, 291, 335, 22);
 		add(textField_2);
 		textField_2.setColumns(10);
 		
-		passwordField = new JPasswordField();
+		String strPassword ="";
+		if(employee.getPassword() !=null)
+		strPassword = employee.getPassword();
+		passwordField = new JPasswordField(strPassword);
 		passwordField.setBounds(222, 353, 327, 22);
 		add(passwordField);
 		
@@ -123,9 +135,16 @@ public class AddUpdateEmployeePanel extends JPanel {
 				}
 				if(textField_2.getText() != null) {
 					employee.setUsername(textField_2.getText());
-				}			
+				}
+				if(passwordField.getPassword() != null) {
+					employee.setPassword(passwordField.getPassword().toString());
+				}
 								
 				employee.setIsActive(chckbxIsEmployeeActive.isSelected());
+				if(isAdd)
+				{
+					EmployeeDBAO.addUser(employee);
+				}
 				userTransaction.commit();
 				
 				currentFrame.getContentPane().removeAll();

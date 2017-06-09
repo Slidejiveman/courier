@@ -3,6 +3,7 @@ package courierui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.persistence.EntityTransaction;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -10,6 +11,7 @@ import javax.swing.JPanel;
 
 import courierpd.core.Client;
 import courierdm.ClientDBAO;
+import courierdm.CourierEntityManager;
 
 public class ClientDeletePanel extends JPanel {
 
@@ -23,7 +25,7 @@ public class ClientDeletePanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public ClientDeletePanel(CourierMainFrame currentFrame) {
+	public ClientDeletePanel(CourierMainFrame currentFrame, Client client) {
 		setLayout(null);
 		
 		JLabel lblDeleteEmployee = new JLabel("Delete Client");
@@ -34,7 +36,7 @@ public class ClientDeletePanel extends JPanel {
 		lblName.setBounds(287, 116, 38, 16);
 		add(lblName);
 		
-		JLabel lblNameGoesHere = new JLabel("Name goes here");
+		JLabel lblNameGoesHere = new JLabel(client.getName());
 		lblNameGoesHere.setBounds(479, 116, 94, 16);
 		add(lblNameGoesHere);
 		
@@ -42,7 +44,7 @@ public class ClientDeletePanel extends JPanel {
 		lblIdNumber.setBounds(287, 180, 66, 16);
 		add(lblIdNumber);
 		
-		JLabel lblNumberGoesHere = new JLabel("Number goes here");
+		JLabel lblNumberGoesHere = new JLabel(Integer.valueOf(client.getAccountNumber()).toString());
 		lblNumberGoesHere.setBounds(479, 180, 106, 16);
 		add(lblNumberGoesHere);
 		
@@ -53,7 +55,16 @@ public class ClientDeletePanel extends JPanel {
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				// ClientDBAO.removeClient(client);
+				try{
+					EntityTransaction userTransaction = CourierEntityManager.getEntityManager().getTransaction();
+					userTransaction.begin();
+					ClientDBAO.removeClient(client);
+					userTransaction.commit();
+				} catch(Exception e)
+				{
+					
+				}
+				
 				currentFrame.getContentPane().removeAll();
 				currentFrame.getContentPane().add(new ClientManagementPanel(currentFrame));
 				currentFrame.getContentPane().revalidate();

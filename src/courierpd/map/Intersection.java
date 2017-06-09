@@ -226,10 +226,9 @@ public class Intersection implements Serializable {
     @Override 
     public String toString(){
 
-    	return "                      "+this.name +"                        "+ this.getClosedDateStart()+"            "
+    	return this.name +"                        "+ this.getClosedDateStart()+"            "
     			+ "      "+this.getClosedDateEnd();
     }
-
 
 	public void setIntersectionId(int intersectionId) {
 		this.intersectionId = intersectionId;

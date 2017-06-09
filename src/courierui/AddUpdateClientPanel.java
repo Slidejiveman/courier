@@ -2,8 +2,10 @@ package courierui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.persistence.EntityTransaction;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -11,7 +13,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import courierdm.ClientDBAO;
 import courierdm.CourierEntityManager;
+import courierdm.IntersectionDBAO;
 import courierpd.core.Client;
 import courierpd.map.Intersection;
 
@@ -24,13 +28,15 @@ public class AddUpdateClientPanel extends JPanel {
 	private JTextField textField;
 	private JTextField textField_2;
 	private JTextField textField_3;
-	private JComboBox<String> comboBox;
+	private JComboBox comboBox;
 	JLabel lblAddClient;
 	
 	/**
 	 * Create the panel.
 	 */
 	public AddUpdateClientPanel(CourierMainFrame currentFrame, Client client, boolean isAdd) {
+		List<Intersection> persistedIntersections = IntersectionDBAO.listIntersections();
+		
 		setLayout(null);
 		
 		// Refresh the object so that it is up to date in the database
@@ -90,8 +96,12 @@ public class AddUpdateClientPanel extends JPanel {
 				if(textField_3.getText() != null) {
 					client.setPhoneNumber(textField_3.getText());
 				}			
-				client.setLocation(new Intersection((String)comboBox.getSelectedItem()));
+				client.setLocation((Intersection) comboBox.getSelectedItem());
 				client.setIsActive(clientActiveCheckBox.isSelected());
+				if(isAdd)
+				{
+					ClientDBAO.addClient(client);
+				}
 				userTransaction.commit();
 				
 				currentFrame.getContentPane().removeAll();
@@ -113,24 +123,38 @@ public class AddUpdateClientPanel extends JPanel {
 		cancelButton.setBounds(385, 438, 89, 23);
 		add(cancelButton);
 		
-		textField = new JTextField();
+		String strName = "";
+		if(client.getName() != null)
+			strName = client.getName();
+		textField = new JTextField(strName);
 		textField.setBounds(266, 161, 232, 20);
 		add(textField);
 		textField.setColumns(10);
 		
-		textField_2 = new JTextField();
+		String strEmail = "";
+		if(client.getEmail() != null)
+			strEmail = client.getEmail();
+		textField_2 = new JTextField(strEmail);
 		textField_2.setColumns(10);
 		textField_2.setBounds(266, 233, 232, 20);
 		add(textField_2);
 		
-		textField_3 = new JTextField();
+		String strPhoneNumber = "";
+		if(client.getPhoneNumber() != null)
+			strPhoneNumber = client.getPhoneNumber();
+		textField_3 = new JTextField(strPhoneNumber);
 		textField_3.setColumns(10);
 		textField_3.setBounds(266, 268, 232, 20);
 		add(textField_3);
 		
-		comboBox = new JComboBox<String>(); // Occupied intersections probably shouldn't be assignable.
+		comboBox = new JComboBox(); // Occupied intersections probably shouldn't be assignable.
 		comboBox.setBounds(227, 336, 94, 20);
-		comboBox.addItem("A St. & 1st");
+		
+		DefaultListModel listModel = new DefaultListModel();
+		for(Intersection intersection: persistedIntersections)
+			comboBox.addItem(intersection);
+		
+/*		comboBox.addItem("A St. & 1st");
 		comboBox.addItem("A St. & 2nd");
 		comboBox.addItem("A St. & 3rd");
 		comboBox.addItem("A St. & 4th");
@@ -184,7 +208,7 @@ public class AddUpdateClientPanel extends JPanel {
 		comboBox.addItem("G St. & 4th");
 		comboBox.addItem("G St. & 5th");
 		comboBox.addItem("G St. & 6th");
-		comboBox.addItem("G St. & 7th");
+		comboBox.addItem("G St. & 7th"); */
 		add(comboBox);
 		
 		JLabel lblAcctGoes = new JLabel(Integer.valueOf(client.getAccountNumber()).toString());

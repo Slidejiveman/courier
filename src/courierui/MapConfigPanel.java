@@ -55,7 +55,7 @@ public class MapConfigPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		comboBox.setBounds(296, 122, 200, 20);
+		comboBox.setBounds(296, 122, 108, 20);
 		add(comboBox);
 		
 		textField = new JTextField();
@@ -63,7 +63,7 @@ public class MapConfigPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		textField.setBounds(296, 156, 200, 20);
+		textField.setBounds(296, 156, 108, 20);
 		add(textField);
 		textField.setColumns(10);
 		

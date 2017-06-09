@@ -15,7 +15,9 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import courierpd.core.Client;
+import courierpd.map.Intersection;
 import courierdm.ClientDBAO;
+import courierdm.IntersectionDBAO;
 
 public class ClientManagementPanel extends JPanel {
 
@@ -26,13 +28,17 @@ public class ClientManagementPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = -6553392431507855432L;
 	
-	List<Client> persistedClients = ClientDBAO.listClients();
+	JList<Client> list;
+	
 	
 	/**
 	 * Create the panel.
 	 */
 	public ClientManagementPanel(CourierMainFrame currentFrame) {
 		DefaultListModel listModel;
+		List<Client> persistedClients = ClientDBAO.listClients();
+		
+		
 		
 		setLayout(null);
 		
@@ -51,7 +57,7 @@ public class ClientManagementPanel extends JPanel {
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new AddUpdateClientPanel(currentFrame, new Client(), false));
+				currentFrame.getContentPane().add(new AddUpdateClientPanel(currentFrame, list.getSelectedValue(), false));
 				currentFrame.getContentPane().revalidate();
 			}
 		});
@@ -62,7 +68,7 @@ public class ClientManagementPanel extends JPanel {
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new ClientDeletePanel(currentFrame));
+				currentFrame.getContentPane().add(new ClientDeletePanel(currentFrame, list.getSelectedValue()));
 				currentFrame.getContentPane().revalidate();
 			}
 		});
@@ -93,7 +99,7 @@ public class ClientManagementPanel extends JPanel {
 		for(Client client: persistedClients)
 			listModel.addElement(client);
 				
-		JList<Client> list = new JList(listModel);
+		list = new JList(listModel);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) 
