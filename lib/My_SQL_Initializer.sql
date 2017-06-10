@@ -274,4 +274,14 @@ VALUES (0,'2017-06-07 10:45:00','2017-06-07 10:15:00','2017-06-07 10:30:00',
   '2017-06-07 11:00:00',6,'2017-06-07 10:50:00',22.00,'2017-06-07 10:15:00',
   1,1,'2017-06-07','2017-06-07 10:30:00','Go to the 2nd floor.',
   'Closed',3,1004,6,1005);
+
+INSERT INTO `business_parameters`(`business_parameters_id`, `avg_courier_speed`,
+  `billing_base`, `billing_Rate`, `bonus_payment_amount`, `bonus_window`,
+  `delivery_delay`, `pick_up_delay`)
+VALUES (0,5.0,10.0,2.0,1.5,5,10,10);
+
+UPDATE `sequence` 
+SET `SEQ_COUNT` = '1100'
+WHERE `sequence`.`SEQ_NAME` = 'SEQ_GEN';
+
 SET FOREIGN_KEY_CHECKS=1;
