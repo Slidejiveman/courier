@@ -36,8 +36,8 @@ public class InitApplication {
 		CourierEntityManager.initEM();
 		
 		// Call to the database reading and
-		// email sending test method.
-		test();
+		// email sending/receiving test method.
+		//test();
 
 		// Start the main application frame
 		CourierMainFrame.startGUI(args);
@@ -49,6 +49,7 @@ public class InitApplication {
 	 * References to this method should be commented out when not 
 	 * intentionally testing.
 	 */
+	@SuppressWarnings("unused")
     private static void test() {
     	// Test reading in the persisted data.
     	List<Client> persistedClients = ClientDBAO.listClients();
@@ -62,7 +63,13 @@ public class InitApplication {
 		EmailUtil.sendConfirmationMail(
 				"rdnotlaw91@gmail.com", "ryder.walton@eagles.oc.edu", // replace these two emails with client emails
 				"ubiquitymail@gmail.com", "smtp.gmail.com",
-	    		"ubiquitymail@gmail.com", "UbiquityM41l$", persistedTickets.get(0)
+	    		 persistedTickets.get(0)
 	    		);
+		
+		// Listen for email sent to "ubiquitymail@gmail.com". When "enter idle" appears in the
+		// console, Ubiquity is ready to receive email.
+		// Currently, the GUI application does not open while it also listens at the same time.
+		// TODO: allow for email listening and application GUI navigation simultaneously
+		EmailUtil.listenForIncomingEmail();
     }
 }
