@@ -57,8 +57,7 @@ public class Route {
      * The default no argument constructor.
      */
     public Route() {
-        // TODO - implement Route.Route
-        throw new UnsupportedOperationException();
+      
     }
 
     /**

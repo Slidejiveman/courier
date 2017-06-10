@@ -11,6 +11,7 @@ import courierpd.core.Client;
 import courierpd.core.DeliveryTicket;
 import courierpd.core.User;
 import courierpd.map.Intersection;
+import courierpd.map.PathAlgorithm;
 import courierui.CourierMainFrame;
 
 /**
@@ -38,7 +39,6 @@ public class InitApplication {
 		// In here, we can read something out of the database and then pass
 		// it on to the main frame here. There's an example in the League code.
 		CourierMainFrame.startGUI(args);
-
 	}
 
 }

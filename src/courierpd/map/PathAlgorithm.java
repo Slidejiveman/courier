@@ -1,7 +1,6 @@
 package courierpd.map;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 import courierdm.IntersectionDBAO;
 import courierpd.core.DeliveryTicket;
@@ -24,13 +23,13 @@ public class PathAlgorithm {
      *     which will determine which paths will be included into the 
      *     route as the client locations are the delivery stops.
      */
-	private static Set<Intersection> shortestPathSet;
-	private static Set<Intersection> allNodes;
+	private static ArrayList<Intersection> shortestPathSet = new ArrayList<Intersection>();
+	private static ArrayList<Intersection> allNodes = new ArrayList<Intersection>();
 	private static  Intersection currentNode = new Intersection();
-    public static Route findShortestPath(CityMap currentMap, DeliveryTicket currentOrder) {
+    public static Route findShortestPath(DeliveryTicket currentOrder) {
         Route shortestRoute = new Route();
-        Office office = new Office();
-        Intersection officeLocation = office.getLocation();
+       
+        Intersection officeLocation=null;
         Intersection pickupLocation = currentOrder.getPickUpClient().getLocation();
         Intersection deliveryLocation = currentOrder.getDeliveryClient().getLocation();
         
@@ -38,18 +37,33 @@ public class PathAlgorithm {
         for(Intersection intersection: IntersectionDBAO.listIntersections()){
         	allNodes.add(intersection);
         }
-        getShortestPathGivenFromToCoords(officeLocation,pickupLocation, currentOrder,currentMap);
-        getShortestPathGivenFromToCoords(pickupLocation,deliveryLocation, currentOrder,currentMap);
-        getShortestPathGivenFromToCoords(deliveryLocation,officeLocation, currentOrder,currentMap);
+        
+        //get the office Intersection
+        for(Intersection i: allNodes){
+        	if(i.getXCoord()==3&&i.getYCoord()==3){
+        		officeLocation = i;
+        	}
+        }
+        System.out.println("From Office To Pickup");
+        getShortestPathGivenFromToCoords(officeLocation,pickupLocation, currentOrder);
+        reset();
+
+        System.out.println("From Pickup To Delivery");
+        getShortestPathGivenFromToCoords(pickupLocation,deliveryLocation, currentOrder);
+        reset();
+
+        System.out.println("From Delivery To Office");
+        getShortestPathGivenFromToCoords(deliveryLocation,officeLocation, currentOrder);
+        reset();
 
         return shortestRoute;
     }
 
 	private static void getShortestPathGivenFromToCoords(Intersection fromLocation, Intersection toLocation,
-			DeliveryTicket currentOrder, CityMap currentMap) {
+			DeliveryTicket currentOrder) {
 		Integer edgeLength = 1; //one edge = 1 block.
 			
-		//for each intersection on the map, set their value to zero
+		//for each intersection on the map, set their value to MAX VALUE
 		for(Intersection intersection: IntersectionDBAO.listIntersections()){
 			if(!intersection.equals(fromLocation)){
 				intersection.setNodeValue(Integer.MAX_VALUE);
@@ -57,7 +71,8 @@ public class PathAlgorithm {
 		}
 		//set the node value of the from intersection to 0
 		fromLocation.setNodeValue(0);
-		currentNode = pickNodeToEvaluate();
+		
+		currentNode = pickNodeToEvaluate(getIntersectionsNotInThePathSet());
 		while(!currentNode.equals(toLocation)){
 			shortestPathSet.add(currentNode);//adding the current node to the shortest path
 			ArrayList<Intersection>adjacentNodes = new ArrayList<Intersection>();
@@ -69,19 +84,43 @@ public class PathAlgorithm {
 					}
 				}
 			}
-			currentNode = pickNodeToEvaluate();
+			
+			currentNode = pickNodeToEvaluate(getIntersectionsNotInThePathSet());
+		}
+		
+		//Printing the intersections in the shortestPath set
+		for(Intersection i: shortestPathSet){
+			System.out.println("("+i.getXCoord()+","+i.getYCoord()+")");
 		}
 	
 	}
-	public static Intersection pickNodeToEvaluate(){
-		Intersection lightNode=(Intersection) allNodes.toArray()[0];
-		for(Intersection i: allNodes){
+	@SuppressWarnings("null")
+	public static Intersection pickNodeToEvaluate(ArrayList<Intersection> intersectionsNotInPathSet){
+		Intersection lightNode=(Intersection) intersectionsNotInPathSet.toArray()[0];
+		for(Intersection i: intersectionsNotInPathSet){
 			if(i.getNodeValue()<lightNode.getNodeValue()){
 				lightNode = i;
 			}
 		}
-		return lightNode;
+		//Integer smallestNodeValue = lightNode.getNodeValue(); // get the lightest node value
+		//Set<Intersection> nodesWithEqualVal = null;
 		
+		/*
+		//If there are several nodes with equal node value, look ahead and find the 
+		//path with smallest next move
+		
+		for(Intersection i: getIntersectionsNotInThePathSet()){
+			if(i.getNodeValue()==smallestNodeValue){
+				nodesWithEqualVal.add(i);
+			}
+		}
+		if(nodesWithEqualVal.size()>1){
+			
+			return null;
+		}else{
+			return lightNode;
+		}*/
+		return lightNode;
 	}
 	public static void getAdjacentIntersections(ArrayList<Intersection> adjNodes, Intersection currentNode){
 		for(Intersection i: allNodes){
@@ -89,6 +128,24 @@ public class PathAlgorithm {
 					||Math.abs(i.getYCoord()-currentNode.getYCoord())==1){
 				adjNodes.add(i);
 			}
+		}
+	}
+	@SuppressWarnings("null")
+	public static ArrayList<Intersection> getIntersectionsNotInThePathSet(){
+		ArrayList<Intersection> intersections= new ArrayList<Intersection>();
+		for(Intersection i: allNodes){
+			if(!shortestPathSet.contains(i)){
+				intersections.add(i);
+			}
+		}
+		return intersections;
+	}
+	public static void reset(){
+		for(Intersection i: allNodes){
+			i.setNodeValue(Integer.MAX_VALUE);
+		}
+		for(int i=0;i<shortestPathSet.size();i++){
+			shortestPathSet.remove(i);
 		}
 	}
 

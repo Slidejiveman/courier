@@ -19,6 +19,7 @@ import courierpd.core.OrderTaker;
 import courierpd.core.User;
 import courierpd.enums.EmployeeRole;
 import courierpd.enums.TicketStatus;
+import courierpd.map.PathAlgorithm;
 
 import javax.swing.JRadioButton;
 import javax.swing.JCheckBox;
@@ -297,6 +298,7 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 		
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
+			@SuppressWarnings("static-access")
 			public void actionPerformed(ActionEvent e) {
 				
 				EntityTransaction userTransaction = CourierEntityManager.getEntityManager().getTransaction();
@@ -329,6 +331,9 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 				}
 				DeliveryTicketDBAO.saveDeliveryTicket(deliveryTicket);
 				userTransaction.commit();
+				
+				PathAlgorithm pathAlgo = new PathAlgorithm();
+				pathAlgo.findShortestPath(deliveryTicket);
 				
 				currentFrame.getContentPane().removeAll();
 				currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame));
