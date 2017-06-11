@@ -27,13 +27,19 @@ import courierpd.core.User;
 
 /**
  * A static class used to interact with the mail server. 
- * This provides utilities to parse emails from couriers 
- * as well as send confirmation emails out to clients 
+ * This provides utilities to parse email from couriers 
+ * as well as send confirmation email out to clients 
  * when a delivery has been reported as complete.
  */
 public class EmailUtil {
 	
+	/**
+	 * The Gmail username of the Ubiquity system.
+	 */
 	private static final String userName = "ubiquitymail@gmail.com";
+	/**
+	 * Ubiquity's Gmail password
+	 */
 	private static final String password = "UbiquityM41l$";
 	
 	
@@ -41,8 +47,7 @@ public class EmailUtil {
      * Parses an email received from a valid courier.
      */
     public static void parseMailAndUpdateTicket(Message message) {
-        //TODO: Add database persistence and send out email to the clients if
-    	// this is a delivery report.
+        
     	DeliveryTicket ticketToUpdate = null;
     	try {
 	    	String[] subjectLine = message.getSubject().trim().split(" ");
@@ -61,7 +66,7 @@ public class EmailUtil {
 				ticketToUpdate.setActualDeliveryTime(message.getReceivedDate());
 				System.out.println("Actual Delivery Time: " + ticketToUpdate.getActualDeliveryTime().toString());
 				sendConfirmationMail(ticketToUpdate.getDeliveryClient().getEmail(), 
-						ticketToUpdate.getPickUpClient().getEmail(), // string emails will be made into Addresses
+						ticketToUpdate.getPickUpClient().getEmail(), // string email will be made into Addresses
 						"ubiquitymail@gmail.com", "smtp.gmail.com",
 			    		 ticketToUpdate);
 			} else {
@@ -254,7 +259,7 @@ public class EmailUtil {
     		}
     		
     	}
-    	System.out.println("Was a valid Courier found?: " + retval);
+    	System.out.println("A valid Courier was found. : " + retval);
         return retval;
     }
 
@@ -380,14 +385,14 @@ public class EmailUtil {
     			store.connect(userName, password);
     		}
     	} else {
-    		throw new MessagingException("Unable to open an null folder");
+    		throw new MessagingException("I AM ERROR: Unable to open an null folder");
     	}
     	
     	if (folder.exists() && !folder.isOpen() && (folder.getType() & Folder.HOLDS_MESSAGES) != 0) {
     		System.out.println("open folder " + folder.getFullName());
     		folder.open(Folder.READ_ONLY);
     		if (!folder.isOpen()) {
-    			throw new MessagingException("Unable to open folder " + folder.getFullName());
+    			throw new MessagingException("I AM ERROR: Unable to open folder " + folder.getFullName());
     		}
     	}
     }
