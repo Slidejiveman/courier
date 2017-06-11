@@ -1,5 +1,6 @@
 package courieremail;
 
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Address;
@@ -19,8 +20,10 @@ import javax.swing.JOptionPane;
 import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.imap.IMAPStore;
 
-import courierpd.core.Courier;
+import courierdm.DeliveryTicketDBAO;
+import courierdm.EmployeeDBAO;
 import courierpd.core.DeliveryTicket;
+import courierpd.core.User;
 
 /**
  * A static class used to interact with the mail server. 
@@ -37,9 +40,36 @@ public class EmailUtil {
     /**
      * Parses an email received from a valid courier.
      */
-    public static void parseMail() {
-        // TODO - implement EmailUtil.parseMail
-        throw new UnsupportedOperationException();
+    public static void parseMailAndUpdateTicket(Message message) {
+        //TODO: Add database persistence and send out email to the clients if
+    	// this is a delivery report.
+    	DeliveryTicket ticketToUpdate = null;
+    	try {
+	    	String[] subjectLine = message.getSubject().trim().split(" ");
+			if (subjectLine[1].toLowerCase().equals("pickup")) {
+				// Find the delivery ticket with packageID subjectLine[0]
+				// and update it's Actual Pickup time.
+				// make sure to use a transaction to save it, etc.
+				ticketToUpdate = DeliveryTicketDBAO.findDeliveryTicketById(Integer.parseInt(subjectLine[0]));
+				ticketToUpdate.setActualPickUpTime(message.getReceivedDate());
+				System.out.println("Actual Pickup Time: " + ticketToUpdate.getActualPickUpTime().toString());
+			} else if (subjectLine[1].toLowerCase().equals("delivery")) {
+				// Find the delivery ticket with packageID subjectLine[0]
+				// and update it's Actual Delivery time.
+				// make sure to use a transaction to save it, etc.
+				ticketToUpdate = DeliveryTicketDBAO.findDeliveryTicketById(Integer.parseInt(subjectLine[0]));
+				ticketToUpdate.setActualDeliveryTime(message.getReceivedDate());
+				System.out.println("Actual Delivery Time: " + ticketToUpdate.getActualDeliveryTime().toString());
+				sendConfirmationMail(ticketToUpdate.getDeliveryClient().getEmail(), 
+						ticketToUpdate.getPickUpClient().getEmail(), // string emails will be made into Addresses
+						"ubiquitymail@gmail.com", "smtp.gmail.com",
+			    		 ticketToUpdate);
+			} else {
+				System.err.println("I AM ERROR: The message subject was poorly formed.");
+			}
+    	} catch (MessagingException mex) {
+    		System.err.println("I AM ERROR: Something went wrong with message parsing.");
+    	}
     }
     
     /**
@@ -90,8 +120,12 @@ public class EmailUtil {
     				Message[] messages = event.getMessages();
     				
     				for (Message message : messages) {
-    					try {
-    						System.out.println("Mail Subject:- " + message.getSubject());
+    					try { // parse the incoming email and update delivery ticket
+    						  // if the email is from a valid courier.
+    						System.out.println("Mail Subject:- " + message.getSubject() + "\t" + message.getFrom().toString());
+    						if (isValidSender(message.getFrom())) {
+    						    parseMailAndUpdateTicket(message); // If the parse succeeds, it will update the appropriate ticket.
+    						}
     					} catch (MessagingException mex) {
     						mex.printStackTrace();
     					}
@@ -116,7 +150,7 @@ public class EmailUtil {
     }
 
     /**
-     * Sends confirmation emails out to the clients of a given delivery 
+     * Sends confirmation emails out to the two clients of a given delivery 
      * ticket once the delivery time has been set.
      * 
      * @param to1 - a Client email for a Client to be notified
@@ -192,17 +226,6 @@ public class EmailUtil {
     }
 
     /**
-     * Writes the time reported to a courier onto the delivery ticket. 
-     * This is done after parsing the email from the courier to know 
-     * which one of the delivery ticket fields needs to be updated with the new time.
-     * @param currentOrder The delivery ticket to update with the new time information.
-     */
-    public static void updateDeliveryTicket(DeliveryTicket currentOrder) {
-        // TODO - implement EmailUtil.updateDeliveryTicket
-        throw new UnsupportedOperationException();
-    }
-
-    /**
      * Determines that the email originated from a valid courier. 
      * If the email did not originate from a valid courier, then it is ignored. 
      * Valid courier emails are required in order to update the delivery ticket via email.
@@ -210,9 +233,29 @@ public class EmailUtil {
      *        A courier knows its own email, so the email field is 
      *        validated against the sender field in received email messages.
      */
-    public static void validateSender(Courier courier) {
-        // TODO - implement EmailUtil.validateSender
-        throw new UnsupportedOperationException();
+    public static boolean isValidSender(Address[] senders) {
+        
+    	List<User> users = EmployeeDBAO.listUsers();
+    	boolean retval = false;
+    	Address userAddress = null;
+    	
+    	for (User user : users) {
+			try {
+				userAddress = new InternetAddress(user.getEmail(), user.getName());
+			} catch (Exception e) {
+				System.err.println("I AM ERROR: Database held email address could not be made into an address.");
+				System.err.println("Or the name of the user could not be encoded into an address.");
+				e.printStackTrace();
+			}
+    		for (Address sender : senders) {
+	    		if (user.getEmployeeRole().equals(courierpd.enums.EmployeeRole.Courier) && userAddress.equals(sender)) {
+	    			retval = true; // We have a Courier with a valid email that is one of the senders.
+	    		}
+    		}
+    		
+    	}
+    	System.out.println("Was a valid Courier found?: " + retval);
+        return retval;
     }
 
     

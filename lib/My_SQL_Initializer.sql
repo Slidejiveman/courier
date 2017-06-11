@@ -10,10 +10,10 @@ INSERT INTO `client`(`client_id`, `client_email`, `client_is_active`,
 VALUES (1003,'paynenfears@gmail.com',1,'Payne & Fears','5555555557',12);
 INSERT INTO `client`(`client_id`, `client_email`, `client_is_active`,
                      `client_name`, `client_phone_number`, `client_location_id`)
-VALUES (1004,'dhnh@gmail.com',1,'Dewey, Cheatum, & Howe','5555555558',16);
+VALUES (1004,'deweycheatumnhowe1@gmail.com',1,'Dewey, Cheatum, & Howe','5555555558',16);
 INSERT INTO `client`(`client_id`, `client_email`, `client_is_active`,
                      `client_name`, `client_phone_number`, `client_location_id`)
-VALUES (1005,'lbnl@gmail.com',1,'Low, Ball, & Lynch','5555555559',18);
+VALUES (1005,'lowballlynch@gmail.com',1,'Low, Ball, & Lynch','5555555559',18);
 INSERT INTO `client`(`client_id`, `client_email`, `client_is_active`,
                      `client_name`, `client_phone_number`, `client_location_id`)
 VALUES (1006,'arguenphibbs@gmail.com',1,'Argue & Phibbs','5555555560',20);
@@ -246,7 +246,7 @@ VALUES (2,'Courier','peterpumpkin@gmail.com',1,'Peter Pumpkin','courier2',
 INSERT INTO `employee`(`employee_id`, `employee_role`, `employee_email`,
   `employee_is_active`, `employee_name`, `employee_password`, `employee_shift`,
   `employee_username`)
-VALUES (3,'Courier','jackcandle@gmail.com',1,'Jack Candle','courier3',
+VALUES (3,'Courier','jackcandle79@gmail.com',1,'Jack Candle','courier3',
   2,'courier3');
 INSERT INTO `employee`(`employee_id`, `employee_role`, `employee_email`,
   `employee_is_active`, `employee_name`, `employee_password`, `employee_shift`,
@@ -280,7 +280,7 @@ INSERT INTO `business_parameters`(`business_parameters_id`, `avg_courier_speed`,
   `delivery_delay`, `pick_up_delay`)
 VALUES (0,5.0,10.0,2.0,1.5,5,10,10);
 
-UPDATE `sequence` 
+UPDATE `sequence`
 SET `SEQ_COUNT` = '1100'
 WHERE `sequence`.`SEQ_NAME` = 'SEQ_GEN';
 

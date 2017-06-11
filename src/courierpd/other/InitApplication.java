@@ -14,7 +14,6 @@ import courierpd.core.Client;
 import courierpd.core.DeliveryTicket;
 import courierpd.core.User;
 import courierpd.map.Intersection;
-import courierpd.map.PathAlgorithm;
 import courierui.CourierMainFrame;
 
 /**
@@ -37,8 +36,12 @@ public class InitApplication {
 		
 		// Call to the database reading and
 		// email sending/receiving test method.
-		test();
+		//test();
 
+		// Listen for email sent to "ubiquitymail@gmail.com". When "enter idle" appears in the
+		// console, Ubiquity is ready to receive email.
+		EmailUtil.listenForIncomingEmail();
+		
 		// Start the main application frame
 		CourierMainFrame.startGUI(args);
 	}
