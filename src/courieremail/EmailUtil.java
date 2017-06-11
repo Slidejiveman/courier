@@ -15,11 +15,13 @@ import javax.mail.event.MessageCountEvent;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.persistence.EntityTransaction;
 import javax.swing.JOptionPane;
 
 import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.imap.IMAPStore;
 
+import courierdm.CourierEntityManager;
 import courierdm.DeliveryTicketDBAO;
 import courierdm.EmployeeDBAO;
 import courierpd.core.DeliveryTicket;
@@ -47,7 +49,7 @@ public class EmailUtil {
      * Parses an email received from a valid courier.
      */
     public static void parseMailAndUpdateTicket(Message message) {
-        
+        //TODO: I need to persist the update of the delivery ticket. Doesn't seem to work yet.
     	DeliveryTicket ticketToUpdate = null;
     	try {
 	    	String[] subjectLine = message.getSubject().trim().split(" ");
@@ -56,14 +58,20 @@ public class EmailUtil {
 				// and update it's Actual Pickup time.
 				// make sure to use a transaction to save it, etc.
 				ticketToUpdate = DeliveryTicketDBAO.findDeliveryTicketById(Integer.parseInt(subjectLine[0]));
-				ticketToUpdate.setActualPickUpTime(message.getReceivedDate());
+				EntityTransaction userTransactionPickup = CourierEntityManager.getEntityManager().getTransaction();
+				userTransactionPickup.begin();
+				ticketToUpdate.setActualPickUpTime(message.getReceivedDate());				
+				userTransactionPickup.commit();
 				System.out.println("Actual Pickup Time: " + ticketToUpdate.getActualPickUpTime().toString());
 			} else if (subjectLine[1].toLowerCase().equals("delivery")) {
 				// Find the delivery ticket with packageID subjectLine[0]
 				// and update it's Actual Delivery time.
 				// make sure to use a transaction to save it, etc.
 				ticketToUpdate = DeliveryTicketDBAO.findDeliveryTicketById(Integer.parseInt(subjectLine[0]));
+				EntityTransaction userTransactionDelivery = CourierEntityManager.getEntityManager().getTransaction();
+				userTransactionDelivery.begin();
 				ticketToUpdate.setActualDeliveryTime(message.getReceivedDate());
+				userTransactionDelivery.commit();
 				System.out.println("Actual Delivery Time: " + ticketToUpdate.getActualDeliveryTime().toString());
 				sendConfirmationMail(ticketToUpdate.getDeliveryClient().getEmail(), 
 						ticketToUpdate.getPickUpClient().getEmail(), // string email will be made into Addresses
