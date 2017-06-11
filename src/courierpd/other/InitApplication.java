@@ -37,7 +37,7 @@ public class InitApplication {
 		
 		// Call to the database reading and
 		// email sending/receiving test method.
-		//test();
+		test();
 
 		// Start the main application frame
 		CourierMainFrame.startGUI(args);
@@ -68,8 +68,6 @@ public class InitApplication {
 		
 		// Listen for email sent to "ubiquitymail@gmail.com". When "enter idle" appears in the
 		// console, Ubiquity is ready to receive email.
-		// Currently, the GUI application does not open while it also listens at the same time.
-		// TODO: allow for email listening and application GUI navigation simultaneously
 		EmailUtil.listenForIncomingEmail();
     }
 }

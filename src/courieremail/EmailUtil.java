@@ -100,12 +100,12 @@ public class EmailUtil {
     		});
     		
     		// Start the thread that will continuously be listening
-    		// for new emails.
+    		// for new emails. 
     		IdleThread idleThread = new IdleThread(inbox);
-    		idleThread.setDaemon(false);
+    		idleThread.setDaemon(true); // This Thread is a daemon, so it is helper processing and dies as soon as app does.
     		idleThread.start();
-    		idleThread.join();
-    		//idleThread.kill(); // example of how to stop this thread from another
+    		//idleThread.join(); // join causes the next thread to wait until this is finished to start.
+    		//idleThread.kill(); // example of how to stop this thread from another thread
     		
     	} catch(Exception ex) {
     		ex.printStackTrace();
