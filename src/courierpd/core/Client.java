@@ -9,8 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 import courierpd.map.Intersection;
 
@@ -64,8 +64,8 @@ public class Client implements Serializable{
     /**
      * The intersection at which the client's office building is located.
      */
-    @OneToOne(optional = false)
-    @JoinColumn(name = "client_location_id", nullable = false, referencedColumnName = "intersection_id")
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "client_location_id", nullable = true, referencedColumnName = "intersection_id")
     private Intersection location;
 
     @OneToMany(targetEntity = DeliveryTicket.class, mappedBy = "pickUpClient")

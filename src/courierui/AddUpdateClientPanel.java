@@ -149,6 +149,9 @@ public class AddUpdateClientPanel extends JPanel {
 		
 		comboBox = new JComboBox(); // Occupied intersections probably shouldn't be assignable.
 		comboBox.setBounds(227, 336, 94, 20);
+		if (!isAdd) {
+			comboBox.getModel().setSelectedItem(client.getLocation());
+		}
 		
 		DefaultListModel listModel = new DefaultListModel();
 		for(Intersection intersection: persistedIntersections)

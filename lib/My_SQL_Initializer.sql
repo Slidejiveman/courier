@@ -32,200 +32,200 @@ VALUES (1010,'sliddygates@gmail.com',1,'Susan Liddy-Gates','5555555564',38);
 
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (0,null,null,1,'A St. & 1st',0,0,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (0,null,null,1,'A St. & 1st',0,0);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (1,null,null,1,'B St. & 1st',1,0,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (1,null,null,1,'B St. & 1st',1,0);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (2,null,null,1,'C St. & 1st',2,0,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (2,null,null,1,'C St. & 1st',2,0);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (3,null,null,1,'D St. & 1st',3,0,1001);
+  `x_coordinate`, `y_coordinate`)
+VALUES (3,null,null,1,'D St. & 1st',3,0);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (4,null,null,1,'E St. & 1st',4,0,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (4,null,null,1,'E St. & 1st',4,0);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (5,null,null,1,'F St. & 1st',5,0,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (5,null,null,1,'F St. & 1st',5,0);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (6,null,null,1,'G St. & 1st',6,0,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (6,null,null,1,'G St. & 1st',6,0);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (7,null,null,1,'A St. & 2nd',0,1,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (7,null,null,1,'A St. & 2nd',0,1);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (8,null,null,1,'B St. & 2nd',1,1,1002);
+  `x_coordinate`, `y_coordinate`)
+VALUES (8,null,null,1,'B St. & 2nd',1,1);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (9,null,null,1,'C St. & 2nd',2,1,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (9,null,null,1,'C St. & 2nd',2,1);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (10,null,null,1,'D St. & 2nd',3,1,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (10,null,null,1,'D St. & 2nd',3,1);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (11,null,null,1,'E St. & 2nd',4,1,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (11,null,null,1,'E St. & 2nd',4,1);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (12,null,null,1,'F St. & 2nd',5,1,1003);
+  `x_coordinate`, `y_coordinate`)
+VALUES (12,null,null,1,'F St. & 2nd',5,1);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (13,null,null,1,'G St. & 2nd',6,1,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (13,null,null,1,'G St. & 2nd',6,1);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (14,null,null,1,'A St. & 3rd',0,2,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (14,null,null,1,'A St. & 3rd',0,2);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (15,null,null,1,'B St. & 3rd',1,2,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (15,null,null,1,'B St. & 3rd',1,2);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (16,null,null,1,'C St. & 3rd',2,2,1004);
+  `x_coordinate`, `y_coordinate`)
+VALUES (16,null,null,1,'C St. & 3rd',2,2);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (17,null,null,1,'D St. & 3rd',3,2,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (17,null,null,1,'D St. & 3rd',3,2);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (18,null,null,1,'E St. & 3rd',4,2,1005);
+  `x_coordinate`, `y_coordinate`)
+VALUES (18,null,null,1,'E St. & 3rd',4,2);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (19,null,null,1,'F St. & 3rd',5,2,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (19,null,null,1,'F St. & 3rd',5,2);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (20,null,null,1,'G St. & 3rd',6,2,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (20,null,null,1,'G St. & 3rd',6,2);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (21,null,null,1,'A St. & 4th',0,3,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (21,null,null,1,'A St. & 4th',0,3);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (22,null,null,1,'B St. & 4th',1,3,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (22,null,null,1,'B St. & 4th',1,3);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (23,null,null,1,'C St. & 4th',2,3,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (23,null,null,1,'C St. & 4th',2,3);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (24,null,null,1,'D St. & 4th',3,3,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (24,null,null,1,'D St. & 4th',3,3);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (25,null,null,1,'E St. & 4th',4,3,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (25,null,null,1,'E St. & 4th',4,3);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (26,null,null,1,'F St. & 4th',5,3,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (26,null,null,1,'F St. & 4th',5,3);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (27,null,null,1,'G St. & 4th',6,3,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (27,null,null,1,'G St. & 4th',6,3);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (28,null,null,1,'A St. & 5th',0,4,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (28,null,null,1,'A St. & 5th',0,4);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (29,null,null,1,'B St. & 5th',1,4,1006);
+  `x_coordinate`, `y_coordinate`)
+VALUES (29,null,null,1,'B St. & 5th',1,4);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (30,null,null,1,'C St. & 5th',2,4,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (30,null,null,1,'C St. & 5th',2,4);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (31,null,null,1,'D St. & 5th',3,4,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (31,null,null,1,'D St. & 5th',3,4);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (32,null,null,1,'E St. & 5th',4,4,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (32,null,null,1,'E St. & 5th',4,4);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (33,null,null,1,'F St. & 5th',5,4,1007);
+  `x_coordinate`, `y_coordinate`)
+VALUES (33,null,null,1,'F St. & 5th',5,4);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (34,null,null,1,'G St. & 5th',6,4,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (34,null,null,1,'G St. & 5th',6,4);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (35,null,null,1,'A St. & 6th',0,5,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (35,null,null,1,'A St. & 6th',0,5);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (36,null,null,1,'B St. & 6th',1,5,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (36,null,null,1,'B St. & 6th',1,5);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (37,null,null,1,'C St. & 6th',2,5,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (37,null,null,1,'C St. & 6th',2,5);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (38,null,null,1,'D St. & 6th',3,5,1010);
+  `x_coordinate`, `y_coordinate`)
+VALUES (38,null,null,1,'D St. & 6th',3,5);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (39,null,null,1,'E St. & 6th',4,5,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (39,null,null,1,'E St. & 6th',4,5);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (40,null,null,1,'F St. & 6th',5,5,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (40,null,null,1,'F St. & 6th',5,5);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (41,null,null,1,'G St. & 6th',6,5,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (41,null,null,1,'G St. & 6th',6,5);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (42,null,null,1,'A St. & 7th',0,6,1008);
+  `x_coordinate`, `y_coordinate`)
+VALUES (42,null,null,1,'A St. & 7th',0,6);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (43,null,null,1,'B St. & 7th',1,6,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (43,null,null,1,'B St. & 7th',1,6);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (44,null,null,1,'C St. & 7th',2,6,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (44,null,null,1,'C St. & 7th',2,6);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (45,null,null,1,'D St. & 7th',3,6,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (45,null,null,1,'D St. & 7th',3,6);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (46,null,null,1,'E St. & 7th',4,6,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (46,null,null,1,'E St. & 7th',4,6);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (47,null,null,1,'F St. & 7th',5,6,null);
+  `x_coordinate`, `y_coordinate`)
+VALUES (47,null,null,1,'F St. & 7th',5,6);
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
-  `x_coordinate`, `y_coordinate`, `client_at_intersection`)
-VALUES (48,null,null,0,'G St. & 7th',6,6,1009);
+  `x_coordinate`, `y_coordinate`)
+VALUES (48,null,null,0,'G St. & 7th',6,6);
 
 
 INSERT INTO `employee`(`employee_id`, `employee_role`, `employee_email`,
