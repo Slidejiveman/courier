@@ -106,7 +106,7 @@ public class EmployeeManagementPanel<Employee> extends JPanel {
 		add(lblEmployeeList);
 		
 		JLabel lblIdNumber = new JLabel("ID Number");
-		lblIdNumber.setBounds(329, 79, 56, 16);
+		lblIdNumber.setBounds(329, 79, 73, 16);
 		add(lblIdNumber);
 		
 		JLabel lblName = new JLabel("Name");
