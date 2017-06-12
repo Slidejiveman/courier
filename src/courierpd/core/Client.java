@@ -181,7 +181,7 @@ public class Client implements Serializable{
 	}
     @Override
     public String toString(){
-    	return this.name;
+    	return this.accountNumber + "\t" + this.name + "\t" + this.phoneNumber + "\t" + this.email;
     }
 
 	/*@Override

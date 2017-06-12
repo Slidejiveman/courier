@@ -58,6 +58,7 @@ public class ClientDeletePanel extends JPanel {
 				try{
 					EntityTransaction userTransaction = CourierEntityManager.getEntityManager().getTransaction();
 					userTransaction.begin();
+					
 					ClientDBAO.removeClient(client);
 					userTransaction.commit();
 				} catch(Exception e)

@@ -49,7 +49,6 @@ public class ClientManagementPanel extends JPanel {
 		list.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) 
 			{
-				Client client = (Client)list.getSelectedValue();
 				btnDelete.setEnabled(true);
 					 		
 				btnUpdate.setEnabled(true);
