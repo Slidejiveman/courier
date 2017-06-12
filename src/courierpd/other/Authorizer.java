@@ -63,8 +63,7 @@ public class Authorizer {
      * The default constructor.
      */
     public Authorizer() {
-        // TODO - implement Authorizer.Authorizer
-        throw new UnsupportedOperationException();
+        
     }
 
     /**
