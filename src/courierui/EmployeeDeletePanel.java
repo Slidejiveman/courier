@@ -7,8 +7,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import courierdm.CourierEntityManager;
+import courierdm.DeliveryTicketDBAO;
 import courierdm.EmployeeDBAO;
 import courierpd.core.User;
+
+import javax.persistence.EntityTransaction;
 import javax.swing.DefaultListModel;
 
 public class EmployeeDeletePanel extends JPanel {
@@ -59,9 +63,14 @@ public class EmployeeDeletePanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				// EmployeeDBAO.removeEmployee(employee);
-				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new EmployeeManagementPanel(currentFrame));
-				currentFrame.getContentPane().revalidate();
+				
+				//EntityTransaction userTransaction = CourierEntityManager.getEntityManager().getTransaction();
+				//userTransaction.begin();
+				//EmployeeDBAO.deleteUser(employee);
+				//userTransaction.commit();
+				//currentFrame.getContentPane().removeAll();
+				//currentFrame.getContentPane().add(new EmployeeManagementPanel(currentFrame));
+				//currentFrame.getContentPane().revalidate();
 			}
 		});
 		btnDelete.setBounds(223, 401, 124, 49);

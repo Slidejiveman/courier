@@ -8,8 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
+import courierpd.core.User;
 import courierpd.map.CityMap;
 
 @SuppressWarnings("unused")
@@ -23,6 +23,7 @@ public class CourierMainFrame extends JFrame {
 	private static final long serialVersionUID = -2964820041018829006L;
 	
 	private JPanel contentPane; 
+	private User authorizedUser = null;
 
 	/**
 	 * 
@@ -54,8 +55,10 @@ public class CourierMainFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1017, 602);
 		
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
+		JMenuBar menuBar = null;
+		menuBar = new JMenuBar();
+		//if (authorizedUser != null)
+			setJMenuBar(menuBar);	
 		
 		JMenuItem mntmDeliveryTickets = new JMenuItem("Delivery Tickets");
 		mntmDeliveryTickets.addActionListener(new ActionListener() {
@@ -127,10 +130,10 @@ public class CourierMainFrame extends JFrame {
 		JMenuItem mntmLogout = new JMenuItem("Logout");
 		mntmLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				getContentPane().removeAll();
-				// In the add, place the constructor for your panel
-				//getContentPane().add();
-				getContentPane().revalidate();
+					
+				currentFrame.getContentPane().removeAll();
+		    	currentFrame.getContentPane().add(new Login(currentFrame));
+		    	currentFrame.getContentPane().revalidate();
 			}
 		});
 		menuBar.add(mntmLogout);
@@ -138,10 +141,18 @@ public class CourierMainFrame extends JFrame {
 		// The default panel to display should be added here.
 		// This will eventually be the login screen.
 		currentFrame.getContentPane().removeAll();
-		//currentFrame.getContentPane().add();
-		currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame));
+		currentFrame.getContentPane().add(new Login(currentFrame));
 		currentFrame.getContentPane().revalidate();
 		
 	}
 
+	public User getAuthorizedUser() {
+		return authorizedUser;
+	}
+
+	public void setAuthorizedUser(User authorizedUser) {
+		this.authorizedUser = authorizedUser;
+	}
+    
+	
 }

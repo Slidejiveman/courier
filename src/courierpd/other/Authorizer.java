@@ -2,6 +2,9 @@ package courierpd.other;
 
 import java.util.*;
 
+import javax.swing.JOptionPane;
+
+import courierdm.EmployeeDBAO;
 import courierpd.core.User;
 
 /**
@@ -18,7 +21,7 @@ public class Authorizer {
      * The entered login credentials of a user are compared with the credentials the 
      * Authorizer has to grant access into the system.
      */
-    private Collection<User> authorizedUsers;
+    private List<User> authorizedUsers;
     /**
      * The message string that displays onscreen if invalid credentials are 
      * entered at the login window.
@@ -38,9 +41,20 @@ public class Authorizer {
      * invalid message string is updated to indicate to the user that 
      * the credentials were not authenticated.
      */
-    public void validateLoginCredentials() {
-        // TODO - implement Authorizer.validateLoginCredentials
-        throw new UnsupportedOperationException();
+    public void validateLoginCredentials(String userName,String passWord) {
+        
+    	for (User user : authorizedUsers) {
+    		if (user.getUsername().equals(userName)){
+    		   if (user.getPassword().equals(passWord)) {
+    			   activeUser = user;
+    		   }  
+    		}
+    	}
+    	if (activeUser == null) {
+    		
+	    JOptionPane.showMessageDialog(null, 
+    			getInvalidMsg(), "Login Failed", JOptionPane.ERROR_MESSAGE);
+    	}
     }
 
     /**
@@ -62,8 +76,10 @@ public class Authorizer {
     /**
      * The default constructor.
      */
-    public Authorizer() {
-        
+    public Authorizer(String userName,String passWord) {
+    	authorizedUsers = EmployeeDBAO.listUsers();   
+    	validateLoginCredentials(userName, passWord);
+    
     }
 
     /**

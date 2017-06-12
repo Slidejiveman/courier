@@ -5,18 +5,23 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+
+import courierpd.core.User;
+import courierpd.other.Authorizer;
+
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class Login extends JPanel {
+	private User activeUser = null;
 	private JTextField textField;
 	private JTextField textField_1;
 
 	/**
 	 * Create the panel.
 	 */
-	public Login() {
+	public Login(CourierMainFrame currentFrame) {
 		setLayout(null);
 		
 		JLabel lblUsername = new JLabel("Username");
@@ -46,8 +51,17 @@ public class Login extends JPanel {
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Authorizer a = new Authorizer (textField.getText(),textField_1.getText());
+			    activeUser = a.getActiveUser();
+			    currentFrame.setAuthorizedUser(activeUser); // the valid user or null if bad credentials
+			    if (activeUser!= null) {			    	
+			    	currentFrame.getContentPane().removeAll();
+			    	currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame));
+			    	currentFrame.getContentPane().revalidate();
+			    }
 			}
 		});
+		//
 		btnLogin.setBounds(368, 323, 89, 23);
 		add(btnLogin);
 
