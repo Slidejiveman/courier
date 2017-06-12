@@ -199,7 +199,6 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 		JLabel lblOrderInfo = new JLabel("Order Info");
 		lblOrderInfo.setBounds(420, 11, 86, 14);
 		OrderInfopanel.add(lblOrderInfo);
-		
 	
 		JLabel lblOrderTaker = new JLabel("Order Taker: ");
 		lblOrderTaker.setBounds(75, 38, 120, 14);

@@ -162,6 +162,5 @@ public class AddUpdateClientPanel extends JPanel {
 		JLabel lblAcctGoes = new JLabel(Integer.valueOf(client.getAccountNumber()).toString());
 		lblAcctGoes.setBounds(266, 200, 232, 14);
 		add(lblAcctGoes);
-
 	}
 }
