@@ -20,6 +20,7 @@ import courierpd.core.User;
 import courierpd.enums.EmployeeRole;
 import courierpd.enums.TicketStatus;
 import courierpd.map.PathAlgorithm;
+import courierpd.map.Route;
 
 import javax.swing.JRadioButton;
 import javax.swing.JCheckBox;
@@ -333,7 +334,12 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 				userTransaction.commit();
 				
 				PathAlgorithm pathAlgo = new PathAlgorithm();
-				pathAlgo.findShortestPath(deliveryTicket);
+				Route deliveryRoute = pathAlgo.findShortestPath(deliveryTicket);
+				String translatedDirections = deliveryRoute.getTranslatedDirections();
+				System.out.println("The following are the delivery directions");
+				System.out.println("=========================================\n");
+				System.out.print(translatedDirections);
+				
 				
 				currentFrame.getContentPane().removeAll();
 				currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame));

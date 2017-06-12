@@ -33,7 +33,7 @@ public class Route {
      * streets made on the outset. Intersections function as nodes 
      * in the shortest path algorithm.
      */
-    private Collection<Intersection> usedIntersections;
+    private ArrayList<Intersection> usedIntersections = new ArrayList<Intersection>();
     /**
      * The directions are the enumerators associated with the 
      * turns made at intersections. These are used for printing out 
@@ -41,7 +41,7 @@ public class Route {
      * courier needs to know which direction must be in order to 
      * make it to the next intersection.
      */
-    private Collection<Direction> directions;
+    private ArrayList<Direction> directions = new ArrayList<Direction>();
     /**
      * The lengths that each street must be traveled to the next turn 
      * intersection. This is a parallel structure with the directions 
@@ -167,7 +167,7 @@ public class Route {
      * Sets the directions collection associated with this Route.
      * @param directions The directions to be associated with the Route.
      */
-    public void setDirections(Collection<Direction> directions) {
+    public void setDirections(ArrayList<Direction> directions) {
         this.directions = directions;
     }
 
@@ -192,6 +192,9 @@ public class Route {
 
 	public void setOfficeToPickupPath(ArrayList<Intersection> officeToPickupPath) {
 		this.officeToPickupPath = officeToPickupPath;
+        for(Intersection intersection:this.officeToPickupPath){
+        	this.usedIntersections.add(intersection);
+        }
 	}
 
 	public ArrayList<Intersection> getPickupToDeliveryPath() {
@@ -200,6 +203,9 @@ public class Route {
 
 	public void setPickupToDeliveryPath(ArrayList<Intersection> pickupToDeliveryPath) {
 		this.pickupToDeliveryPath = pickupToDeliveryPath;
+		for(Intersection intersection:this.pickupToDeliveryPath){
+        	this.usedIntersections.add(intersection);
+        }
 	}
 
 	public ArrayList<Intersection> getDeliveryToOfficePath() {
@@ -208,6 +214,109 @@ public class Route {
 
 	public void setDeliveryToOfficePath(ArrayList<Intersection> deliveryToOfficePath) {
 		this.deliveryToOfficePath = deliveryToOfficePath;
+		for(Intersection intersection:this.deliveryToOfficePath){
+        	this.usedIntersections.add(intersection);
+        }
+	}
+	
+	public String getTranslatedDirections(){
+		String directions = "";
+		directions+=" From "+this.getOfficeToPickupPath().get(0).getName()+" (office) to the pickup location: \n";
+		directions+=translatePath(this.officeToPickupPath);
+		directions+=" From "+this.getPickupToDeliveryPath().get(0).getName()+" (the pickup location) to the delivery location: \n";
+		directions+=translatePath(this.pickupToDeliveryPath);
+		directions+=" From "+this.getDeliveryToOfficePath().get(0).getName()+" (the delivery location) back to office: \n";
+		directions+=translatePath(this.deliveryToOfficePath);
+		
+		return directions;
+	}
+	public String translatePath(ArrayList<Intersection> path){
+		
+		/*
+		 * A string variable, translatedPath holds the English 
+		 * version of the delivery instructions and initially has the value of “”
+		 */
+		String translatedPath = "";
+		String tab = "\t";
+		int counter=0;
+		Intersection currentIntersection = path.get(0);
+		while(counter<path.size()-1){
+			Intersection nextIntersection = path.get(counter+1);
+			Street street = new Street();
+			street.setFrom(currentIntersection);
+			street.setTo(nextIntersection);
+			String direction ="";
+			
+			/*
+			 * Compare the x coordinates
+			 *	of the current intersection with the next intersection.
+			*/
+			int XsDifference = nextIntersection.getXCoord()-currentIntersection.getXCoord();
+			
+			/*
+			 * Compare the y coordinate value of the current intersection
+			 *	with the y coordinate value of the next intersection on the list.
+			 */
+			int YsDifference = nextIntersection.getYCoord()-currentIntersection.getYCoord(); 
+			
+			/*
+			 * If the x values are equal, Subtract the “from” intersection y value
+			 *	from the “to” intersection y value.
+			 */
+			if(XsDifference==0){
+				
+				/*
+				 * If the difference is greater than 0, the courier will go North,
+				 * street.length miles.
+				 */
+				if(YsDifference>0){
+					directions.add(Direction.South);
+					direction = tab+"Go " + Direction.South + " to "+nextIntersection.getName();
+				}
+			
+				/*
+				 * Otherwise (difference is less than 0), the courier will go South to the
+				 * to intersection, street.length miles
+				 */
+				if(YsDifference<0){
+					directions.add(Direction.North);
+					direction = tab+"Go " + Direction.North + " to "+nextIntersection.getName();
+				}
+			}
+				
+			/*
+			 * If the y values are equal, subtract the “from” intersection x value 
+			 * from the “to” intersection x value.
+			 */
+			if(YsDifference==0){
+				/*
+				 * If the difference is greater than 0, the courier will go East, 
+				 * street.length miles.
+				 */
+				if(XsDifference>0){
+					directions.add(Direction.East);
+					direction = tab+"Go " + Direction.East + " to "+nextIntersection.getName();
+				}
+			
+				/*
+				 * Otherwise (difference is less than 0), the courier will go West 
+				 * to the “to” intersection, street.length miles.
+				 */
+				if(XsDifference<0){
+					directions.add(Direction.West);
+					direction = tab+"Go " + Direction.West + " to "+nextIntersection.getName();
+				}
+			}
+				
+			// Append the new direction to the list of existing directions (translatedPath).
+			translatedPath+=direction+"\n";
+			
+			//update current intersection and the counter
+			currentIntersection = nextIntersection;
+			counter++;
+		}
+		
+		return translatedPath;
 	}
 
 }
