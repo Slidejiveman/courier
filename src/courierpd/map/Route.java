@@ -1,6 +1,7 @@
 package courierpd.map;
 
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import courierpd.core.DeliveryTicket;
@@ -56,8 +57,14 @@ public class Route {
     /**
      * The default no argument constructor.
      */
+    private ArrayList<Intersection> officeToPickupPath;
+    private ArrayList<Intersection> pickupToDeliveryPath;
+    private ArrayList<Intersection> deliveryToOfficePath;
+    
     public Route() {
-      
+      setOfficeToPickupPath(new ArrayList<Intersection>());
+      setPickupToDeliveryPath(new ArrayList<Intersection>());
+      setDeliveryToOfficePath(new ArrayList<Intersection>());
     }
 
     /**
@@ -178,5 +185,29 @@ public class Route {
     public void setStreetTravelLengths(int streetTravelLengths) {
         this.streetTravelLengths = streetTravelLengths;
     }
+
+	public ArrayList<Intersection> getOfficeToPickupPath() {
+		return officeToPickupPath;
+	}
+
+	public void setOfficeToPickupPath(ArrayList<Intersection> officeToPickupPath) {
+		this.officeToPickupPath = officeToPickupPath;
+	}
+
+	public ArrayList<Intersection> getPickupToDeliveryPath() {
+		return pickupToDeliveryPath;
+	}
+
+	public void setPickupToDeliveryPath(ArrayList<Intersection> pickupToDeliveryPath) {
+		this.pickupToDeliveryPath = pickupToDeliveryPath;
+	}
+
+	public ArrayList<Intersection> getDeliveryToOfficePath() {
+		return deliveryToOfficePath;
+	}
+
+	public void setDeliveryToOfficePath(ArrayList<Intersection> deliveryToOfficePath) {
+		this.deliveryToOfficePath = deliveryToOfficePath;
+	}
 
 }

@@ -73,6 +73,7 @@ public class MapConfigPanel extends JPanel {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 				Intersection intersectionToClose = (Intersection)comboBox.getSelectedItem();
+				CourierEntityManager.getEntityManager().refresh(intersectionToClose);
 				System.out.println("Intersection to close: "+intersectionToClose.getName());
 				
 				//close the selected intersection
@@ -92,7 +93,8 @@ public class MapConfigPanel extends JPanel {
 					intersectionToClose.setClosedDateEnd(new Date(Integer.parseInt(reopeningDateComponents[2])-1900, 
 							Integer.parseInt(reopeningDateComponents[0])-1, Integer.parseInt(reopeningDateComponents[1])));
 				}
-				map.closeIntersection(intersectionToClose);//Now, close the intersection
+				map.closeIntersection(intersectionToClose);
+				
 				userTransaction.commit(); // Finish the transaction with a commit
 				
 				//Refresh the page
@@ -144,7 +146,6 @@ public class MapConfigPanel extends JPanel {
 					IntersectionDBAO.findIntersectionById(intersection.getIntersectionId()).setClosedDateStart(null);
 					IntersectionDBAO.findIntersectionById(intersection.getIntersectionId()).setClosedDateEnd(null);
 					IntersectionDBAO.findIntersectionById(intersection.getIntersectionId()).setIsOpen(true);
-					
 					userTransaction.commit();//commit transaction
 					
 					//refresh the content pane
@@ -162,6 +163,7 @@ public class MapConfigPanel extends JPanel {
 		JButton btnSave = new JButton("Finish");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				currentFrame.getContentPane().removeAll();
 				currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame));
 				currentFrame.revalidate();

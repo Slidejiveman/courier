@@ -37,6 +37,9 @@ public class Intersection implements Serializable {
 	@Transient
 	private transient Integer nodeValue;
 	
+	@Transient
+	private transient Intersection previous;
+	
 	@Id //signifies the primary key
     @Column(name = "intersection_id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -47,7 +50,7 @@ public class Intersection implements Serializable {
      * An open intersection is traversable by a courier. A closed intersection is not.
      */
 	@Column(name = "intersection_status", nullable = false)
-    private boolean isOpen = true;
+    private boolean isOpen;
     /**
      * The name of an intersection within the City Center. 
      * Each intersection is made up of two crossing streets. 
@@ -246,5 +249,16 @@ public class Intersection implements Serializable {
 
 	public void setNodeValue(Integer nodeValue) {
 		this.nodeValue = nodeValue;
+	}
+	public Integer compareTo(Intersection other){
+		return Integer.compare(this.getNodeValue(), other.nodeValue);
+	}
+
+	public Intersection getPrevious() {
+		return previous;
+	}
+
+	public void setPrevious(Intersection previous) {
+		this.previous = previous;
 	}
 }
