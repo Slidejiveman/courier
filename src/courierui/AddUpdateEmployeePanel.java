@@ -80,7 +80,7 @@ public class AddUpdateEmployeePanel extends JPanel {
 		if(employee.getName() !=null)
 		strName = employee.getName();
 		textField = new JTextField(strName);
-		textField.setBounds(220, 125, 335, 22);
+		textField.setBounds(220, 125, 327, 22);
 		add(textField);
 		textField.setColumns(10);
 		
@@ -88,7 +88,7 @@ public class AddUpdateEmployeePanel extends JPanel {
 		if(employee.getEmail() !=null)
 		strEmail = employee.getEmail();
 		textField_1 = new JTextField(strEmail);
-		textField_1.setBounds(220, 231, 335, 22);
+		textField_1.setBounds(220, 231, 327, 22);
 		add(textField_1);
 		textField_1.setColumns(10);
 		
@@ -96,7 +96,7 @@ public class AddUpdateEmployeePanel extends JPanel {
 		if(employee.getUsername() !=null)
 		strUsername = employee.getUsername();
 		textField_2 = new JTextField(strUsername);
-		textField_2.setBounds(220, 291, 335, 22);
+		textField_2.setBounds(220, 291, 327, 22);
 		add(textField_2);
 		textField_2.setColumns(10);
 		
@@ -104,7 +104,7 @@ public class AddUpdateEmployeePanel extends JPanel {
 		if(employee.getPassword() !=null)
 		strPassword = employee.getPassword();
 		passwordField = new JPasswordField(strPassword);
-		passwordField.setBounds(222, 353, 327, 22);
+		passwordField.setBounds(220, 353, 327, 22);
 		add(passwordField);
 		
 		JComboBox<Integer> comboBox = new JComboBox<Integer>();
@@ -117,7 +117,7 @@ public class AddUpdateEmployeePanel extends JPanel {
 		// An Owner cannot be added to the system under normal operating
 		// circumstances. This would require special intervention at present
 		JComboBox<EmployeeRole> comboBox_1 = new JComboBox<EmployeeRole>();
-		comboBox_1.setBounds(492, 407, 57, 22);
+		comboBox_1.setBounds(455, 407, 92, 22);
 		comboBox_1.addItem(courierpd.enums.EmployeeRole.Courier);
 		comboBox_1.addItem(courierpd.enums.EmployeeRole.OrderTaker);
 		add(comboBox_1);
