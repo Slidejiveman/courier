@@ -3,8 +3,17 @@ package courierui;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import courierdm.BusinessParametersDBAO;
+import courierdm.ClientDBAO;
+import courierdm.CourierEntityManager;
+import courierpd.core.BusinessParameters;
+import courierpd.core.Client;
+
+import javax.persistence.EntityTransaction;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class UpdateBusinessParametersPanel extends JPanel {
@@ -19,7 +28,10 @@ public class UpdateBusinessParametersPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public UpdateBusinessParametersPanel() {
+	public UpdateBusinessParametersPanel(CourierMainFrame currentFrame) {
+		List<BusinessParameters> persistedBusinessParameters = BusinessParametersDBAO.listBusinessParameterss();
+		BusinessParameters businessParameters = BusinessParametersDBAO.listBusinessParameterss().get(0);
+		
 		setLayout(null);
 		
 		JLabel lblBonusParameters = new JLabel("Bonus Parameters");
@@ -66,37 +78,37 @@ public class UpdateBusinessParametersPanel extends JPanel {
 		lblAverageSpeed.setBounds(491, 362, 86, 14);
 		add(lblAverageSpeed);
 		
-		textField = new JTextField();
+		textField = new JTextField(Integer.toString(businessParameters.getBonusWindow())); //Bonus Window
 		textField.setBounds(200, 150, 93, 20);
 		add(textField);
 		textField.setColumns(10);
 		
-		textField_1 = new JTextField();
+		textField_1 = new JTextField(Double.toString(businessParameters.getBonusPaymentAmt())); //Bonus Amount
 		textField_1.setBounds(200, 191, 93, 20);
 		add(textField_1);
 		textField_1.setColumns(10);
 		
-		textField_2 = new JTextField();
+		textField_2 = new JTextField(Integer.toString(businessParameters.getPickUpDelay())); //Pick-up Delay
 		textField_2.setColumns(10);
 		textField_2.setBounds(200, 338, 93, 20);
 		add(textField_2);
 		
-		textField_3 = new JTextField();
+		textField_3 = new JTextField(Integer.toString(businessParameters.getDeliveryDelay())); //Delivery Delay
 		textField_3.setColumns(10);
 		textField_3.setBounds(200, 384, 93, 20);
 		add(textField_3);
 		
-		textField_4 = new JTextField();
+		textField_4 = new JTextField(Double.toString(businessParameters.getAvgCourierSpeed())); //Average Speed
 		textField_4.setColumns(10);
 		textField_4.setBounds(587, 359, 93, 20);
 		add(textField_4);
 		
-		textField_5 = new JTextField();
+		textField_5 = new JTextField(Double.toString(businessParameters.getBillingBase())); //Billing Base
 		textField_5.setColumns(10);
 		textField_5.setBounds(525, 191, 46, 20);
 		add(textField_5);
 		
-		textField_6 = new JTextField();
+		textField_6 = new JTextField(Double.toString(businessParameters.getBillingRate())); //Billing Per Blocks
 		textField_6.setColumns(10);
 		textField_6.setBounds(592, 191, 46, 20);
 		add(textField_6);
@@ -104,7 +116,34 @@ public class UpdateBusinessParametersPanel extends JPanel {
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				EntityTransaction userTransaction = CourierEntityManager.getEntityManager().getTransaction();
+				userTransaction.begin();
+				if(textField.getText() != null) {
+					businessParameters.setBonusWindow(Integer.parseInt(textField.getText()));
+				}
+				if(textField_1.getText() != null) {
+					businessParameters.setBonusPaymentAmt(Double.parseDouble(textField_1.getText()));
+				}
+				if(textField_2.getText() != null) {
+					businessParameters.setPickUpDelay(Integer.parseInt(textField_2.getText()));
+				}
+				if(textField_3.getText() != null) {
+					businessParameters.setDeliveryDelay(Integer.parseInt(textField_3.getText()));
+				}
+				if(textField_4.getText() != null) {
+					businessParameters.setAvgCourierSpeed(Double.parseDouble(textField_4.getText()));
+				}
+				if(textField_5.getText() != null) {
+					businessParameters.setBillingBase(Double.parseDouble(textField_5.getText()));
+				}
+				if(textField_6.getText() != null) {
+					businessParameters.setBillingRate(Double.parseDouble(textField_6.getText()));
+				}
+				userTransaction.commit();
 				
+				currentFrame.getContentPane().removeAll();
+				currentFrame.getContentPane().add(new UpdateBusinessParametersPanel(currentFrame));
+				currentFrame.getContentPane().revalidate();
 			}
 		});
 		btnSave.setBounds(262, 467, 89, 23);
@@ -113,6 +152,9 @@ public class UpdateBusinessParametersPanel extends JPanel {
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				currentFrame.getContentPane().removeAll();
+				currentFrame.getContentPane().add(new UpdateBusinessParametersPanel(currentFrame));
+				currentFrame.getContentPane().revalidate();
 			}
 		});
 		btnCancel.setBounds(432, 467, 89, 23);

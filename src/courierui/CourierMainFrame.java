@@ -93,8 +93,9 @@ public class CourierMainFrame extends JFrame {
 		mntmBusinessParameters.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				getContentPane().removeAll();
-				// In the add, place the constructor for your panel
-				//getContentPane().add();
+				currentFrame.getContentPane().removeAll();
+				currentFrame.getContentPane().add(new UpdateBusinessParametersPanel(currentFrame));
+				currentFrame.getContentPane().revalidate();
 				getContentPane().revalidate();
 			}
 		});

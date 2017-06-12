@@ -29,7 +29,9 @@ public class ClientManagementPanel extends JPanel {
 	private static final long serialVersionUID = -6553392431507855432L;
 	
 	JList<Client> list;
-	
+	JButton btnAdd;
+	JButton btnUpdate;
+	JButton btnDelete;
 	
 	/**
 	 * Create the panel.
@@ -38,11 +40,27 @@ public class ClientManagementPanel extends JPanel {
 		DefaultListModel listModel;
 		List<Client> persistedClients = ClientDBAO.listClients();
 		
-		
+		listModel = new DefaultListModel();
+		for(Client client: persistedClients)
+			listModel.addElement(client);
+				
+		list = new JList(listModel);
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) 
+			{
+				Client client = (Client)list.getSelectedValue();
+				btnDelete.setEnabled(true);
+					 		
+				btnUpdate.setEnabled(true);
+			}
+		});
+		list.setBounds(84, 108, 791, 335);
+		add(list);
 		
 		setLayout(null);
 		
-		JButton btnAdd = new JButton("Add");
+		btnAdd = new JButton("Add");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentFrame.getContentPane().removeAll();
@@ -53,7 +71,8 @@ public class ClientManagementPanel extends JPanel {
 		btnAdd.setBounds(145, 468, 97, 25);
 		add(btnAdd);
 		
-		JButton btnUpdate = new JButton("Update");
+		btnUpdate = new JButton("Update");
+		btnUpdate.setEnabled(false);
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				currentFrame.getContentPane().removeAll();
@@ -64,7 +83,8 @@ public class ClientManagementPanel extends JPanel {
 		btnUpdate.setBounds(443, 468, 97, 25);
 		add(btnUpdate);
 		
-		JButton btnDelete = new JButton("Delete");
+		btnDelete = new JButton("Delete");
+		btnDelete.setEnabled(false);
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentFrame.getContentPane().removeAll();
@@ -94,31 +114,5 @@ public class ClientManagementPanel extends JPanel {
 		JLabel lblEmail = new JLabel("Email");
 		lblEmail.setBounds(788, 79, 56, 16);
 		add(lblEmail);
-
-		listModel = new DefaultListModel();
-		for(Client client: persistedClients)
-			listModel.addElement(client);
-				
-		list = new JList(listModel);
-		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		list.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent e) 
-			{
-				if (list.isSelectionEmpty())
-				{
-					btnDelete.setEnabled(false);
-					btnUpdate.setEnabled(false);
-				}
-				else
-				{
-					Client client = (Client)list.getSelectedValue();
-					btnDelete.setEnabled(true);
-					 		
-					btnUpdate.setEnabled(true);
-				}
-			}
-		});
-		list.setBounds(84, 108, 791, 335);
-		add(list);
 	}
 }
