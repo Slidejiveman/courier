@@ -26,6 +26,10 @@ public class EmployeeManagementPanel<Employee> extends JPanel {
 	 */
 	List<User> persistedEmployees = EmployeeDBAO.listUsers();
 	JList<User> list;
+	JButton btnAdd;
+	JButton btnUpdate;
+	JButton btnDelete;
+	
 	private static final long serialVersionUID = 1L;
 	protected Employee Employee;
 	/**
@@ -34,8 +38,25 @@ public class EmployeeManagementPanel<Employee> extends JPanel {
 	public EmployeeManagementPanel(CourierMainFrame currentFrame) {
 			setLayout(null);
 		DefaultListModel listModel;
+	
+		listModel = new DefaultListModel();
+		for(User employee: persistedEmployees)
+			listModel.addElement(employee);
+			
+		list = new JList(listModel);
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.addListSelectionListener(new ListSelectionListener() {
+				public void valueChanged(ListSelectionEvent e) 
+				{
+					
+			          btnUpdate.setEnabled(true);
+			          btnDelete.setEnabled(true);
+				}
+			});
+		list.setBounds(84, 108, 791, 335);
+		add(list);
 		
-		JButton btnAdd = new JButton("Add");
+		btnAdd = new JButton("Add");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -47,7 +68,8 @@ public class EmployeeManagementPanel<Employee> extends JPanel {
 		btnAdd.setBounds(145, 468, 97, 25);
 		add(btnAdd);
 		
-		JButton btnUpdate = new JButton("Update");
+		btnUpdate = new JButton("Update");
+		btnUpdate.setEnabled(false);
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				currentFrame.getContentPane().removeAll();
@@ -59,7 +81,8 @@ public class EmployeeManagementPanel<Employee> extends JPanel {
 		btnUpdate.setBounds(443, 468, 97, 25);
 		add(btnUpdate);
 		
-		JButton btnDelete = new JButton("Delete");
+		btnDelete = new JButton("Delete");
+		btnDelete.setEnabled(false);
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentFrame.getContentPane().removeAll();
@@ -71,31 +94,11 @@ public class EmployeeManagementPanel<Employee> extends JPanel {
 		add(btnDelete);
 	// This will disable Update and Delete if there is nothing in the Employee list
 		
-	listModel = new DefaultListModel();
-	for(User employee: persistedEmployees)
-		listModel.addElement(employee);
-		
-	list = new JList(listModel);
-	list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-	list.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent e) 
-			{
-				if (list.getSelectedValue() != null) 
-		        {
-		          btnUpdate.setEnabled(true);
-		        }
-		        
-		        else
-		        {
-		          btnDelete.setEnabled(true);
-		        }
-			}
-		});
+	
 	//Employee List
 		
 	JList Employeelist = new JList();
-		list.setBounds(84, 108, 791, 335);
-		add(list);
+		
 		
 		JLabel lblEmployeeList = new JLabel("Employee List");
 		lblEmployeeList.setFont(new Font("Tahoma", Font.BOLD, 11));

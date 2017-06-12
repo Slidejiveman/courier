@@ -62,15 +62,15 @@ public class EmployeeDeletePanel extends JPanel {
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				// EmployeeDBAO.removeEmployee(employee);
+				 //EmployeeDBAO.removeEmployee(employee);
 				
-				//EntityTransaction userTransaction = CourierEntityManager.getEntityManager().getTransaction();
-				//userTransaction.begin();
-				//EmployeeDBAO.deleteUser(employee);
-				//userTransaction.commit();
-				//currentFrame.getContentPane().removeAll();
-				//currentFrame.getContentPane().add(new EmployeeManagementPanel(currentFrame));
-				//currentFrame.getContentPane().revalidate();
+				EntityTransaction userTransaction = CourierEntityManager.getEntityManager().getTransaction();
+				userTransaction.begin();
+				EmployeeDBAO.deleteUser(employee);
+				userTransaction.commit();
+				currentFrame.getContentPane().removeAll();
+				currentFrame.getContentPane().add(new EmployeeManagementPanel(currentFrame));
+				currentFrame.getContentPane().revalidate();
 			}
 		});
 		btnDelete.setBounds(223, 401, 124, 49);
