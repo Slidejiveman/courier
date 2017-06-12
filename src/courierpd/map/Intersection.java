@@ -1,6 +1,7 @@
 package courierpd.map;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -9,7 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
@@ -95,16 +96,16 @@ public class Intersection implements Serializable {
 	/**
 	 * The client that whose place of business is at this intersection
 	 */
-	@OneToOne(optional = true)
-	@JoinColumn(name = "client_at_intersection", nullable = true, referencedColumnName = "client_id")
-	private Client client;
+	@OneToMany(targetEntity = Client.class, mappedBy = "location")
+	//@JoinColumn(name = "client_at_intersection", nullable = true, referencedColumnName = "client_id")
+	private Collection<Client> clients;
 	
-    public Client getClient() {
-		return client;
+    public Collection<Client> getClients() {
+		return clients;
 	}
 
-	public void setClient(Client client) {
-		this.client = client;
+	public void setClient(Collection<Client> clients) {
+		this.clients = clients;
 	}
 
 	/**
