@@ -77,7 +77,11 @@ public class AddUpdateClientPanel extends JPanel {
 		add(lblLocation);
 		
 		JCheckBox clientActiveCheckBox = new JCheckBox("Is this client active?");
-		clientActiveCheckBox.setSelected(true);
+		if (isAdd) {
+			clientActiveCheckBox.setSelected(true);
+		} else {
+			clientActiveCheckBox.setSelected(client.getIsActive());
+		}
 		clientActiveCheckBox.setBounds(385, 330, 140, 23);
 		add(clientActiveCheckBox);
 		

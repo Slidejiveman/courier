@@ -64,16 +64,26 @@ public class AddUpdateEmployeePanel extends JPanel {
 		lblRole.setBounds(402, 410, 37, 16);
 		add(lblRole);
 		
-		JLabel lblAddEmployee = new JLabel("Add Employee");
-		lblAddEmployee.setBounds(314, 65, 96, 16);
+		JLabel lblAddEmployee = null;
+		if(isAdd) {
+			lblAddEmployee = new JLabel("Add Employee");
+		} else {
+			lblAddEmployee = new JLabel("Update Employee");
+		}
+		lblAddEmployee.setBounds(314, 65, 125, 16);
 		add(lblAddEmployee);
 		
-		JLabel lblNumberGoesHere = new JLabel("Number goes here");
+		JLabel lblNumberGoesHere = new JLabel("*");
 		lblNumberGoesHere.setBounds(222, 174, 114, 16);
 		add(lblNumberGoesHere);
 		
 		JCheckBox chckbxIsEmployeeActive = new JCheckBox("Is Employee Active?");
 		chckbxIsEmployeeActive.setBounds(314, 458, 146, 25);
+		if (isAdd) {
+			chckbxIsEmployeeActive.setSelected(true);
+		} else {
+			chckbxIsEmployeeActive.setSelected(employee.getIsActive());
+		}
 		add(chckbxIsEmployeeActive);
 		
 		String strName ="";
