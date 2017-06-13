@@ -1,27 +1,49 @@
 package courierui;
 
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import courierpd.core.User;
 import courierpd.other.Authorizer;
 
-import java.awt.Font;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-public class Login extends JPanel {
+public class Login extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private User activeUser = null;
 	private JTextField textField;
 	private JTextField textField_1;
 
+	public static void startGUI(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Login frame = new Login();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
 	/**
 	 * Create the panel.
 	 */
-	public Login(CourierMainFrame currentFrame) {
+	public Login() {
+		Login currentFrame = this;
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 1017, 602);
 		setLayout(null);
 		
 		JLabel lblUsername = new JLabel("Username");
@@ -37,7 +59,7 @@ public class Login extends JPanel {
 		add(textField);
 		textField.setColumns(10);
 		
-		textField_1 = new JTextField();
+		textField_1 = new JPasswordField();
 		textField_1.setBounds(361, 246, 155, 20);
 		add(textField_1);
 		textField_1.setColumns(10);
@@ -53,11 +75,11 @@ public class Login extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				Authorizer a = new Authorizer (textField.getText(),textField_1.getText());
 			    activeUser = a.getActiveUser();
-			    currentFrame.setAuthorizedUser(activeUser); // the valid user or null if bad credentials
 			    if (activeUser!= null) {			    	
-			    	currentFrame.getContentPane().removeAll();
-			    	currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame));
-			    	currentFrame.getContentPane().revalidate();
+			    	CourierMainFrame.startGUI(activeUser, currentFrame);
+			    	textField.setText("");
+			    	textField_1.setText("");
+			    	currentFrame.setVisible(false);
 			    }
 			}
 		});

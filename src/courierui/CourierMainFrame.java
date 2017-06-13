@@ -33,11 +33,11 @@ public class CourierMainFrame extends JFrame {
 	 * whether the login panel was currently displayed and the employee role
 	 * of the current authorized user.
 	 */
-	public static void startGUI(String[] args) {
+	public static void startGUI(User activeUser, Login loginFrame) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CourierMainFrame frame = new CourierMainFrame();
+					CourierMainFrame frame = new CourierMainFrame(activeUser, loginFrame);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -49,7 +49,7 @@ public class CourierMainFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public CourierMainFrame() {
+	public CourierMainFrame(User activeUser, Login loginFrame) {
 		CourierMainFrame currentFrame = this;
 		CityMap map = new CityMap();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -131,9 +131,8 @@ public class CourierMainFrame extends JFrame {
 		mntmLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					
-				currentFrame.getContentPane().removeAll();
-		    	currentFrame.getContentPane().add(new Login(currentFrame));
-		    	currentFrame.getContentPane().revalidate();
+				currentFrame.setVisible(false);
+				loginFrame.setVisible(true);
 			}
 		});
 		menuBar.add(mntmLogout);
@@ -141,7 +140,7 @@ public class CourierMainFrame extends JFrame {
 		// The default panel to display should be added here.
 		// This will eventually be the login screen.
 		currentFrame.getContentPane().removeAll();
-		currentFrame.getContentPane().add(new Login(currentFrame));
+		currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame));
 		currentFrame.getContentPane().revalidate();
 		
 	}

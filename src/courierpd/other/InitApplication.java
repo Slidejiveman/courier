@@ -14,7 +14,7 @@ import courierpd.core.Client;
 import courierpd.core.DeliveryTicket;
 import courierpd.core.User;
 import courierpd.map.Intersection;
-import courierui.CourierMainFrame;
+import courierui.Login;
 
 /**
  * The initialization class will be used to handle things
@@ -43,7 +43,7 @@ public class InitApplication {
 		EmailUtil.listenForIncomingEmail();
 		
 		// Start the main application frame
-		CourierMainFrame.startGUI(args);
+		Login.startGUI(args);
 	}
 	
 	/**
