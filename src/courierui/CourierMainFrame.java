@@ -10,6 +10,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import courierpd.core.User;
+import courierpd.enums.EmployeeRole;
 import courierpd.map.CityMap;
 
 @SuppressWarnings("unused")
@@ -102,7 +103,9 @@ public class CourierMainFrame extends JFrame {
 				getContentPane().revalidate();
 			}
 		});
-		menuBar.add(mntmBusinessParameters);
+        if (activeUser.getEmployeeRole().equals(EmployeeRole.Owner)){ 
+        	menuBar.add(mntmBusinessParameters);
+		}		
 		
 		JMenuItem mntmMapConfiguration = new JMenuItem("Map Configuration");
 		mntmMapConfiguration.addActionListener(new ActionListener() {
