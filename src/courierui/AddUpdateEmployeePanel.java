@@ -73,7 +73,7 @@ public class AddUpdateEmployeePanel extends JPanel {
 		lblAddEmployee.setBounds(314, 65, 125, 16);
 		add(lblAddEmployee);
 		
-		JLabel lblNumberGoesHere = new JLabel("*");
+		JLabel lblNumberGoesHere = new JLabel(String.valueOf(employee.getNumber()));
 		lblNumberGoesHere.setBounds(222, 174, 114, 16);
 		add(lblNumberGoesHere);
 		
@@ -128,8 +128,8 @@ public class AddUpdateEmployeePanel extends JPanel {
 		// circumstances. This would require special intervention at present
 		JComboBox<EmployeeRole> comboBox_1 = new JComboBox<EmployeeRole>();
 		comboBox_1.setBounds(455, 407, 92, 22);
-		comboBox_1.addItem(courierpd.enums.EmployeeRole.Courier);
-		comboBox_1.addItem(courierpd.enums.EmployeeRole.OrderTaker);
+		comboBox_1.addItem(EmployeeRole.Courier);
+		comboBox_1.addItem(EmployeeRole.OrderTaker);
 		add(comboBox_1);
 		
 		JButton btnSave = new JButton("Save");
@@ -148,9 +148,9 @@ public class AddUpdateEmployeePanel extends JPanel {
 				}
 				if(passwordField.getPassword() != null) {
 					employee.setPassword(passwordField.getPassword().toString());
-				}
-								
+				}								
 				employee.setIsActive(chckbxIsEmployeeActive.isSelected());
+				employee.setEmployeeRole((EmployeeRole) comboBox_1.getSelectedItem());
 				if(isAdd)
 				{
 					EmployeeDBAO.addUser(employee);
