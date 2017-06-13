@@ -1,34 +1,34 @@
 SET FOREIGN_KEY_CHECKS=0;
-INSERT INTO `client`(`client_id`, `client_email`, `client_is_active`,
+INSERT INTO `client`(`client_email`, `client_is_active`,
                      `client_name`, `client_phone_number`, `client_location_id`)
-VALUES (1001,'bickersnbickers@gmail.com',1,'Bickers & Bickers','5555555555',3);
-INSERT INTO `client`(`client_id`, `client_email`, `client_is_active`,
+VALUES ('bickersnbickers@gmail.com',1,'Bickers & Bickers','5555555555',3);
+INSERT INTO `client`(`client_email`, `client_is_active`,
                      `client_name`, `client_phone_number`, `client_location_id`)
-VALUES (1002,'slaughternslaugher@gmail.com',1,'Slaughter & Slaughter','5555555556',8);
-INSERT INTO `client`(`client_id`, `client_email`, `client_is_active`,
+VALUES ('slaughternslaugher@gmail.com',1,'Slaughter & Slaughter','5555555556',8);
+INSERT INTO `client`(`client_email`, `client_is_active`,
                      `client_name`, `client_phone_number`, `client_location_id`)
-VALUES (1003,'paynenfears@gmail.com',1,'Payne & Fears','5555555557',12);
-INSERT INTO `client`(`client_id`, `client_email`, `client_is_active`,
+VALUES ('paynenfears@gmail.com',1,'Payne & Fears','5555555557',12);
+INSERT INTO `client`(`client_email`, `client_is_active`,
                      `client_name`, `client_phone_number`, `client_location_id`)
-VALUES (1004,'deweycheatumnhowe1@gmail.com',1,'Dewey, Cheatum, & Howe','5555555558',16);
-INSERT INTO `client`(`client_id`, `client_email`, `client_is_active`,
+VALUES ('deweycheatumnhowe1@gmail.com',1,'Dewey, Cheatum, & Howe','5555555558',16);
+INSERT INTO `client`(`client_email`, `client_is_active`,
                      `client_name`, `client_phone_number`, `client_location_id`)
-VALUES (1005,'lowballlynch@gmail.com',1,'Low, Ball, & Lynch','5555555559',18);
-INSERT INTO `client`(`client_id`, `client_email`, `client_is_active`,
+VALUES ('lowballlynch@gmail.com',1,'Low, Ball, & Lynch','5555555559',18);
+INSERT INTO `client`(`client_email`, `client_is_active`,
                      `client_name`, `client_phone_number`, `client_location_id`)
-VALUES (1006,'arguenphibbs@gmail.com',1,'Argue & Phibbs','5555555560',20);
-INSERT INTO `client`(`client_id`, `client_email`, `client_is_active`,
+VALUES ('arguenphibbs@gmail.com',1,'Argue & Phibbs','5555555560',20);
+INSERT INTO `client`(`client_email`, `client_is_active`,
                      `client_name`, `client_phone_number`, `client_location_id`)
-VALUES (1007,'hunternlyon@gmail.com',0,'Hunter & Lyon','5555555561',33);
-INSERT INTO `client`(`client_id`, `client_email`, `client_is_active`,
+VALUES ('hunternlyon@gmail.com',0,'Hunter & Lyon','5555555561',33);
+INSERT INTO `client`(`client_email`, `client_is_active`,
                      `client_name`, `client_phone_number`, `client_location_id`)
-VALUES (1008,'ruffnready@gmail.com',0,'Ruff & Ready','5555555562',42);
-INSERT INTO `client`(`client_id`, `client_email`, `client_is_active`,
+VALUES ('ruffnready@gmail.com',0,'Ruff & Ready','5555555562',42);
+INSERT INTO `client`(`client_email`, `client_is_active`,
                      `client_name`, `client_phone_number`, `client_location_id`)
-VALUES (1009,'wjnj@gmail.com',1,'Wright, Judge, & Jury','5555555563',48);
-INSERT INTO `client`(`client_id`, `client_email`, `client_is_active`,
+VALUES ('wjnj@gmail.com',1,'Wright, Judge, & Jury','5555555563',48);
+INSERT INTO `client`(`client_email`, `client_is_active`,
                      `client_name`, `client_phone_number`, `client_location_id`)
-VALUES (1010,'sliddygates@gmail.com',1,'Susan Liddy-Gates','5555555564',38);
+VALUES ('sliddygates@gmail.com',1,'Susan Liddy-Gates','5555555564',38);
 
 INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
   `closed_start_date`, `intersection_status`, `intersection_name`,
@@ -228,60 +228,56 @@ INSERT INTO `intersection`(`intersection_id`, `closed_end_date`,
 VALUES (48,null,null,0,'G St. & 7th',6,6);
 
 
-INSERT INTO `employee`(`employee_id`, `employee_role`, `employee_email`,
+INSERT INTO `employee`(`employee_role`, `employee_email`,
   `employee_is_active`, `employee_name`, `employee_password`, `employee_shift`,
   `employee_username`)
-VALUES (0,'Owner','acmecourierservicesowner@gmail.com',1,'David North','owner',
+VALUES ('Owner','acmecourierservicesowner@gmail.com',1,'David North','owner',
   1,'owner');
-INSERT INTO `employee`(`employee_id`, `employee_role`, `employee_email`,
+INSERT INTO `employee`(`employee_role`, `employee_email`,
   `employee_is_active`, `employee_name`, `employee_password`, `employee_shift`,
   `employee_username`)
-VALUES (1,'Courier','jacksprat@gmail.com',1,'Jack Sprat','courier1',
+VALUES ('Courier','jacksprat@gmail.com',1,'Jack Sprat','courier1',
   1,'courier1');
-INSERT INTO `employee`(`employee_id`, `employee_role`, `employee_email`,
+INSERT INTO `employee`(`employee_role`, `employee_email`,
   `employee_is_active`, `employee_name`, `employee_password`, `employee_shift`,
   `employee_username`)
-VALUES (2,'Courier','peterpumpkin@gmail.com',1,'Peter Pumpkin','courier2',
+VALUES ('Courier','peterpumpkin@gmail.com',1,'Peter Pumpkin','courier2',
   3,'courier2');
-INSERT INTO `employee`(`employee_id`, `employee_role`, `employee_email`,
+INSERT INTO `employee`( `employee_role`, `employee_email`,
   `employee_is_active`, `employee_name`, `employee_password`, `employee_shift`,
   `employee_username`)
-VALUES (3,'Courier','jackcandle79@gmail.com',1,'Jack Candle','courier3',
+VALUES ('Courier','jackcandle79@gmail.com',1,'Jack Candle','courier3',
   2,'courier3');
-INSERT INTO `employee`(`employee_id`, `employee_role`, `employee_email`,
+INSERT INTO `employee`(`employee_role`, `employee_email`,
   `employee_is_active`, `employee_name`, `employee_password`, `employee_shift`,
   `employee_username`)
-VALUES (4,'Courier','marymuffet@gmail.com',0,'Mary Muffet','courier4',
+VALUES ('Courier','marymuffet@gmail.com',0,'Mary Muffet','courier4',
   1,'courier4');
-INSERT INTO `employee`(`employee_id`, `employee_role`, `employee_email`,
+INSERT INTO `employee`( `employee_role`, `employee_email`,
   `employee_is_active`, `employee_name`, `employee_password`, `employee_shift`,
   `employee_username`)
-VALUES (5,'Courier','kencole@gmail.com',1,'Ken Cole','courier5',
+VALUES ('Courier','kencole@gmail.com',1,'Ken Cole','courier5',
   2,'courier5');
-INSERT INTO `employee`(`employee_id`, `employee_role`, `employee_email`,
+INSERT INTO `employee`(`employee_role`, `employee_email`,
   `employee_is_active`, `employee_name`, `employee_password`, `employee_shift`,
   `employee_username`)
-VALUES (6,'OrderTaker','karenpowers@gmail.com',1,'Karen Powers','ordertaker1',
+VALUES ('OrderTaker','karenpowers@gmail.com',1,'Karen Powers','ordertaker1',
   1,'ordertaker1');
 
-INSERT INTO `delivery_ticket`(`delivery_ticket_id`, `delivery_time`,
+INSERT INTO `delivery_ticket`(`delivery_time`,
   `departure_time`, `pick_up_time`, `return_time`, `estimated_blocks`,
   `estimated_delivery_time`, `estimated_price`, `estimated_departure_time`,
   `is_bill_pick_up`, `bonus_earned`, `order_date`, `requested_pickup_time`,
   `special_instructions`, `ticket_status`, `dt_courier_id`, `dt_delivery_client_id`,
   `dt_order_taker_id`, `dt_pick_up_client_id`)
-VALUES (0,'2017-06-07 10:45:00','2017-06-07 10:15:00','2017-06-07 10:30:00',
+VALUES ('2017-06-07 10:45:00','2017-06-07 10:15:00','2017-06-07 10:30:00',
   '2017-06-07 11:00:00',6,'2017-06-07 10:50:00',22.00,'2017-06-07 10:15:00',
   1,1,'2017-06-07','2017-06-07 10:30:00','Go to the 2nd floor.',
   'Closed',3,1004,6,1005);
 
-INSERT INTO `business_parameters`(`business_parameters_id`, `avg_courier_speed`,
+INSERT INTO `business_parameters`(`avg_courier_speed`,
   `billing_base`, `billing_Rate`, `bonus_payment_amount`, `bonus_window`,
   `delivery_delay`, `pick_up_delay`)
-VALUES (0,5.0,10.0,2.0,1.5,5,10,10);
-
-UPDATE `sequence`
-SET `SEQ_COUNT` = '1100'
-WHERE `sequence`.`SEQ_NAME` = 'SEQ_GEN';
+VALUES (5.0,10.0,2.0,1.5,5,10,10);
 
 SET FOREIGN_KEY_CHECKS=1;

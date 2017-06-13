@@ -37,7 +37,7 @@ public class Client implements Serializable{
      */
     @Id //signifies the primary key
     @Column(name = "client_id", updatable = false, nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int accountNumber;
     /**
      * Specifies whether the client is actively using Acme Couriers services. 

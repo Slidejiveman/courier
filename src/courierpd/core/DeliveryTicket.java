@@ -63,7 +63,7 @@ public class DeliveryTicket implements Serializable {
      */
     @Id //signifies the primary key
     @Column(name = "delivery_ticket_id", updatable = false, nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int packageID;
     /**
      * The time the courier left from the Office. 

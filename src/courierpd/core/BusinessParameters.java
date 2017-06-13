@@ -28,7 +28,7 @@ public class BusinessParameters implements Serializable {
 
 	@Id
 	@Column(name = "business_parameters_id", updatable = false, nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int bizParamKey = 0;
 
 	/**

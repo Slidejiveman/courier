@@ -45,7 +45,7 @@ public class User implements Serializable {
      * The unique identifier assigned to an employee.
      */
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "employee_id", updatable = false, nullable = false)
     protected int number;
     /**
