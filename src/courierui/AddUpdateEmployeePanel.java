@@ -121,7 +121,10 @@ public class AddUpdateEmployeePanel extends JPanel {
 		comboBox.setBounds(222, 407, 57, 22);
 		for(int i = 1; i <= 3; i++) {
 			comboBox.addItem(i);
-		}		
+		}
+		if (!isAdd) {
+			comboBox.getModel().setSelectedItem(employee.getShift());
+		}
 		add(comboBox);
 		
 		// An Owner cannot be added to the system under normal operating
@@ -130,6 +133,9 @@ public class AddUpdateEmployeePanel extends JPanel {
 		comboBox_1.setBounds(455, 407, 92, 22);
 		comboBox_1.addItem(EmployeeRole.Courier);
 		comboBox_1.addItem(EmployeeRole.OrderTaker);
+		if (!isAdd) {
+			comboBox_1.getModel().setSelectedItem(employee.getEmployeeRole());
+		}
 		add(comboBox_1);
 		
 		JButton btnSave = new JButton("Save");
@@ -148,7 +154,8 @@ public class AddUpdateEmployeePanel extends JPanel {
 				}
 				if(passwordField.getPassword() != null) {
 					employee.setPassword(passwordField.getPassword().toString());
-				}								
+				}
+				employee.setShift((Integer) comboBox.getSelectedItem());
 				employee.setIsActive(chckbxIsEmployeeActive.isSelected());
 				employee.setEmployeeRole((EmployeeRole) comboBox_1.getSelectedItem());
 				if(isAdd)
