@@ -18,7 +18,7 @@ import courierpd.enums.EmployeeRole;
  * Note that usernames and passwords assigned to Couriers do not provide access into Ubiquity.
  */
 @Entity(name = "courier")
-@DiscriminatorValue("Courier")
+@DiscriminatorValue("CO")
 public class Courier extends User {
 
     /**
@@ -49,9 +49,9 @@ public class Courier extends User {
      * It has the lowest level of permissions. 
      * This value should not be changed.
      */
-	@Enumerated(EnumType.STRING)
-	@Column(name = "employee_role", nullable = false)
-    private EmployeeRole employeeRole = courierpd.enums.EmployeeRole.Courier;
+//	@Enumerated(EnumType.STRING)
+//	@Column(name = "employee_role", nullable = false)
+//    private EmployeeRole employeeRole = courierpd.enums.EmployeeRole.Courier;
 
 	@OneToMany(targetEntity = DeliveryTicket.class, mappedBy = "courier")
 	protected Collection<DeliveryTicket> deliveryTickets;

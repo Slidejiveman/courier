@@ -13,7 +13,7 @@ import courierpd.enums.EmployeeRole;
  * This class exists for potential extensibility.
  */
 @Entity(name = "owner")
-@DiscriminatorValue("Owner")
+@DiscriminatorValue("OW")
 public class Owner extends OrderTaker {
 
     /**
@@ -24,9 +24,9 @@ public class Owner extends OrderTaker {
 	/**
      * The role of the Owner is "Owner" and should not change. The role or the class name is used to determine whether not actions may be taken within the system.
      */
-	@Enumerated(EnumType.STRING)
-	@Column(name = "employee_role", nullable = false)
-    private EmployeeRole employeeRole = courierpd.enums.EmployeeRole.Owner;
+//	@Enumerated(EnumType.STRING)
+//	@Column(name = "employee_role", nullable = false)
+//    private EmployeeRole employeeRole = courierpd.enums.EmployeeRole.Owner;
 
     public EmployeeRole getEmployeeRole() {
         return this.employeeRole;

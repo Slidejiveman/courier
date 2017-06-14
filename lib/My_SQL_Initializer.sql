@@ -231,37 +231,37 @@ VALUES (48,null,null,0,'G St. & 7th',6,6);
 INSERT INTO `employee`(`employee_role`, `employee_email`,
   `employee_is_active`, `employee_name`, `employee_password`, `employee_shift`,
   `employee_username`)
-VALUES ('Owner','acmecourierservicesowner@gmail.com',1,'David North','owner',
+VALUES ('OW','acmecourierservicesowner@gmail.com',1,'David North','owner',
   1,'owner');
 INSERT INTO `employee`(`employee_role`, `employee_email`,
   `employee_is_active`, `employee_name`, `employee_password`, `employee_shift`,
   `employee_username`)
-VALUES ('Courier','jacksprat@gmail.com',1,'Jack Sprat','courier1',
+VALUES ('CO','jacksprat@gmail.com',1,'Jack Sprat','courier1',
   1,'courier1');
 INSERT INTO `employee`(`employee_role`, `employee_email`,
   `employee_is_active`, `employee_name`, `employee_password`, `employee_shift`,
   `employee_username`)
-VALUES ('Courier','peterpumpkin@gmail.com',1,'Peter Pumpkin','courier2',
+VALUES ('CO','peterpumpkin@gmail.com',1,'Peter Pumpkin','courier2',
   3,'courier2');
 INSERT INTO `employee`( `employee_role`, `employee_email`,
   `employee_is_active`, `employee_name`, `employee_password`, `employee_shift`,
   `employee_username`)
-VALUES ('Courier','jackcandle79@gmail.com',1,'Jack Candle','courier3',
+VALUES ('CO','jackcandle79@gmail.com',1,'Jack Candle','courier3',
   2,'courier3');
 INSERT INTO `employee`(`employee_role`, `employee_email`,
   `employee_is_active`, `employee_name`, `employee_password`, `employee_shift`,
   `employee_username`)
-VALUES ('Courier','marymuffet@gmail.com',0,'Mary Muffet','courier4',
+VALUES ('CO','marymuffet@gmail.com',0,'Mary Muffet','courier4',
   1,'courier4');
 INSERT INTO `employee`( `employee_role`, `employee_email`,
   `employee_is_active`, `employee_name`, `employee_password`, `employee_shift`,
   `employee_username`)
-VALUES ('Courier','kencole@gmail.com',1,'Ken Cole','courier5',
+VALUES ('CO','kencole@gmail.com',1,'Ken Cole','courier5',
   2,'courier5');
 INSERT INTO `employee`(`employee_role`, `employee_email`,
   `employee_is_active`, `employee_name`, `employee_password`, `employee_shift`,
   `employee_username`)
-VALUES ('OrderTaker','karenpowers@gmail.com',1,'Karen Powers','ordertaker1',
+VALUES ('OT','karenpowers@gmail.com',1,'Karen Powers','ordertaker1',
   1,'ordertaker1');
 
 INSERT INTO `delivery_ticket`(`delivery_time`,

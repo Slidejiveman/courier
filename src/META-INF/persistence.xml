@@ -12,6 +12,7 @@
          <class>courierpd.core.Courier</class>
          <class>courierpd.map.Intersection</class>
          <class>courierpd.core.BusinessParameters</class>
+         <class>courierdm.EmployeeConverter</class>
 
          <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />

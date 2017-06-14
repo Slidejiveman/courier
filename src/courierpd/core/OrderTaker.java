@@ -17,7 +17,7 @@ import courierpd.enums.EmployeeRole;
  * is required on each Delivery Ticket the OrderTaker creates.
  */
 @Entity(name = "order_taker")
-@DiscriminatorValue("OrderTaker")
+@DiscriminatorValue("OT")
 public class OrderTaker extends User {
 
     /**
@@ -31,9 +31,9 @@ public class OrderTaker extends User {
      * This is an intended redundancy to offer some flexibility 
      * when coding as well to provide an avenue for extending functionality in the future.
      */
-	@Enumerated(EnumType.STRING)
-	@Column(name = "employee_role", nullable = false)
-    protected EmployeeRole employeeRole = courierpd.enums.EmployeeRole.OrderTaker;
+//	@Enumerated(EnumType.STRING)
+//	@Column(name = "employee_role", nullable = false)
+//    protected EmployeeRole employeeRole = courierpd.enums.EmployeeRole.OrderTaker;
 
 	@OneToMany(targetEntity = DeliveryTicket.class, mappedBy = "orderTaker")
 	protected Collection<DeliveryTicket> deliveryTickets;

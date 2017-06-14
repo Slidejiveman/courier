@@ -3,6 +3,7 @@ package courierpd.core;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
+import courierdm.EmployeeConverter;
 import courierpd.enums.EmployeeRole;
 
 /**
@@ -95,6 +97,7 @@ public class User implements Serializable {
      * This enumerator is overridden in each child class.
      */
 	@Enumerated(EnumType.STRING)
+	@Convert(converter = EmployeeConverter.class)
 	@Column(name = "employee_role", nullable = false)
     protected EmployeeRole employeeRole;
 

@@ -135,6 +135,8 @@ public class AddUpdateEmployeePanel extends JPanel {
 		comboBox_1.addItem(EmployeeRole.OrderTaker);
 		if (!isAdd) {
 			comboBox_1.getModel().setSelectedItem(employee.getEmployeeRole());
+		} else {
+			comboBox_1.getModel().setSelectedItem(EmployeeRole.Courier);
 		}
 		add(comboBox_1);
 		
@@ -155,9 +157,9 @@ public class AddUpdateEmployeePanel extends JPanel {
 				if(passwordField.getPassword() != null) {
 					employee.setPassword(passwordField.getPassword().toString());
 				}
-				employee.setShift((Integer) comboBox.getSelectedItem());
+				employee.setShift((Integer) comboBox.getModel().getSelectedItem());
 				employee.setIsActive(chckbxIsEmployeeActive.isSelected());
-				employee.setEmployeeRole((EmployeeRole) comboBox_1.getSelectedItem());
+				employee.setEmployeeRole(EmployeeRole.valueOf(comboBox_1.getModel().getSelectedItem().toString()));
 				if(isAdd)
 				{
 					EmployeeDBAO.addUser(employee);

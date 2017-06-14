@@ -20,5 +20,9 @@ public enum EmployeeRole {
      * The Owner is the only user that can add or remove employees 
      * and adjust the business parameter values.
      */
-    Owner
+    Owner,
+    /**
+     * unspecified employee
+     */
+    employee
 }
