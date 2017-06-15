@@ -95,8 +95,12 @@ public class AddUpdateClientPanel extends JPanel {
 				try {
 					userTransaction.begin();
 				
-					if(textField.getText() != null) {
+					if(textField.getText() != null && !textField.getText().matches(".*\\d+.*")) { //Found this online, used to determine if string contains a number or not
 						client.setName(textField.getText());
+					}
+					else
+					{
+						userTransaction.rollback();
 					}
 					if(textField_2.getText() != null && EmailValidator.validate(textField_2.getText())) {
 						client.setEmail(textField_2.getText());
