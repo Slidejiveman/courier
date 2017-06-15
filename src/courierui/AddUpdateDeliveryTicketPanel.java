@@ -56,7 +56,7 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 		add(CustomerInfopanel);
 		CustomerInfopanel.setLayout(null);
 		
-		JLabel lblPickupCustomer = new JLabel("Pick-up customer: ");
+		JLabel lblPickupCustomer = new JLabel("Pick-up Customer: ");
 		lblPickupCustomer.setBounds(75, 46, 120, 21);
 		CustomerInfopanel.add(lblPickupCustomer);
 		
@@ -113,7 +113,7 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 		
 		JComboBox courierNamecomboBox = new JComboBox();
 		for(User user: EmployeeDBAO.listUsers()){
-			if(user.getEmployeeRole().equals(EmployeeRole.Courier)){
+			if(user.getEmployeeRole().equals(EmployeeRole.Courier) && user.getIsActive()){
 				courierNamecomboBox.addItem(user);
 			}
 		}
@@ -285,7 +285,7 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 
 		for(User user: EmployeeDBAO.listUsers()){
 
-			if(user.getEmployeeRole().equals(EmployeeRole.OrderTaker)){
+			if(user.getEmployeeRole().equals(EmployeeRole.OrderTaker) && user.getIsActive()){
 				orderTakerBox.addItem(user);
 			}
 		}
