@@ -10,12 +10,14 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import courierdm.ClientDBAO;
 import courierdm.CourierEntityManager;
 import courierdm.IntersectionDBAO;
+import courieremail.EmailValidator;
 import courierpd.core.Client;
 import courierpd.map.Intersection;
 
@@ -90,27 +92,38 @@ public class AddUpdateClientPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				EntityTransaction userTransaction = CourierEntityManager.getEntityManager().getTransaction();
-				userTransaction.begin();
-				if(textField.getText() != null) {
-					client.setName(textField.getText());
-				}
-				if(textField_2.getText() != null) {
-					client.setEmail(textField_2.getText());
-				}
-				if(textField_3.getText() != null) {
-					client.setPhoneNumber(textField_3.getText());
-				}			
-				client.setLocation((Intersection) comboBox.getSelectedItem());
-				client.setIsActive(clientActiveCheckBox.isSelected());
-				if(isAdd)
-				{
-					ClientDBAO.addClient(client);
-				}
-				userTransaction.commit();
+				try {
+					userTransaction.begin();
 				
-				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new ClientManagementPanel(currentFrame));
-				currentFrame.getContentPane().revalidate();
+					if(textField.getText() != null) {
+						client.setName(textField.getText());
+					}
+					if(textField_2.getText() != null && EmailValidator.validate(textField_2.getText())) {
+						client.setEmail(textField_2.getText());
+					} else {
+						userTransaction.rollback();
+					}
+					
+					if(textField_3.getText() != null) {
+						client.setPhoneNumber(textField_3.getText());
+					}			
+					client.setLocation((Intersection) comboBox.getSelectedItem());
+					client.setIsActive(clientActiveCheckBox.isSelected());
+					if(isAdd)
+					{
+						ClientDBAO.addClient(client);
+					}
+					userTransaction.commit();
+					
+					currentFrame.getContentPane().removeAll();
+					currentFrame.getContentPane().add(new ClientManagementPanel(currentFrame));
+					currentFrame.getContentPane().revalidate();
+					
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null,
+							"Ensure email, name, and phone number fields are valid.", 
+							"Save Failed", JOptionPane.ERROR_MESSAGE);
+				}	
 			}
 		});
 		saveButton.setBounds(232, 438, 89, 23);
