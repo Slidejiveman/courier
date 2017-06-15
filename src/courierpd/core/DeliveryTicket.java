@@ -487,7 +487,7 @@ public class DeliveryTicket implements Serializable {
 	public String toString (){
 		return "                       "+this.getPackageID()
 		+ "                                "+this.getOrderDate()
-		+"                             "+this.courier.number
+		+"                             "+this.getStatus().toString()
 		+"                             "+this.getPickUpClient().getName()
 		+"                                 "+this.getDeliveryClient().getName();
 	}

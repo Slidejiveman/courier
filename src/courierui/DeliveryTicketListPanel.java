@@ -1,6 +1,8 @@
 package courierui;
 
 import javax.swing.JPanel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import courierdm.DeliveryTicketDBAO;
 import courierpd.core.DeliveryTicket;
@@ -20,7 +22,7 @@ public class DeliveryTicketListPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = -5049134341489404618L;
-
+	JButton btnUpdate, btnDelete;
 	/**
 	 * Create the panel.
 	 */
@@ -37,7 +39,14 @@ public class DeliveryTicketListPanel extends JPanel {
 			listModel.addElement(ticket);
 		}
 		JList list = new JList(listModel);
-		
+		list.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) 
+			{
+				btnDelete.setEnabled(true);
+					 		
+				btnUpdate.setEnabled(true);
+			}
+		});
 		list.setBounds(50, 100, 900,380);
 		add(list);
 		JButton btnAdd = new JButton("Add");
@@ -51,7 +60,8 @@ public class DeliveryTicketListPanel extends JPanel {
 		btnAdd.setBounds(211, 500, 89, 23);
 		add(btnAdd);
 		
-		JButton btnUpdate = new JButton("Update");
+		btnUpdate = new JButton("Update");
+		btnUpdate.setEnabled(false);
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				mainFrame.getContentPane().removeAll();
@@ -62,7 +72,8 @@ public class DeliveryTicketListPanel extends JPanel {
 		btnUpdate.setBounds(456, 500, 89, 23);
 		add(btnUpdate);
 		
-		JButton btnDelete = new JButton("Delete");
+		btnDelete = new JButton("Delete");
+		btnDelete.setEnabled(false);
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				mainFrame.getContentPane().removeAll();
@@ -81,7 +92,7 @@ public class DeliveryTicketListPanel extends JPanel {
 		lblTicketDate.setBounds(300, 70, 56, 16);
 		add(lblTicketDate);
 		
-		JLabel lblCourierId = new JLabel("Courier ID");
+		JLabel lblCourierId = new JLabel("Status");
 		lblCourierId.setBounds(450, 75, 118, 16);
 		add(lblCourierId);
 		
