@@ -54,7 +54,7 @@ public class ClientManagementPanel extends JPanel {
 				btnUpdate.setEnabled(true);
 			}
 		});
-		list.setBounds(84, 108, 791, 335);
+		list.setBounds(263, 106, 466, 335);
 		add(list);
 		
 		setLayout(null);
@@ -67,7 +67,7 @@ public class ClientManagementPanel extends JPanel {
 				currentFrame.getContentPane().revalidate();
 			}
 		});
-		btnAdd.setBounds(145, 468, 97, 25);
+		btnAdd.setBounds(263, 468, 97, 25);
 		add(btnAdd);
 		
 		btnUpdate = new JButton("Update");
@@ -91,7 +91,7 @@ public class ClientManagementPanel extends JPanel {
 				currentFrame.getContentPane().revalidate();
 			}
 		});
-		btnDelete.setBounds(725, 468, 97, 25);
+		btnDelete.setBounds(630, 468, 97, 25);
 		add(btnDelete);
 		
 		JLabel lblClientList = new JLabel("Client List");
@@ -99,19 +99,11 @@ public class ClientManagementPanel extends JPanel {
 		add(lblClientList);
 		
 		JLabel lblName = new JLabel("Name");
-		lblName.setBounds(329, 79, 56, 16);
+		lblName.setBounds(294, 79, 56, 16);
 		add(lblName);
 		
-		JLabel lblNewLabel = new JLabel("Account Number");
-		lblNewLabel.setBounds(105, 79, 118, 16);
-		add(lblNewLabel);
-		
-		JLabel lblPhoneNumber = new JLabel("Phone Number");
-		lblPhoneNumber.setBounds(541, 79, 97, 16);
-		add(lblPhoneNumber);
-		
-		JLabel lblEmail = new JLabel("Email");
-		lblEmail.setBounds(788, 79, 56, 16);
-		add(lblEmail);
+		JLabel lblStatus = new JLabel("Status");
+		lblStatus.setBounds(571, 81, 46, 14);
+		add(lblStatus);
 	}
 }

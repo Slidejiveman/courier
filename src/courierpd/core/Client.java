@@ -181,12 +181,27 @@ public class Client implements Serializable{
 	}
     @Override
     public String toString(){
-    	return this.accountNumber + "\t" + this.name + "\t" + this.phoneNumber + "\t" + this.email;
+    	String finalString;
+    	String activeString;
+    	
+    	if(this.getIsActive())
+    	{
+    		activeString = "Active";
+    	}
+    	else
+    	{
+    		activeString = "Inactive";
+    	}
+    	
+    	finalString = this.name;
+    	
+    	return String.format("%-80s", finalString) + activeString;
     }
 
 	/*@Override
 	public String toString() {
 		// TODO Auto-generated method stub
+		
 		String finalString = accountNumber + "\t" + name + "\t" + phoneNumber + "\t" + email;
 		
 		return finalString;
