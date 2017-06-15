@@ -118,25 +118,25 @@ public class UpdateBusinessParametersPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				EntityTransaction userTransaction = CourierEntityManager.getEntityManager().getTransaction();
 				userTransaction.begin();
-				if(textField.getText() != null) {
+				if(textField.getText() != null && Integer.parseInt(textField.getText()) >= 0) {
 					businessParameters.setBonusWindow(Integer.parseInt(textField.getText()));
 				}
-				if(textField_1.getText() != null) {
+				if(textField_1.getText() != null && Double.parseDouble(textField_1.getText()) >= 0) {
 					businessParameters.setBonusPaymentAmt(Double.parseDouble(textField_1.getText()));
 				}
-				if(textField_2.getText() != null) {
+				if(textField_2.getText() != null && Integer.parseInt(textField_2.getText()) >= 0) {
 					businessParameters.setPickUpDelay(Integer.parseInt(textField_2.getText()));
 				}
-				if(textField_3.getText() != null) {
+				if(textField_3.getText() != null && Integer.parseInt(textField_3.getText()) >= 0) {
 					businessParameters.setDeliveryDelay(Integer.parseInt(textField_3.getText()));
 				}
-				if(textField_4.getText() != null) {
+				if(textField_4.getText() != null && Double.parseDouble(textField_4.getText()) >= 0) {
 					businessParameters.setAvgCourierSpeed(Double.parseDouble(textField_4.getText()));
 				}
-				if(textField_5.getText() != null) {
+				if(textField_5.getText() != null && Double.parseDouble(textField_5.getText()) >= 0) {
 					businessParameters.setBillingBase(Double.parseDouble(textField_5.getText()));
 				}
-				if(textField_6.getText() != null) {
+				if(textField_6.getText() != null && Double.parseDouble(textField_6.getText()) >= 0) {
 					businessParameters.setBillingRate(Double.parseDouble(textField_6.getText()));
 				}
 				userTransaction.commit();
