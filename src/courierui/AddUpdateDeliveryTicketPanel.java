@@ -27,6 +27,7 @@ import javax.swing.JCheckBox;
 import javax.persistence.EntityTransaction;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.time.LocalTime;
 import java.util.Date;
 import java.awt.event.ActionEvent;
 
@@ -38,8 +39,8 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 	private JTextField departureTimetextField;
 	private JTextField returnTimetextField;
 	private JTextField packageIdtextField;
-	private JTextField orderDatetextField;
-	private JTextField orderTimetextField;
+	private JLabel orderDateLabel;
+	private JLabel orderTimeLabel;
 
 	/**
 	 * Create the panel.
@@ -139,6 +140,10 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 		
 		departureTimetextField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (!departureTimetextField.hasFocus()){
+					Date today = new Date();
+					deliveryTicket.setActualDepartureTime(today);
+				}
 			}
 		});
 		departureTimetextField.setBounds(209, 65, 149, 20);
@@ -252,30 +257,20 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 		OrderInfopanel.add(packageIdtextField);
 		packageIdtextField.setColumns(10);
 		if(!isAdd && (deliveryTicket.getOrderDate()!=null)){
-			orderDatetextField = new JTextField(deliveryTicket.getOrderDate().toString());		
+			orderDateLabel = new JLabel(deliveryTicket.getOrderDate().toString());		
 			}else{
-				orderDatetextField = new JTextField();
+				orderDateLabel = new JLabel(new Date().toString());	
 		}
-
-		orderDatetextField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		orderDatetextField.setBounds(487, 87, 86, 20);
-		OrderInfopanel.add(orderDatetextField);
-		orderDatetextField.setColumns(10);
+		orderDateLabel.setBounds(487, 87, 86, 20);
+		OrderInfopanel.add(orderDateLabel);
+		
 		if(!isAdd&&(deliveryTicket.getOrderDate()!=null)){
-			orderTimetextField = new JTextField(deliveryTicket.getOrderPlacementTime().toString());	
+			orderTimeLabel = new JLabel(deliveryTicket.getOrderPlacementTime().toString());	
 			}else{
-				orderTimetextField = new JTextField();
+				orderTimeLabel = new JLabel(new Date().toString());
 		}
-		orderTimetextField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		orderTimetextField.setBounds(487, 62, 86, 20);
-		OrderInfopanel.add(orderTimetextField);
-		orderTimetextField.setColumns(10);
+		orderTimeLabel.setBounds(487, 62, 86, 20);
+		OrderInfopanel.add(orderTimeLabel);
 		
 		JLabel lblToBeCalculated = new JLabel("TBE");// TBE = to be evaluated
 		lblToBeCalculated.setBounds(205, 90, 150, 14);
@@ -298,13 +293,17 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 		
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
-			@SuppressWarnings("static-access")
+			@SuppressWarnings({ "static-access" })
 			public void actionPerformed(ActionEvent e) {
 				
 				EntityTransaction userTransaction = CourierEntityManager.getEntityManager().getTransaction();
 				userTransaction.begin();
 				deliveryTicket.setActualDeliveryTime(null);
-				deliveryTicket.setActualDepartureTime(null);
+				//LocalTime departureTime = LocalTime.parse(departureTimetextField.getText());
+				Date today = new Date();
+				//today.setHours(departureTime.getHour());
+				//today.setMinutes(departureTime.getMinute());
+				deliveryTicket.setActualDepartureTime(today);
 				deliveryTicket.setActualPickUpTime(null);
 				deliveryTicket.setCourier((Courier)courierNamecomboBox.getSelectedItem());
 				deliveryTicket.setCourierReturnTime(null);
@@ -338,10 +337,8 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 				System.out.println("The following are the delivery directions");
 				System.out.println("=========================================\n");
 				System.out.print(translatedDirections);
-				
-				
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame));
+				currentFrame.getContentPane().add(new DeliveryDirectionsPanel(currentFrame, translatedDirections, deliveryRoute));
 				currentFrame.revalidate();
 			}
 		});
@@ -364,4 +361,5 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 		add(lbltbeToBe);
 
 	}
+	
 }

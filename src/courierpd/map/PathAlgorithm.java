@@ -31,6 +31,7 @@ public class PathAlgorithm {
 
     public static Route findShortestPath(DeliveryTicket currentOrder) {
         Route shortestRoute = new Route();
+        shortestRoute.setCurrentOrder(currentOrder);
         ArrayList<Intersection> pathFromOfficeToPickup = new ArrayList<Intersection>();
         ArrayList<Intersection> pathFromPickupToDelivery = new ArrayList<Intersection>();
         ArrayList<Intersection>pathFromDeliveryToOffice = new ArrayList<Intersection>();
