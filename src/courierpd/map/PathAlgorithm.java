@@ -38,7 +38,7 @@ public class PathAlgorithm {
         Intersection officeLocation=null;
         Intersection pickupLocation = currentOrder.getPickUpClient().getLocation();
         Intersection deliveryLocation = currentOrder.getDeliveryClient().getLocation();
-        //add all intersections from the map into the nodes set
+        //add all open intersections from the map into the nodes set
         for(Intersection intersection: IntersectionDBAO.listIntersections()){
         	if(intersection.getIsOpen()){
             	allNodes.add(intersection);

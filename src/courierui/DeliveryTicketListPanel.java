@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 
 public class DeliveryTicketListPanel extends JPanel {
 
@@ -31,8 +32,22 @@ public class DeliveryTicketListPanel extends JPanel {
 		setLayout(null);
 		
 		JLabel lblDeliveryTicketList = new JLabel("Delivery Ticket List");
-		lblDeliveryTicketList.setBounds(450, 26, 229, 14);
+		lblDeliveryTicketList.setBounds(451, 11, 229, 14);
 		add(lblDeliveryTicketList);
+		
+		JLabel lblSortTicketsBy = new JLabel("Sort Tickets By");
+		lblSortTicketsBy.setBounds(51, 26, 89, 14);
+		add(lblSortTicketsBy);
+		
+		JComboBox sortComboBox = new JComboBox();
+		sortComboBox.addItem("Package Id");
+		sortComboBox.addItem("Order Date");
+		sortComboBox.addItem("Status");
+		sortComboBox.addItem("Sender names");
+		sortComboBox.addItem("Receiver names");
+
+		sortComboBox.setBounds(160, 23, 140, 20);
+		add(sortComboBox);
 		
 		DefaultListModel listModel = new DefaultListModel();
 		for (DeliveryTicket ticket: DeliveryTicketDBAO.listDeliveryTickets()){		
