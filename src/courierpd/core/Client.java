@@ -2,6 +2,7 @@ package courierpd.core;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import courierdm.DeliveryTicketDBAO;
 import courierpd.map.Intersection;
 
 /**
@@ -207,4 +209,17 @@ public class Client implements Serializable{
 		return finalString;
 	}*/
 
+    public boolean isOkayToDelete()
+    {
+    	List<DeliveryTicket> persistedDeliveryTickets = DeliveryTicketDBAO.listDeliveryTickets();
+    	for(DeliveryTicket deliveryTicket: persistedDeliveryTickets)
+    	{
+    		if(deliveryTicket.getPickUpClient().equals(this) || deliveryTicket.getDeliveryClient().equals(this))
+    		{
+    			return false;
+    		}
+    	}
+    	
+    	return true;
+    }
 }

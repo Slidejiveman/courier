@@ -56,13 +56,23 @@ public class ClientDeletePanel extends JPanel {
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try{
-					EntityTransaction userTransaction = CourierEntityManager.getEntityManager().getTransaction();
-					userTransaction.begin();
+				if(client.isOkayToDelete())
+				{
+					try{
+						EntityTransaction userTransaction = CourierEntityManager.getEntityManager().getTransaction();
+						userTransaction.begin();
 					
-					ClientDBAO.removeClient(client);
-					userTransaction.commit();
-				} catch(Exception e)
+						ClientDBAO.removeClient(client);
+						userTransaction.commit();
+					} 
+					catch(Exception e)
+					{
+						JOptionPane.showMessageDialog(null,
+							"Cannot delete Client due to connected Delivery Ticket", 
+							"Delete Failed", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+				else
 				{
 					JOptionPane.showMessageDialog(null,
 							"Cannot delete Client due to connected Delivery Ticket", 
