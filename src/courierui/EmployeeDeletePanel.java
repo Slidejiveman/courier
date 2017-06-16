@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import courierdm.CourierEntityManager;
@@ -63,14 +64,22 @@ public class EmployeeDeletePanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				 //EmployeeDBAO.removeEmployee(employee);
-				
-				EntityTransaction userTransaction = CourierEntityManager.getEntityManager().getTransaction();
-				userTransaction.begin();
-				EmployeeDBAO.deleteUser(employee);
-				userTransaction.commit();
-				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new EmployeeManagementPanel(currentFrame));
-				currentFrame.getContentPane().revalidate();
+				if(employee.isOkayToDelete())
+				{
+					EntityTransaction userTransaction = CourierEntityManager.getEntityManager().getTransaction();
+					userTransaction.begin();
+					EmployeeDBAO.deleteUser(employee);
+					userTransaction.commit();
+					currentFrame.getContentPane().removeAll();
+					currentFrame.getContentPane().add(new EmployeeManagementPanel(currentFrame));
+					currentFrame.getContentPane().revalidate();
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null,
+							"Cannot delete Employee because they are connected to a Delivery Ticket", 
+							"Delete Failed", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		btnDelete.setBounds(223, 401, 124, 49);
