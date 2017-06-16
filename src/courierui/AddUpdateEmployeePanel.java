@@ -8,14 +8,18 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-
+import courierdm.ClientDBAO;
 import courierdm.CourierEntityManager;
 import courierdm.EmployeeDBAO;
+import courieremail.EmailValidator;
 import courierpd.core.User;
 import courierpd.enums.EmployeeRole;
+import courierpd.map.Intersection;
+import courierpd.other.PasswordValidator;
 
 public class AddUpdateEmployeePanel extends JPanel {
 
@@ -144,18 +148,30 @@ public class AddUpdateEmployeePanel extends JPanel {
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				EntityTransaction userTransaction = CourierEntityManager.getEntityManager().getTransaction();
-				userTransaction.begin();
-				if(textField.getText() != null) {
+				
+				try {
+					userTransaction.begin();
+				
+				if(textField.getText() != null && !textField.getText().matches(".*\\d+.*")) { //Found this online, used to determine if string contains a number or not
 					employee.setName(textField.getText());
 				}
-				if(textField_1.getText() != null) {
-					employee.setEmail(textField_1.getText());
+				else
+				{
+					userTransaction.rollback();
 				}
+				if(textField_1.getText() != null && EmailValidator.validate(textField_1.getText())) {
+					employee.setEmail(textField_1.getText());
+				} else {
+					userTransaction.rollback();
+				}
+				
 				if(textField_2.getText() != null) {
 					employee.setUsername(textField_2.getText());
-				}
-				if(passwordField.getPassword() != null) {
+				}			
+				if(passwordField.getPassword() != null && PasswordValidator.validate(passwordField.getPassword().toString())) {
 					employee.setPassword(passwordField.getPassword().toString());
+				} else {
+					userTransaction.rollback();
 				}
 				employee.setShift((Integer) comboBox.getModel().getSelectedItem());
 				employee.setIsActive(chckbxIsEmployeeActive.isSelected());
@@ -169,8 +185,14 @@ public class AddUpdateEmployeePanel extends JPanel {
 				currentFrame.getContentPane().removeAll();
 				currentFrame.getContentPane().add(new EmployeeManagementPanel(currentFrame));
 				currentFrame.getContentPane().revalidate();
-			}
+				} catch (Exception a) {
+					JOptionPane.showMessageDialog(null,
+							"Ensure name, email, and password fields are valid.", 
+							"Save Failed", JOptionPane.ERROR_MESSAGE);
+					}		
+				}
 		});
+		
 		btnSave.setBounds(182, 508, 97, 25);
 		add(btnSave);
 		
