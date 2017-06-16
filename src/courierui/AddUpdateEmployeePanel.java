@@ -168,7 +168,7 @@ public class AddUpdateEmployeePanel extends JPanel {
 				if(textField_2.getText() != null) {
 					employee.setUsername(textField_2.getText());
 				}			
-				if(passwordField.getPassword() != null && PasswordValidator.validate(passwordField.getPassword().toString())) {
+				if(passwordField.getPassword() != null && PasswordValidator.validate(passwordField.getText())) { // Text is not encrypted
 					employee.setPassword(passwordField.getPassword().toString());
 				} else {
 					userTransaction.rollback();
