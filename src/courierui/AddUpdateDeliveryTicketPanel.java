@@ -14,6 +14,7 @@ import courierdm.DeliveryTicketDBAO;
 import courierdm.EmployeeDBAO;
 import courierpd.core.Client;
 import courierpd.core.Courier;
+import courierpd.core.DefaultCourierAlgorithm;
 import courierpd.core.DeliveryTicket;
 import courierpd.core.OrderTaker;
 import courierpd.core.User;
@@ -123,6 +124,7 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 			}
 		});
 		courierNamecomboBox.setBounds(208, 26, 150, 20);
+		courierNamecomboBox.setSelectedItem(DefaultCourierAlgorithm.suggestDefaultCourier());
 		DeliveryInfopanel.add(courierNamecomboBox);
 		
 		JLabel lblDepartureTime = new JLabel("Departure Time: ");
