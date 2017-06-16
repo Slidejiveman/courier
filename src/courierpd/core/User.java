@@ -1,6 +1,7 @@
 package courierpd.core;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -14,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
+import courierdm.DeliveryTicketDBAO;
 import courierdm.EmployeeConverter;
 import courierpd.enums.EmployeeRole;
 
@@ -258,4 +260,18 @@ public class User implements Serializable {
 	return finalString;
 
 }	*/
+    
+    public boolean isOkayToDelete()
+    {
+    	List<DeliveryTicket> persistedDeliveryTickets = DeliveryTicketDBAO.listDeliveryTickets();
+    	for(DeliveryTicket deliveryTicket: persistedDeliveryTickets)
+    	{
+    		if(deliveryTicket.getCourier().equals(this))
+    		{
+    			return false;
+    		}
+    	}
+    	
+    	return true;
+    }
 }

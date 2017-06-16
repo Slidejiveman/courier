@@ -1,8 +1,9 @@
 package courierpd.map;
 
-import java.sql.Time;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import courierpd.core.DeliveryTicket;
 import courierpd.enums.Direction;
@@ -60,6 +61,7 @@ public class Route {
     private ArrayList<Intersection> officeToPickupPath;
     private ArrayList<Intersection> pickupToDeliveryPath;
     private ArrayList<Intersection> deliveryToOfficePath;
+    private Integer blocksCount=0;
     
     public Route() {
       setOfficeToPickupPath(new ArrayList<Intersection>());
@@ -74,9 +76,12 @@ public class Route {
      * delivery time amounts to the estimated number of blocks to travel, 
      * converting that to miles then dividing that by the courier's average speed.
      */
-    public Time estimateDeliveryTime() {
-        // TODO - implement Route.estimateDeliveryTime
-        throw new UnsupportedOperationException();
+    @SuppressWarnings("deprecation")
+	public LocalTime estimateDeliveryTime() {
+    	double minutesUsed =(0.1 * this.estimateBlocks()/5);
+        Date deliveryTime = this.getCurrentOrder().getActualDepartureTime();
+        deliveryTime.setMinutes((int) (this.currentOrder.getActualDepartureTime().getMinutes()+minutesUsed));
+    	return LocalTime.of(deliveryTime.getHours(), deliveryTime.getMinutes());
     }
 
     /**
@@ -88,9 +93,9 @@ public class Route {
      * were used, then the difference between the two would be 1, which is the 
      * absolute value of the difference between 1 and 2.
      */
-    public int estimateBlocks() {
+    public Integer estimateBlocks() {
         // TODO - implement Route.estimateBlocks
-        throw new UnsupportedOperationException();
+        return this.blocksCount;
     }
 
     /**
@@ -98,8 +103,7 @@ public class Route {
      * of blocks times the business parameters for billing base and rate.
      */
     public float estimatePrice() {
-        // TODO - implement Route.estimatePrice
-        throw new UnsupportedOperationException();
+        return (10+(2*this.estimateBlocks()));
     }
 
     /**
@@ -107,21 +111,10 @@ public class Route {
      * utility class is made. After this function has executed, the 
      * usedIntersections represent the shortest path within the Route class.
      */
-    public void findUsedIntersections() {
-        // TODO - implement Route.findUsedIntersections
-        throw new UnsupportedOperationException();
+    public ArrayList<Intersection> findUsedIntersections() {
+        return this.usedIntersections;
     }
-
-    /**
-     * This method examines the intersections found among those that are 
-     * used in the shortest path and determines which direction the courier 
-     * will have to turn to stay on the path.
-     */
-    public void findTurnDirection() {
-        // TODO - implement Route.findTurnDirection
-        throw new UnsupportedOperationException();
-    }
-
+   
     /**
      * Determines the length, in blocks, of the edge between two intersections 
      * used for turning to stay on the shortest path.
@@ -192,9 +185,6 @@ public class Route {
 
 	public void setOfficeToPickupPath(ArrayList<Intersection> officeToPickupPath) {
 		this.officeToPickupPath = officeToPickupPath;
-        for(Intersection intersection:this.officeToPickupPath){
-        	this.usedIntersections.add(intersection);
-        }
 	}
 
 	public ArrayList<Intersection> getPickupToDeliveryPath() {
@@ -203,9 +193,6 @@ public class Route {
 
 	public void setPickupToDeliveryPath(ArrayList<Intersection> pickupToDeliveryPath) {
 		this.pickupToDeliveryPath = pickupToDeliveryPath;
-		for(Intersection intersection:this.pickupToDeliveryPath){
-        	this.usedIntersections.add(intersection);
-        }
 	}
 
 	public ArrayList<Intersection> getDeliveryToOfficePath() {
@@ -214,20 +201,21 @@ public class Route {
 
 	public void setDeliveryToOfficePath(ArrayList<Intersection> deliveryToOfficePath) {
 		this.deliveryToOfficePath = deliveryToOfficePath;
-		for(Intersection intersection:this.deliveryToOfficePath){
-        	this.usedIntersections.add(intersection);
-        }
 	}
 	
 	public String getTranslatedDirections(){
-		String directions = "";
-		directions+=" From "+this.getOfficeToPickupPath().get(0).getName()+" (office) to the pickup location: \n";
-		directions+=translatePath(this.officeToPickupPath);
-		directions+=" From "+this.getPickupToDeliveryPath().get(0).getName()+" (the pickup location) to the delivery location: \n";
-		directions+=translatePath(this.pickupToDeliveryPath);
-		directions+=" From "+this.getDeliveryToOfficePath().get(0).getName()+" (the delivery location) back to office: \n";
-		directions+=translatePath(this.deliveryToOfficePath);
-		
+		String directions = "\n\n";
+		String tab = "\t";
+		directions+=tab+tab+" From "+this.getOfficeToPickupPath().get(0).getName()+" (office) to the pickup location: \n";
+		translatePath(this.officeToPickupPath);
+		directions+=getsimplifiedDirections();
+		directions+=tab+tab+" From "+this.getPickupToDeliveryPath().get(0).getName()+" (the pickup location) to the delivery location: \n";
+		translatePath(this.pickupToDeliveryPath);
+		directions+=getsimplifiedDirections();
+		directions+=tab+tab+" From "+this.getDeliveryToOfficePath().get(0).getName()+" (the delivery location) back to office: \n";
+		translatePath(this.deliveryToOfficePath);
+		directions+=getsimplifiedDirections();
+		directions+="\n";
 		return directions;
 	}
 	public String translatePath(ArrayList<Intersection> path){
@@ -240,6 +228,7 @@ public class Route {
 		String tab = "\t";
 		int counter=0;
 		Intersection currentIntersection = path.get(0);
+		this.usedIntersections.add(currentIntersection);
 		while(counter<path.size()-1){
 			Intersection nextIntersection = path.get(counter+1);
 			Street street = new Street();
@@ -313,10 +302,99 @@ public class Route {
 			
 			//update current intersection and the counter
 			currentIntersection = nextIntersection;
+			this.usedIntersections.add(currentIntersection);
 			counter++;
 		}
 		
 		return translatedPath;
+	}
+	/**
+     * This method examines the intersections found among those that are 
+     * used in the shortest path and determines which direction the courier 
+     * will have to turn to stay on the path.
+     */
+	public String getsimplifiedDirections(){
+		String direction="";
+		int fromIndex = 0;
+		int toIndex=0;
+		int counter = 0;
+		String turnDirection="";
+		String tab = "\t";
+		ArrayList<Direction> simplifiedDirections = new ArrayList<Direction>();
+		while (counter<this.directions.size()-1){
+			if(this.directions.get(counter).equals(this.directions.get(counter+1))){
+				toIndex=counter+1;
+			}else{
+				simplifiedDirections.add(this.directions.get(toIndex));
+				if((directions.get(toIndex)).equals(Direction.North)){
+					if((directions.get(toIndex+1)).equals(Direction.East)){
+						turnDirection="Turn Right, ";
+					}else if((directions.get(toIndex+1)).equals(Direction.West)){
+						turnDirection="Turn Left, ";
+					}
+					
+				}else if((directions.get(toIndex)).equals(Direction.South)){
+					if((directions.get(toIndex+1)).equals(Direction.East)){
+						turnDirection="Turn Left, ";
+					}else if((directions.get(toIndex+1)).equals(Direction.West)){
+						turnDirection="Turn Right, ";
+					}
+				}else if((directions.get(toIndex)).equals(Direction.East)){
+					if((directions.get(toIndex+1)).equals(Direction.South)){
+						turnDirection="Turn Right, ";
+					}else if((directions.get(toIndex+1)).equals(Direction.North)){
+						turnDirection="Turn Left, ";
+					}
+				}else if((directions.get(toIndex)).equals(Direction.West)){
+					if((directions.get(toIndex+1)).equals(Direction.South)){
+						turnDirection="Turn Left, ";
+					}else if((directions.get(toIndex+1)).equals(Direction.North)){
+						turnDirection="Turn Right, ";
+					}
+				}
+				direction +=tab+tab+tab+turnDirection+ " keep straight "+" for "+ ((toIndex+1)-fromIndex) 
+						+" blocks to "+this.usedIntersections.get(toIndex+1).getName()+" on the "
+						+getStreetNameGivenCoordinate(usedIntersections.get(toIndex));
+				direction+="\n";
+				toIndex++;
+				fromIndex=toIndex;
+			}
+			if(toIndex == this.directions.size()-1){
+				simplifiedDirections.add(this.directions.get(toIndex));
+				direction +=tab+tab+tab+turnDirection+ "keep straight "+" for "+ ((toIndex+1)-fromIndex) 
+						+" blocks to "+this.usedIntersections.get(toIndex+1).getName()+" on the "
+						+getStreetNameGivenCoordinate(usedIntersections.get(toIndex));
+				direction+="\n";
+			}
+			
+			counter++;
+		}
+		
+		//create a new directions collection
+		blocksCount+=this.directions.size();
+		this.directions=new ArrayList<Direction>();
+		this.usedIntersections=new ArrayList<Intersection>();
+		return direction;
+	}
+
+	private String getStreetNameGivenCoordinate(Intersection intersection) {
+		String streetName="";
+		if(intersection.getXCoord()==0){
+			streetName = "A Street";
+		}else if(intersection.getXCoord()==1){
+			streetName = "B Street";
+		}else if(intersection.getXCoord()==2){
+			streetName = "C Street";
+		}else if(intersection.getXCoord()==3){
+			streetName = "D Street";
+		}else if(intersection.getXCoord()==4){
+			streetName = "E Street";
+		}else if(intersection.getXCoord()==5){
+			streetName = "F Street";
+		}else if(intersection.getXCoord()==6){
+			streetName = "G Street";
+		}
+		return streetName;
 	}
 
 }

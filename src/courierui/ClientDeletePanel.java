@@ -7,6 +7,7 @@ import javax.persistence.EntityTransaction;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import courierpd.core.Client;
@@ -63,7 +64,9 @@ public class ClientDeletePanel extends JPanel {
 					userTransaction.commit();
 				} catch(Exception e)
 				{
-					
+					JOptionPane.showMessageDialog(null,
+							"Cannot delete Client due to connected Delivery Ticket", 
+							"Delete Failed", JOptionPane.ERROR_MESSAGE);
 				}
 				
 				currentFrame.getContentPane().removeAll();

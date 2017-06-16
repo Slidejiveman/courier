@@ -68,7 +68,7 @@ public class MapConfigPanel extends JPanel {
 		textField.setColumns(10);
 		
 		
-		JButton btnClose = new JButton("Close");
+		JButton btnClose = new JButton("Close Intersection");
 		btnClose.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
@@ -104,7 +104,7 @@ public class MapConfigPanel extends JPanel {
 
 			}
 		});
-		btnClose.setBounds(296, 197, 89, 23);
+		btnClose.setBounds(184, 197, 218, 23);
 		add(btnClose);
 		
 		DefaultListModel listModel = new DefaultListModel();

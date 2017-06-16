@@ -31,13 +31,14 @@ public class PathAlgorithm {
 
     public static Route findShortestPath(DeliveryTicket currentOrder) {
         Route shortestRoute = new Route();
+        shortestRoute.setCurrentOrder(currentOrder);
         ArrayList<Intersection> pathFromOfficeToPickup = new ArrayList<Intersection>();
         ArrayList<Intersection> pathFromPickupToDelivery = new ArrayList<Intersection>();
         ArrayList<Intersection>pathFromDeliveryToOffice = new ArrayList<Intersection>();
         Intersection officeLocation=null;
         Intersection pickupLocation = currentOrder.getPickUpClient().getLocation();
         Intersection deliveryLocation = currentOrder.getDeliveryClient().getLocation();
-        //add all intersections from the map into the nodes set
+        //add all open intersections from the map into the nodes set
         for(Intersection intersection: IntersectionDBAO.listIntersections()){
         	if(intersection.getIsOpen()){
             	allNodes.add(intersection);
