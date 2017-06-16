@@ -20,6 +20,7 @@ import courierdm.IntersectionDBAO;
 import courieremail.EmailValidator;
 import courierpd.core.Client;
 import courierpd.map.Intersection;
+import courierpd.other.PhoneValidator;
 
 public class AddUpdateClientPanel extends JPanel {
 	
@@ -102,15 +103,23 @@ public class AddUpdateClientPanel extends JPanel {
 					{
 						userTransaction.rollback();
 					}
+					
 					if(textField_2.getText() != null && EmailValidator.validate(textField_2.getText())) {
 						client.setEmail(textField_2.getText());
-					} else {
+					} 
+					else 
+					{
 						userTransaction.rollback();
 					}
 					
-					if(textField_3.getText() != null) {
+					if(textField_3.getText() != null && PhoneValidator.validatePhoneNumber(textField_3.getText())) {
 						client.setPhoneNumber(textField_3.getText());
-					}			
+					}
+					else
+					{
+						userTransaction.rollback();
+					}
+					
 					client.setLocation((Intersection) comboBox.getSelectedItem());
 					client.setIsActive(clientActiveCheckBox.isSelected());
 					if(isAdd)
