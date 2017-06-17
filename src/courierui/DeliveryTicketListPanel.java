@@ -93,10 +93,11 @@ public class DeliveryTicketListPanel extends JPanel {
 			// refresh the screen so that the sorting is displayed.
 			public void itemStateChanged(ItemEvent event) {
 				Object item = event.getItem(); // Will be a string from the combobox
-				
-				mainFrame.getContentPane().removeAll();
-				mainFrame.getContentPane().add(new DeliveryTicketListPanel(mainFrame, item.toString()));
-				mainFrame.getContentPane().revalidate();						
+				if (item != null) {
+					mainFrame.getContentPane().removeAll();
+					mainFrame.getContentPane().add(new DeliveryTicketListPanel(mainFrame, item.toString()));
+					mainFrame.getContentPane().revalidate();
+				}
 			}
 		});
 		
