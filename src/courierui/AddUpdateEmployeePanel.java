@@ -20,6 +20,10 @@ import courierpd.core.User;
 import courierpd.enums.EmployeeRole;
 import courierpd.map.Intersection;
 import courierpd.other.PasswordValidator;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class AddUpdateEmployeePanel extends JPanel {
 
@@ -33,6 +37,7 @@ public class AddUpdateEmployeePanel extends JPanel {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JPasswordField passwordField;
+	JComboBox<EmployeeRole> comboBox_1;
 
 	/**
 	 * Create the panel.
@@ -108,7 +113,7 @@ public class AddUpdateEmployeePanel extends JPanel {
 		
 		String strUsername ="";
 		if(employee.getUsername() !=null)
-		strUsername = employee.getUsername();
+			strUsername = employee.getUsername();
 		textField_2 = new JTextField(strUsername);
 		textField_2.setBounds(220, 291, 327, 22);
 		add(textField_2);
@@ -116,7 +121,7 @@ public class AddUpdateEmployeePanel extends JPanel {
 		
 		String strPassword ="";
 		if(employee.getPassword() !=null)
-		strPassword = employee.getPassword();
+			strPassword = employee.getPassword();
 		passwordField = new JPasswordField(strPassword);
 		passwordField.setBounds(220, 353, 327, 22);
 		add(passwordField);
@@ -133,7 +138,31 @@ public class AddUpdateEmployeePanel extends JPanel {
 		
 		// An Owner cannot be added to the system under normal operating
 		// circumstances. This would require special intervention at present
-		JComboBox<EmployeeRole> comboBox_1 = new JComboBox<EmployeeRole>();
+		comboBox_1 = new JComboBox<EmployeeRole>();
+		comboBox_1.addItemListener(new ItemListener() {
+			
+			// We advertised that couriers would not have usernames and passwords
+			// and therefore would not be able to access Ubiquity through the app
+			// but only through email. This listener disables the field if Courier
+			// is in the combobox.
+			public void itemStateChanged(ItemEvent event) {
+				if (event.getStateChange() == ItemEvent.SELECTED) {
+					Object item = event.getItem();
+					if (item.equals(EmployeeRole.Courier)) {
+						textField_2.setVisible(false);
+						passwordField.setVisible(false);
+						lblUsername.setVisible(false);
+						lblPassword.setVisible(false);
+					}
+				} else {
+					textField_2.setVisible(true);
+					passwordField.setVisible(true);
+					lblUsername.setVisible(true);
+					lblPassword.setVisible(true);
+				}
+			}
+		});
+		
 		comboBox_1.setBounds(455, 407, 92, 22);
 		comboBox_1.addItem(EmployeeRole.Courier);
 		comboBox_1.addItem(EmployeeRole.OrderTaker);
