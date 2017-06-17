@@ -67,7 +67,7 @@ public class CourierMainFrame extends JFrame {
 				getContentPane().removeAll();
 				// In the add, place the constructor for your panel
 				//getContentPane().add();
-				getContentPane().add(new DeliveryTicketListPanel(currentFrame));
+				getContentPane().add(new DeliveryTicketListPanel(currentFrame, "Package Id"));
 				getContentPane().revalidate();
 			}
 		});
@@ -143,7 +143,7 @@ public class CourierMainFrame extends JFrame {
 		// The default panel to display should be added here.
 		// This will eventually be the login screen.
 		currentFrame.getContentPane().removeAll();
-		currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame));
+		currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame, "Package Id"));
 		currentFrame.getContentPane().revalidate();
 		
 	}

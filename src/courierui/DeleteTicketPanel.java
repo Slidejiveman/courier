@@ -54,7 +54,7 @@ public class DeleteTicketPanel extends JPanel {
 				DeliveryTicketDBAO.deleteDeliveryTicket(deliveryTicket);
 				userTransaction.commit();
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame));
+				currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame, "Package Id"));
 				currentFrame.revalidate();
 			}
 		});
@@ -65,7 +65,7 @@ public class DeleteTicketPanel extends JPanel {
 		btnNoCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame));
+				currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame, "Package Id"));
 				currentFrame.revalidate();
 			}
 		});

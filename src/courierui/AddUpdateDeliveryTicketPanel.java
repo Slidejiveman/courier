@@ -70,8 +70,10 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 		JComboBox deliveryCustomercomboBox = new JComboBox();
 
 		for(Client client: ClientDBAO.listClients()){
-			PickupCustomercomboBox.addItem(client);
-			deliveryCustomercomboBox.addItem(client);
+			if (client.getIsActive()) {
+				PickupCustomercomboBox.addItem(client);
+				deliveryCustomercomboBox.addItem(client);
+			}
 		}
 		PickupCustomercomboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -351,7 +353,7 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame));
+				currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame, "Package Id"));
 				currentFrame.revalidate();
 			}
 		});

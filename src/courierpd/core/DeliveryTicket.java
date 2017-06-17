@@ -2,6 +2,7 @@ package courierpd.core;
 
 import java.io.Serializable;
 import java.sql.Time;
+import java.util.Comparator;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -13,7 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
@@ -27,7 +27,7 @@ import courierpd.map.Route;
  * Delivery Tickets are the primary entity of interest in generating reports as well.
  */
 @Entity(name = "delivery_ticket")
-public class DeliveryTicket implements Serializable {
+public class DeliveryTicket implements Serializable, Comparable<DeliveryTicket> {
 
     /**
 	 * Allows Serialization so that the item may be stored in the
@@ -491,4 +491,95 @@ public class DeliveryTicket implements Serializable {
 		+"                             "+this.getPickUpClient().getName()
 		+"                                 "+this.getDeliveryClient().getName();
 	}
+
+	/**
+	 * Compares based on the package id.
+	 * It returns a negative number, a positive number, or 0
+	 * based on the result of the comparison.
+	 * The default comparison should be between package IDs.
+	 */
+	@Override
+	public int compareTo(DeliveryTicket compareTicket) {
+		
+		// Ascending order
+		return this.packageID - compareTicket.getPackageID();
+	}
+	
+	/**
+	 * Compares two delivery tickets based on the natural alphabetical
+	 * Ordering of sending (pick up) client names.
+	 * Two Strings are compared. The returns are treated the same
+	 * way as the delivery ticket compareTo method.
+	 */
+	public static Comparator<DeliveryTicket> DeliveryTicketSendingClientComparator =
+			new Comparator<DeliveryTicket>() {
+
+				@Override
+				public int compare(DeliveryTicket ticket1, DeliveryTicket ticket2) {
+					
+					String sender1Name = ticket1.getPickUpClient().getName();
+					String sender2Name = ticket2.getPickUpClient().getName();
+					
+					// Ascending order
+					return sender1Name.compareTo(sender2Name);
+				}
+		
+	};
+	
+	/**
+	 * Functions in the same way as the SendingClient comparator except it
+	 * looks at the Delivery Tickets receiving clients.
+	 */
+	public static Comparator<DeliveryTicket> DeliveryTicketReceivingClientComparator =
+			new Comparator<DeliveryTicket>() {
+
+				@Override
+				public int compare(DeliveryTicket ticket1, DeliveryTicket ticket2) {
+					
+					String receiver1Name = ticket1.getDeliveryClient().getName();
+					String receiver2Name = ticket2.getDeliveryClient().getName();
+					
+					// Ascending order
+					return receiver1Name.compareTo(receiver2Name);
+				}
+		
+	};
+	
+	/**
+	 * Compares the string names of statuses and sorts them by their
+	 * natural ordering. So, the EmployeeRoles are translated to their
+	 * string values and then put in order alphabetically.
+	 */
+	public static Comparator<DeliveryTicket> DeliveryTicketStatusComparator =
+			new Comparator<DeliveryTicket>() {
+
+				@Override
+				public int compare(DeliveryTicket ticket1, DeliveryTicket ticket2) {
+					
+					String status1Name = ticket1.getStatus().toString();
+					String status2Name = ticket2.getStatus().toString();
+					
+					// Ascending order
+					return status1Name.compareTo(status2Name);
+				}		
+	};
+	
+	/**
+	 * Compare the string values of the order dates. If the dates are equal,
+	 * then they will be sorted together as one unit. Otherwise they will be
+	 * sorted as expected.
+	 */
+	public static Comparator<DeliveryTicket> DeliveryTicketOrderDateComparator =
+			new Comparator<DeliveryTicket>() {
+
+				@Override
+				public int compare(DeliveryTicket ticket1, DeliveryTicket ticket2) {
+					
+					String orderDate1Str = ticket1.getOrderDate().toString();
+					String orderDate2Str = ticket2.getOrderDate().toString();
+					
+					// Ascending order
+					return orderDate1Str.compareTo(orderDate2Str);
+				}		
+	};
 }

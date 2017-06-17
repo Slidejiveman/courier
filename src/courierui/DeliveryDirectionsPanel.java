@@ -135,7 +135,7 @@ public class DeliveryDirectionsPanel extends JPanel {
 				
 				//Add code to save the instructions as on a PDF file
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame));
+				currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame, "Package Id"));
 				currentFrame.revalidate();
 			}
 		});

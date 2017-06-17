@@ -165,7 +165,7 @@ public class MapConfigPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame));
+				currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame, "Package Id"));
 				currentFrame.revalidate();
 			}
 		});

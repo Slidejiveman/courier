@@ -9,6 +9,11 @@ import courierpd.enums.EmployeeRole;
  * A static class used for determining the default courier to suggest for a given delivery ticket. 
  * All active couriers can be read in from the database, 
  * and that information can be used to determine which courier to use.
+ * 
+ * This algorithm does not do anything unless Courier deliveries are being counted.
+ * The courier's also need to be marked when they are out for delivery. This could 
+ * be done by checking the departure time and return time fields and incrementing 
+ * the values for the courier associated with a delivery ticket.
  */
 public class DefaultCourierAlgorithm {
     /**
