@@ -28,6 +28,9 @@ public class ReportsMainPanel extends JPanel {
 		JButton btnCourierPerformance = new JButton("Courier Performance");
 		btnCourierPerformance.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				currentFrame.getContentPane().removeAll();
+				currentFrame.getContentPane().add(new CourierPerformanceOptions(currentFrame));
+				currentFrame.getContentPane().revalidate();
 			}
 		});
 		btnCourierPerformance.setBounds(425, 193, 187, 23);
@@ -36,6 +39,9 @@ public class ReportsMainPanel extends JPanel {
 		JButton btnCompanyPerformace = new JButton("Company Performace");
 		btnCompanyPerformace.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				currentFrame.getContentPane().removeAll();
+				currentFrame.getContentPane().add(new CompanyPerformanceOptions(currentFrame));
+				currentFrame.getContentPane().revalidate();
 			}
 		});
 		btnCompanyPerformace.setBounds(425, 263, 187, 23);
