@@ -197,7 +197,7 @@ public class Client implements Serializable{
     	
     	finalString = this.name;
     	
-    	return String.format("%-80s", finalString) + activeString;
+    	return String.format("%-45s %s", finalString, activeString);
     }
 
 	/*@Override

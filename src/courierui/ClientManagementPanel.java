@@ -1,9 +1,9 @@
 package courierui;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-import java.util.Map.Entry;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -14,10 +14,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import courierpd.core.Client;
-import courierpd.map.Intersection;
 import courierdm.ClientDBAO;
-import courierdm.IntersectionDBAO;
+import courierpd.core.Client;
 
 public class ClientManagementPanel extends JPanel {
 
@@ -45,6 +43,7 @@ public class ClientManagementPanel extends JPanel {
 			listModel.addElement(client);
 				
 		list = new JList(listModel);
+		list.setFont(new Font("Courier New", Font.PLAIN, 12));
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) 
@@ -103,7 +102,7 @@ public class ClientManagementPanel extends JPanel {
 		add(lblName);
 		
 		JLabel lblStatus = new JLabel("Status");
-		lblStatus.setBounds(571, 81, 46, 14);
+		lblStatus.setBounds(587, 80, 46, 14);
 		add(lblStatus);
 	}
 }

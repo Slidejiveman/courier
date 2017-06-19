@@ -251,7 +251,7 @@ public class User implements Serializable {
     }
     @Override
     public String toString(){
-    	return this.name;
+    	return String.format("%-45s %s", this.getName(), this.getEmployeeRole().toString());
     }
     /*
     @Override

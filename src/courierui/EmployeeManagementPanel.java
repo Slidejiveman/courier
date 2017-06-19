@@ -44,6 +44,7 @@ public class EmployeeManagementPanel<Employee> extends JPanel {
 			listModel.addElement(employee);
 			
 		list = new JList(listModel);
+		list.setFont(new Font("Courier New", Font.PLAIN, 12));
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.addListSelectionListener(new ListSelectionListener() {
 				public void valueChanged(ListSelectionEvent e) 
@@ -53,7 +54,7 @@ public class EmployeeManagementPanel<Employee> extends JPanel {
 			          btnDelete.setEnabled(true);
 				}
 			});
-		list.setBounds(84, 108, 791, 335);
+		list.setBounds(287, 108, 442, 335);
 		add(list);
 		
 		btnAdd = new JButton("Add");
@@ -65,7 +66,7 @@ public class EmployeeManagementPanel<Employee> extends JPanel {
 				currentFrame.getContentPane().revalidate();
 			}
 		});
-		btnAdd.setBounds(145, 468, 97, 25);
+		btnAdd.setBounds(284, 468, 97, 25);
 		add(btnAdd);
 		
 		btnUpdate = new JButton("Update");
@@ -78,7 +79,7 @@ public class EmployeeManagementPanel<Employee> extends JPanel {
 				currentFrame.getContentPane().revalidate();
 			}
 		});
-		btnUpdate.setBounds(443, 468, 97, 25);
+		btnUpdate.setBounds(454, 468, 97, 25);
 		add(btnUpdate);
 		
 		btnDelete = new JButton("Delete");
@@ -90,7 +91,7 @@ public class EmployeeManagementPanel<Employee> extends JPanel {
 				currentFrame.getContentPane().revalidate();
 			}
 		});
-		btnDelete.setBounds(725, 468, 97, 25);
+		btnDelete.setBounds(632, 468, 97, 25);
 		add(btnDelete);
 	// This will disable Update and Delete if there is nothing in the Employee list
 		
@@ -105,21 +106,13 @@ public class EmployeeManagementPanel<Employee> extends JPanel {
 		lblEmployeeList.setBounds(465, 41, 86, 16);
 		add(lblEmployeeList);
 		
-		JLabel lblIdNumber = new JLabel("ID Number");
-		lblIdNumber.setBounds(329, 79, 73, 16);
-		add(lblIdNumber);
-		
 		JLabel lblName = new JLabel("Name");
-		lblName.setBounds(105, 79, 118, 16);
+		lblName.setBounds(320, 79, 118, 16);
 		add(lblName);
 		
 		JLabel lblRole = new JLabel("Role");
-		lblRole.setBounds(541, 79, 97, 16);
+		lblRole.setBounds(620, 79, 97, 16);
 		add(lblRole);
-		
-		JLabel lblEmail = new JLabel("Email");
-		lblEmail.setBounds(788, 79, 56, 16);
-		add(lblEmail);
 
 	}
 }
