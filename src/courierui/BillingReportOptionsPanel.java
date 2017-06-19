@@ -67,7 +67,7 @@ public class BillingReportOptionsPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0)
 			{
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new BillingReportOptionsPanel(currentFrame));
+				currentFrame.getContentPane().add(new BillingReportPanel(currentFrame));
 				currentFrame.getContentPane().revalidate();
 			}
 		});
