@@ -20,6 +20,9 @@ public class ReportsMainPanel extends JPanel {
 		JButton btnBilling = new JButton("Billing");
 		btnBilling.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				currentFrame.getContentPane().removeAll();
+				currentFrame.getContentPane().add(new BillingReportOptionsPanel(currentFrame));
+				currentFrame.getContentPane().revalidate();
 			}
 		});
 		btnBilling.setBounds(425, 123, 187, 23);
