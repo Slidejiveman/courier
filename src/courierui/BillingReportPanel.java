@@ -46,7 +46,7 @@ public class BillingReportPanel extends JPanel {
 			{
 				if((deliveryTicket.getPickUpClient() == client && deliveryTicket.getIsBillPickUp()) || (deliveryTicket.getDeliveryClient() == client && !deliveryTicket.getIsBillPickUp()))
 				{
-					listModel.addElement(deliveryTicket);
+					listModel.addElement(deliveryTicket.getOrderDate() + "    " + deliveryTicket.getPackageID() + "    " + deliveryTicket.getActualPickUpTime() + "    " + deliveryTicket.getActualDeliveryTime() + "    " + deliveryTicket.getEstPrice());
 				}
 			}
 		}
