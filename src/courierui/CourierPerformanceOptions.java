@@ -3,6 +3,11 @@ package courierui;
 import javax.swing.JPanel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+
+import courierdm.EmployeeDBAO;
+import courierpd.core.User;
+import courierpd.enums.EmployeeRole;
+
 import javax.swing.JRadioButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -44,22 +49,30 @@ setLayout(null);
 		add(lblSelectCourier);
 		
 		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(444, 159, 97, 20);
+		for(User user: EmployeeDBAO.listUsers()){
+			if(user.getEmployeeRole().equals(EmployeeRole.Courier)){
+				comboBox.addItem(user);
+			}
+		}
+		comboBox.setBounds(444, 159, 141, 20);
 		add(comboBox);
 		
 		textField = new JTextField();
-		textField.setBounds(444, 205, 97, 20);
+		textField.setBounds(444, 205, 141, 20);
 		add(textField);
 		textField.setColumns(10);
 		
 		textField_1 = new JTextField();
-		textField_1.setBounds(444, 248, 97, 20);
+		textField_1.setBounds(444, 248, 141, 20);
 		add(textField_1);
 		textField_1.setColumns(10);
 		
 		JButton btnGenerate = new JButton("Generate");
 		btnGenerate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				currentFrame.getContentPane().removeAll();
+				currentFrame.getContentPane().add(new CourierPerformanceReport(currentFrame));
+				currentFrame.getContentPane().revalidate();
 			}
 		});
 		btnGenerate.setBounds(399, 385, 89, 23);

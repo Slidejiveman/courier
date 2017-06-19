@@ -1,0 +1,83 @@
+package courierui;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+
+public class CourierPerformanceReport extends JPanel {
+
+	/**
+	 * Create the panel.
+	 */
+	public CourierPerformanceReport(CourierMainFrame currentFrame) {
+setLayout(null);
+		
+		JList list = new JList();
+		list.setBounds(64, 135, 897, 288);
+		add(list);
+		
+		JLabel lblCouriersId = new JLabel("Date");
+		lblCouriersId.setBounds(73, 110, 61, 14);
+		add(lblCouriersId);
+		
+		JLabel lblPackageId = new JLabel("Courier's ID");
+		lblPackageId.setBounds(144, 110, 70, 14);
+		add(lblPackageId);
+		
+		JLabel lblDateOfThe = new JLabel("Estimated Pickup Time");
+		lblDateOfThe.setBounds(247, 110, 137, 14);
+		add(lblDateOfThe);
+		
+		JLabel lblDateOfThe_1 = new JLabel("Actual Pickup Time");
+		lblDateOfThe_1.setBounds(418, 110, 127, 14);
+		add(lblDateOfThe_1);
+		
+		JLabel lblReportedDeliveryTime = new JLabel("Estimated Delivery Time");
+		lblReportedDeliveryTime.setBounds(551, 110, 151, 14);
+		add(lblReportedDeliveryTime);
+		
+		JLabel lblActualDeliveryTime = new JLabel("Actual Delivery Time");
+		lblActualDeliveryTime.setBounds(712, 110, 127, 14);
+		add(lblActualDeliveryTime);
+		
+		JButton btnSaveAsPdf = new JButton("Save As PDF");
+		btnSaveAsPdf.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnSaveAsPdf.setBounds(320, 445, 108, 23);
+		add(btnSaveAsPdf);
+		
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				currentFrame.getContentPane().removeAll();
+				currentFrame.getContentPane().add(new ReportsMainPanel(currentFrame));
+				currentFrame.getContentPane().revalidate();
+			}
+		});
+		btnCancel.setBounds(494, 445, 100, 23);
+		add(btnCancel);
+		
+		JLabel lblCompanyPerformanceReport = new JLabel("Courier Performance Report");
+		lblCompanyPerformanceReport.setBounds(337, 40, 216, 14);
+		add(lblCompanyPerformanceReport);
+		
+		JLabel lblBonusRecieved = new JLabel("Bonus Recieved");
+		lblBonusRecieved.setBounds(845, 110, 116, 14);
+		add(lblBonusRecieved);
+		
+		JLabel lblDate = new JLabel("Date:");
+		lblDate.setBounds(64, 58, 46, 14);
+		add(lblDate);
+		
+		JLabel lblCourier = new JLabel("Courier:");
+		lblCourier.setBounds(64, 85, 46, 14);
+		add(lblCourier);
+
+	}
+}

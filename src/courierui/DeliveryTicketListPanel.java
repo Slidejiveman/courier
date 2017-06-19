@@ -91,6 +91,7 @@ public class DeliveryTicketListPanel extends JPanel {
 		sortComboBox.addItem("Status");             // overflow otherwise!
 		sortComboBox.addItem("Sender names");
 		sortComboBox.addItem("Receiver names");
+		sortComboBox.setSelectedItem(sortCriterium);
 		sortComboBox.addItemListener(new ItemListener() {
 			// Allows for delivery tickets to be sorted by the
 			// selected item's natural ordering. This will also

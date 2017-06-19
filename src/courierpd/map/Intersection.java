@@ -235,12 +235,21 @@ public class Intersection implements Serializable {
 
     @Override 
     public String toString(){
-
-    	return this.name +"                        "+ this.getClosedDateStart()+"            "
-    			+ "      "+this.getClosedDateEnd();
+        String startDatePrint = "";
+        String endDatePrint = "";
+    	// Print nothing for the dates if they are null
+    	if (this.getClosedDateStart() != null) {
+    		startDatePrint = this.getClosedDateStart().toString();
+    	}
+    	if (this.getClosedDateEnd() != null) {
+    		endDatePrint = this.getClosedDateEnd().toString();
+    	}
+    	
+    	return String.format("%-23s %-20s %s", 
+    			this.name, startDatePrint, endDatePrint);
     }
 
-	public void setIntersectionId(int intersectionId) {
+    public void setIntersectionId(int intersectionId) {
 		this.intersectionId = intersectionId;
 	}
 
