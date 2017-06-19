@@ -41,7 +41,15 @@ public class BillingReportPanel extends JPanel {
 		
 		DefaultListModel listModel = new DefaultListModel();
 		for(Client client: clientList)
-			listModel.addElement(client);
+		{
+			for(DeliveryTicket deliveryTicket: persistedDeliveryTickets)
+			{
+				if((deliveryTicket.getPickUpClient() == client && deliveryTicket.getIsBillPickUp()) || (deliveryTicket.getDeliveryClient() == client && !deliveryTicket.getIsBillPickUp()))
+				{
+					listModel.addElement(deliveryTicket);
+				}
+			}
+		}
 		
 		JList list = new JList(listModel);
 		list.setFont(new Font("Courier New", Font.PLAIN, 12));
