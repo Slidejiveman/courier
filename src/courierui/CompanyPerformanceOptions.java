@@ -36,12 +36,12 @@ setLayout(null);
 		add(lblReportEndDate);
 		
 		textField = new JTextField();
-		textField.setBounds(444, 205, 97, 20);
+		textField.setBounds(444, 205, 121, 20);
 		add(textField);
 		textField.setColumns(10);
 		
 		textField_1 = new JTextField();
-		textField_1.setBounds(444, 248, 97, 20);
+		textField_1.setBounds(444, 248, 121, 20);
 		add(textField_1);
 		textField_1.setColumns(10);
 		
