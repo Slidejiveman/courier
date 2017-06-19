@@ -54,7 +54,7 @@ public class ReportsMainPanel extends JPanel {
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new EmployeeManagementPanel(currentFrame));
+				currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame, "Package Id"));
 				currentFrame.getContentPane().revalidate();
 			}
 		});
