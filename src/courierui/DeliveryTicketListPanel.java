@@ -1,5 +1,6 @@
 package courierui;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -69,6 +70,7 @@ public class DeliveryTicketListPanel extends JPanel {
 		
 		// The list model is required for the JList.
 		JList list = new JList(listModel);
+		list.setFont(new Font("Courier New", Font.PLAIN, 12));
 		list.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) 
 			{
@@ -141,23 +143,23 @@ public class DeliveryTicketListPanel extends JPanel {
 		add(btnDelete);
 		
 		JLabel lblPackageId = new JLabel("Package ID Number");
-		lblPackageId.setBounds(100, 70, 200, 16);
+		lblPackageId.setBounds(51, 70, 200, 16);
 		add(lblPackageId);
 		
 		JLabel lblTicketDate = new JLabel("Date");
-		lblTicketDate.setBounds(300, 70, 56, 16);
+		lblTicketDate.setBounds(290, 71, 56, 16);
 		add(lblTicketDate);
 		
 		JLabel lblCourierId = new JLabel("Status");
-		lblCourierId.setBounds(450, 75, 118, 16);
+		lblCourierId.setBounds(482, 71, 118, 16);
 		add(lblCourierId);
 		
 		JLabel lblSender = new JLabel("Sending Client");
-		lblSender.setBounds(600, 75, 97, 16);
+		lblSender.setBounds(652, 70, 97, 16);
 		add(lblSender);
 		
 		JLabel lblReceiver = new JLabel("Receiving Client");
-		lblReceiver.setBounds(800, 75, 106, 16);
+		lblReceiver.setBounds(827, 71, 106, 16);
 		add(lblReceiver);
 	}
 }
