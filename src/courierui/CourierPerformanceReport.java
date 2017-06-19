@@ -2,12 +2,15 @@ package courierui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
+import courierpd.core.Client;
 import courierpd.core.User;
 
 public class CourierPerformanceReport extends JPanel {
@@ -15,10 +18,14 @@ public class CourierPerformanceReport extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public CourierPerformanceReport(CourierMainFrame currentFrame, User activeUser) {
+	public CourierPerformanceReport(CourierMainFrame currentFrame, User activeUser, List<User> userList) {
 setLayout(null);
-		
-		JList list = new JList();
+
+	DefaultListModel listModel = new DefaultListModel();
+	for(User user: userList)
+	listModel.addElement(user);
+
+		JList list = new JList(listModel);
 		list.setBounds(64, 135, 897, 288);
 		add(list);
 		
