@@ -121,6 +121,8 @@ public class AddUpdateClientPanel extends JPanel {
 					}
 					
 					client.setLocation((Intersection) comboBox.getSelectedItem());
+					//Intersection intersection2 = (Intersection) comboBox.getSelectedItem();
+					//intersection2.setClient(client);
 					client.setIsActive(clientActiveCheckBox.isSelected());
 					if(isAdd)
 					{
