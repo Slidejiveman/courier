@@ -1,36 +1,35 @@
 package courierui;
 
-import javax.swing.JPanel;
-
 import java.awt.Color;
-import javax.swing.JLabel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Date;
+
+import javax.persistence.EntityTransaction;
+import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import courierdm.ClientDBAO;
 import courierdm.CourierEntityManager;
 import courierdm.DeliveryTicketDBAO;
-import courierdm.EmployeeDBAO;
 import courierpd.core.Client;
 import courierpd.core.Courier;
 import courierpd.core.DefaultCourierAlgorithm;
 import courierpd.core.DeliveryTicket;
 import courierpd.core.OrderTaker;
 import courierpd.core.User;
-import courierpd.enums.EmployeeRole;
 import courierpd.enums.TicketStatus;
 import courierpd.map.PathAlgorithm;
 import courierpd.map.Route;
-
-import javax.swing.JRadioButton;
-import javax.swing.JCheckBox;
-import javax.persistence.EntityTransaction;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.time.LocalTime;
-import java.util.Date;
-import java.awt.event.ActionEvent;
 
 public class AddUpdateDeliveryTicketPanel extends JPanel {
 	/**
@@ -44,6 +43,7 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 	private JLabel orderTimeLabel;
 	private JTextField PickUpTimetextField;
 	private JTextField DeliveryTimeTextField;
+	private Date today = new Date();
 
 	/**
 	 * Create the panel.
@@ -246,6 +246,17 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 		rdbtnBillToDelivery.setBounds(720, 34, 130, 23);
 		OrderInfopanel.add(rdbtnBillToDelivery);
 		
+		ButtonGroup buttonGroup = new ButtonGroup();
+		buttonGroup.add(rdbtnBillToPickup);
+	    buttonGroup.add(rdbtnBillToDelivery);	
+	    if (!isAdd && deliveryTicket.getIsBillPickUp()) {
+	    	buttonGroup.setSelected(rdbtnBillToPickup.getModel(), true);
+	    } else if (!isAdd && !deliveryTicket.getIsBillPickUp()) {
+	    	buttonGroup.setSelected(rdbtnBillToDelivery.getModel(), true);
+	    } else { // case where we are adding
+	    	buttonGroup.setSelected(rdbtnBillToPickup.getModel(), true);
+	    }
+	    		
 		JCheckBox chckbxBonus = new JCheckBox("Bonus");
 		chckbxBonus.setBounds(720, 61, 130, 23);
 		OrderInfopanel.add(chckbxBonus);
@@ -301,49 +312,62 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				
 				EntityTransaction userTransaction = CourierEntityManager.getEntityManager().getTransaction();
-				userTransaction.begin();
-				deliveryTicket.setActualDeliveryTime(null);
-				//LocalTime departureTime = LocalTime.parse(departureTimetextField.getText());
-				Date today = new Date();
-				//today.setHours(departureTime.getHour());
-				//today.setMinutes(departureTime.getMinute());
-				deliveryTicket.setActualDepartureTime(today);
-				deliveryTicket.setActualPickUpTime(null);
-				deliveryTicket.setCourier((Courier)courierNamecomboBox.getSelectedItem());
-				deliveryTicket.setCourierReturnTime(null);
-				deliveryTicket.setDeliveryClient((Client)deliveryCustomercomboBox.getSelectedItem());
-				deliveryTicket.setEstBlocks(0);
-				deliveryTicket.setEstDeliveryTime(null);
-				deliveryTicket.setEstimatedDepartureTime(null);
-				deliveryTicket.setEstPrice(0.0f);
-				deliveryTicket.setIsBillPickUp(false);
-				deliveryTicket.setIsBonusEarned(true);
-				deliveryTicket.setOrderDate(null);
-				deliveryTicket.setOrderTaker((OrderTaker)orderTakerBox.getSelectedItem());
-				if(packageIdLabel.getText()==""){
-					deliveryTicket.setPackageID(0);
-				}else{
-					deliveryTicket.setPackageID(Integer.parseInt(packageIdLabel.getText()));
+				try {
+					userTransaction.begin();
+					deliveryTicket.setActualDeliveryTime(null);
+					//LocalTime departureTime = LocalTime.parse(departureTimetextField.getText());
+					//today.setHours(departureTime.getHour());
+					//today.setMinutes(departureTime.getMinute());
+					deliveryTicket.setActualDepartureTime(today);
+					deliveryTicket.setActualPickUpTime(null);
+					deliveryTicket.setCourier((Courier)courierNamecomboBox.getSelectedItem());
+					deliveryTicket.setCourierReturnTime(null);
+					deliveryTicket.setDeliveryClient((Client)deliveryCustomercomboBox.getSelectedItem());
+					deliveryTicket.setEstBlocks(0);
+					deliveryTicket.setEstDeliveryTime(null);
+					deliveryTicket.setEstimatedDepartureTime(null);
+					deliveryTicket.setEstPrice(0.0f);
+					if(buttonGroup.isSelected(rdbtnBillToPickup.getModel())) {
+						deliveryTicket.setIsBillPickUp(true);
+					} else {
+					    deliveryTicket.setIsBillPickUp(false);
+					}
+					deliveryTicket.setIsBonusEarned(true);
+					deliveryTicket.setOrderDate(today);
+					deliveryTicket.setOrderTaker((OrderTaker)orderTakerBox.getSelectedItem());
+					if(packageIdLabel.getText()==""){
+						deliveryTicket.setPackageID(0);
+					}else{
+						deliveryTicket.setPackageID(Integer.parseInt(packageIdLabel.getText()));
+					}
+					deliveryTicket.setPickUpClient((Client)PickupCustomercomboBox.getSelectedItem());
+					deliveryTicket.setRequestedPickUpTime(null);
+					deliveryTicket.setSpecialDeliveryInstructions(specialDeliverytextArea.getText());
+					deliveryTicket.setStatus((TicketStatus)statusComboBox.getSelectedItem());
+					if(isAdd){
+						DeliveryTicketDBAO.addDeliveryTicket(deliveryTicket);
+					}
+					DeliveryTicketDBAO.saveDeliveryTicket(deliveryTicket);
+					userTransaction.commit();
+					
+					//Path Algorithm section
+					PathAlgorithm pathAlgo = new PathAlgorithm();
+					Route deliveryRoute = pathAlgo.findShortestPath(deliveryTicket);
+					String translatedDirections = deliveryRoute.getTranslatedDirections();
+					System.out.println("The following are the delivery directions");
+					System.out.println("=========================================\n");
+					System.out.print(translatedDirections);
+					
+					//Frame revalidation section
+					currentFrame.getContentPane().removeAll();
+					currentFrame.getContentPane().add(new DeliveryDirectionsPanel(currentFrame, translatedDirections, deliveryRoute, activeUser));
+					currentFrame.revalidate();
+					
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null,
+							"Required fields have not been filled.", 
+							"Save Failed", JOptionPane.ERROR_MESSAGE);
 				}
-				deliveryTicket.setPickUpClient((Client)PickupCustomercomboBox.getSelectedItem());
-				deliveryTicket.setRequestedPickUpTime(null);
-				deliveryTicket.setSpecialDeliveryInstructions(specialDeliverytextArea.getText());
-				deliveryTicket.setStatus((TicketStatus)statusComboBox.getSelectedItem());
-				if(isAdd){
-					DeliveryTicketDBAO.addDeliveryTicket(deliveryTicket);
-				}
-				DeliveryTicketDBAO.saveDeliveryTicket(deliveryTicket);
-				userTransaction.commit();
-				
-				PathAlgorithm pathAlgo = new PathAlgorithm();
-				Route deliveryRoute = pathAlgo.findShortestPath(deliveryTicket);
-				String translatedDirections = deliveryRoute.getTranslatedDirections();
-				System.out.println("The following are the delivery directions");
-				System.out.println("=========================================\n");
-				System.out.print(translatedDirections);
-				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new DeliveryDirectionsPanel(currentFrame, translatedDirections, deliveryRoute, activeUser));
-				currentFrame.revalidate();
 			}
 		});
 		btnSave.setBounds(270, 510, 89, 23);
