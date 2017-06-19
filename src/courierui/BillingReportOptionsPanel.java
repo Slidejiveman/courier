@@ -29,15 +29,15 @@ public class BillingReportOptionsPanel extends JPanel {
 		setLayout(null);
 		
 		JLabel lblSelectClient = new JLabel("Select Client:");
-		lblSelectClient.setBounds(252, 184, 98, 14);
+		lblSelectClient.setBounds(238, 184, 98, 14);
 		add(lblSelectClient);
 		
 		JLabel lblReportStartDate = new JLabel("Report Start Date:");
-		lblReportStartDate.setBounds(252, 228, 98, 14);
+		lblReportStartDate.setBounds(238, 228, 112, 14);
 		add(lblReportStartDate);
 		
 		JLabel lblReportEndDate = new JLabel("Report End Date:");
-		lblReportEndDate.setBounds(252, 273, 98, 14);
+		lblReportEndDate.setBounds(238, 273, 112, 14);
 		add(lblReportEndDate);
 		
 		JComboBox comboBox = new JComboBox();
