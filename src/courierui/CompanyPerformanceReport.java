@@ -3,6 +3,9 @@ package courierui;
 import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.JTextField;
+
+import courierpd.core.User;
+
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -13,7 +16,7 @@ public class CompanyPerformanceReport extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public CompanyPerformanceReport(CourierMainFrame currentFrame) {
+	public CompanyPerformanceReport(CourierMainFrame currentFrame, User activeUser) {
 		setLayout(null);
 		
 		JList list = new JList();
@@ -56,7 +59,7 @@ public class CompanyPerformanceReport extends JPanel {
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new ReportsMainPanel(currentFrame));
+				currentFrame.getContentPane().add(new ReportsMainPanel(currentFrame,activeUser));
 				currentFrame.getContentPane().revalidate();
 			}
 		});

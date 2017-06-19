@@ -1,6 +1,9 @@
 package courierui;
 
 import javax.swing.JPanel;
+
+import courierpd.core.User;
+
 import javax.swing.JLabel;
 import javax.swing.JList;
 
@@ -14,7 +17,7 @@ public class BillingReportPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public BillingReportPanel(CourierMainFrame currentFrame) {
+	public BillingReportPanel(CourierMainFrame currentFrame, User activeUser) {
 		setLayout(null);
 		
 		JLabel lblClient = new JLabel("Client: ");
@@ -40,7 +43,7 @@ public class BillingReportPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new BillingReportOptionsPanel(currentFrame));
+				currentFrame.getContentPane().add(new BillingReportOptionsPanel(currentFrame, activeUser));
 				currentFrame.getContentPane().revalidate();
 			}
 		});

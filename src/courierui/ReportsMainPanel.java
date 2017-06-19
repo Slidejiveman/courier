@@ -1,6 +1,9 @@
 package courierui;
 
 import javax.swing.JPanel;
+
+import courierpd.core.User;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -13,7 +16,7 @@ public class ReportsMainPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public ReportsMainPanel(CourierMainFrame currentFrame) {
+	public ReportsMainPanel(CourierMainFrame currentFrame, User activeUser) {
 		
 		setLayout(null);
 		
@@ -21,7 +24,7 @@ public class ReportsMainPanel extends JPanel {
 		btnBilling.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new BillingReportOptionsPanel(currentFrame));
+				currentFrame.getContentPane().add(new BillingReportOptionsPanel(currentFrame,activeUser));
 				currentFrame.getContentPane().revalidate();
 			}
 		});
@@ -32,7 +35,7 @@ public class ReportsMainPanel extends JPanel {
 		btnCourierPerformance.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new CourierPerformanceOptions(currentFrame));
+				currentFrame.getContentPane().add(new CourierPerformanceOptions(currentFrame,activeUser));
 				currentFrame.getContentPane().revalidate();
 			}
 		});
@@ -43,7 +46,7 @@ public class ReportsMainPanel extends JPanel {
 		btnCompanyPerformace.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new CompanyPerformanceOptions(currentFrame));
+				currentFrame.getContentPane().add(new CompanyPerformanceOptions(currentFrame, activeUser));
 				currentFrame.getContentPane().revalidate();
 			}
 		});
@@ -54,7 +57,7 @@ public class ReportsMainPanel extends JPanel {
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame, "Package Id"));
+				currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame, "Package Id", activeUser));
 				currentFrame.getContentPane().revalidate();
 			}
 		});

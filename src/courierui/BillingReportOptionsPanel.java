@@ -7,6 +7,7 @@ import javax.swing.JTextField;
 
 import courierdm.ClientDBAO;
 import courierpd.core.Client;
+import courierpd.core.User;
 import courierpd.map.Intersection;
 
 import javax.swing.JCheckBox;
@@ -23,7 +24,7 @@ public class BillingReportOptionsPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public BillingReportOptionsPanel(CourierMainFrame currentFrame) {
+	public BillingReportOptionsPanel(CourierMainFrame currentFrame, User activeUser) {
 		List<Client> persistedClients = ClientDBAO.listClients();
 		
 		setLayout(null);
@@ -67,7 +68,7 @@ public class BillingReportOptionsPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0)
 			{
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new BillingReportPanel(currentFrame));
+				currentFrame.getContentPane().add(new BillingReportPanel(currentFrame, activeUser));
 				currentFrame.getContentPane().revalidate();
 			}
 		});
@@ -78,7 +79,7 @@ public class BillingReportOptionsPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new ReportsMainPanel(currentFrame));
+				currentFrame.getContentPane().add(new ReportsMainPanel(currentFrame, activeUser));
 				currentFrame.getContentPane().revalidate();
 			}
 		});

@@ -123,7 +123,7 @@ public class CourierMainFrame extends JFrame {
 		mntmReports.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				getContentPane().removeAll();
-				getContentPane().add(new ReportsMainPanel(currentFrame));
+				getContentPane().add(new ReportsMainPanel(currentFrame,activeUser));
 				// In the add, place the constructor for your panel
 				//getContentPane().add();
 				getContentPane().revalidate();

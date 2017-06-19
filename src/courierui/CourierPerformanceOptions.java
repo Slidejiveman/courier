@@ -21,7 +21,7 @@ public class CourierPerformanceOptions extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public CourierPerformanceOptions(CourierMainFrame currentFrame) {
+	public CourierPerformanceOptions(CourierMainFrame currentFrame, User activeUser) {
 setLayout(null);
 		
 		JRadioButton rdbtnWeekly = new JRadioButton("Weekly");
@@ -71,7 +71,7 @@ setLayout(null);
 		btnGenerate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new CourierPerformanceReport(currentFrame));
+				currentFrame.getContentPane().add(new CourierPerformanceReport(currentFrame,activeUser));
 				currentFrame.getContentPane().revalidate();
 			}
 		});
@@ -82,7 +82,7 @@ setLayout(null);
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new ReportsMainPanel(currentFrame));
+				currentFrame.getContentPane().add(new ReportsMainPanel(currentFrame,activeUser));
 				currentFrame.getContentPane().revalidate();
 			}
 		});

@@ -3,6 +3,9 @@ package courierui;
 import javax.swing.JPanel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+
+import courierpd.core.User;
+
 import javax.swing.JRadioButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -16,7 +19,7 @@ public class CompanyPerformanceOptions extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public CompanyPerformanceOptions(CourierMainFrame currentFrame) {
+	public CompanyPerformanceOptions(CourierMainFrame currentFrame, User activeUser) {
 setLayout(null);
 		
 		JRadioButton rdbtnWeekly = new JRadioButton("Weekly");
@@ -49,7 +52,7 @@ setLayout(null);
 		btnGenerate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new CompanyPerformanceReport(currentFrame));
+				currentFrame.getContentPane().add(new CompanyPerformanceReport(currentFrame, activeUser));
 				currentFrame.getContentPane().revalidate();
 			}
 		});
@@ -60,7 +63,7 @@ setLayout(null);
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new ReportsMainPanel(currentFrame));
+				currentFrame.getContentPane().add(new ReportsMainPanel(currentFrame,activeUser));
 				currentFrame.getContentPane().revalidate();
 			}
 		});

@@ -8,12 +8,14 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
+import courierpd.core.User;
+
 public class CourierPerformanceReport extends JPanel {
 
 	/**
 	 * Create the panel.
 	 */
-	public CourierPerformanceReport(CourierMainFrame currentFrame) {
+	public CourierPerformanceReport(CourierMainFrame currentFrame, User activeUser) {
 setLayout(null);
 		
 		JList list = new JList();
@@ -56,7 +58,7 @@ setLayout(null);
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new ReportsMainPanel(currentFrame));
+				currentFrame.getContentPane().add(new ReportsMainPanel(currentFrame,activeUser));
 				currentFrame.getContentPane().revalidate();
 			}
 		});
