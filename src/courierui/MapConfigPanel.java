@@ -16,7 +16,7 @@ import courierpd.map.Intersection;
 
 import java.awt.event.ActionListener;
 import java.sql.Date;
-
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 
 public class MapConfigPanel extends JPanel {
@@ -115,6 +115,7 @@ public class MapConfigPanel extends JPanel {
 		}
 		
 		JList closedIntList = new JList(listModel);
+		closedIntList.setFont(new Font("Courier New", Font.PLAIN, 12));
 		closedIntList.setBounds(566, 120, 400, 300);
 		add(closedIntList);
 		
