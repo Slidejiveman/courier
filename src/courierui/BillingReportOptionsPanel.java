@@ -1,8 +1,16 @@
 package courierui;
 
-import javax.swing.JPanel;
-import javax.swing.JLabel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import courierdm.ClientDBAO;
@@ -26,6 +34,7 @@ public class BillingReportOptionsPanel extends JPanel {
 	 */
 	public BillingReportOptionsPanel(CourierMainFrame currentFrame, User activeUser) {
 		List<Client> persistedClients = ClientDBAO.listClients();
+		List<Client> clientList = new ArrayList<Client>();
 		
 		setLayout(null);
 		
@@ -46,6 +55,8 @@ public class BillingReportOptionsPanel extends JPanel {
 		DefaultListModel listModel = new DefaultListModel();
 		for(Client client: persistedClients)
 			comboBox.addItem(client);
+		//comboBox.getSelectedIndex();
+		clientList.add((Client) comboBox.getItemAt(0));
 		add(comboBox);
 		
 		textField = new JTextField();
@@ -59,6 +70,24 @@ public class BillingReportOptionsPanel extends JPanel {
 		add(textField_1);
 		
 		JCheckBox chckbxSelectAllClients = new JCheckBox("Select All Clients");
+		chckbxSelectAllClients.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0)
+			{
+				clientList.clear();
+				
+				if(chckbxSelectAllClients.isSelected())
+				{
+					for(Client client: persistedClients)
+					{
+						clientList.add(client);
+					}
+				}
+				else
+				{
+					clientList.add((Client) comboBox.getSelectedItem());
+				}
+			}
+		});
 		chckbxSelectAllClients.setBounds(521, 180, 170, 23);
 		add(chckbxSelectAllClients);
 		
@@ -66,9 +95,9 @@ public class BillingReportOptionsPanel extends JPanel {
 		btnGenerateReport.setBounds(238, 376, 129, 23);
 		btnGenerateReport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0)
-			{
+			{	
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new BillingReportPanel(currentFrame, activeUser));
+				currentFrame.getContentPane().add(new BillingReportPanel(currentFrame, activeUser, clientList));
 				currentFrame.getContentPane().revalidate();
 			}
 		});

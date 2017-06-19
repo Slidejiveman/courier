@@ -1,15 +1,25 @@
 package courierui;
 
 import javax.swing.JPanel;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
+import courierdm.ClientDBAO;
+import courierdm.DeliveryTicketDBAO;
+import courierpd.core.Client;
+import courierpd.core.DeliveryTicket;
 import courierpd.core.User;
 
 import javax.swing.JLabel;
 import javax.swing.JList;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 
 public class BillingReportPanel extends JPanel {
@@ -17,7 +27,8 @@ public class BillingReportPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public BillingReportPanel(CourierMainFrame currentFrame, User activeUser) {
+	public BillingReportPanel(CourierMainFrame currentFrame, User activeUser, List<Client> clientList) {
+		List<DeliveryTicket> persistedDeliveryTickets = DeliveryTicketDBAO.listDeliveryTickets();
 		setLayout(null);
 		
 		JLabel lblClient = new JLabel("Client: ");
@@ -28,14 +39,19 @@ public class BillingReportPanel extends JPanel {
 		lblInsertName.setBounds(125, 35, 88, 14);
 		add(lblInsertName);
 		
+		DefaultListModel listModel = new DefaultListModel();
+		for(Client client: clientList)
+			listModel.addElement(client);
 		
+		JList list = new JList(listModel);
+		list.setFont(new Font("Courier New", Font.PLAIN, 12));
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
-		JList list = new JList();
 		list.setBounds(39, 92, 528, 269);
 		add(list);
 		
 		JButton btnSaveAsPdf = new JButton("Save as PDF");
-		btnSaveAsPdf.setBounds(125, 372, 98, 23);
+		btnSaveAsPdf.setBounds(125, 372, 123, 23);
 		add(btnSaveAsPdf);
 		
 		JButton btnCancel = new JButton("Cancel");
@@ -47,7 +63,7 @@ public class BillingReportPanel extends JPanel {
 				currentFrame.getContentPane().revalidate();
 			}
 		});
-		btnCancel.setBounds(383, 372, 89, 23);
+		btnCancel.setBounds(358, 372, 114, 23);
 		add(btnCancel);
 		
 		
