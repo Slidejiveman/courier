@@ -35,15 +35,15 @@ public class UpdateBusinessParametersPanel extends JPanel {
 		setLayout(null);
 		
 		JLabel lblBonusParameters = new JLabel("Bonus Parameters");
-		lblBonusParameters.setBounds(154, 120, 105, 14);
+		lblBonusParameters.setBounds(154, 120, 139, 14);
 		add(lblBonusParameters);
 		
 		JLabel lblBonusWindow = new JLabel("Bonus Window:");
-		lblBonusWindow.setBounds(110, 153, 86, 14);
+		lblBonusWindow.setBounds(78, 153, 118, 14);
 		add(lblBonusWindow);
 		
 		JLabel lblBonusAmount = new JLabel("Bonus Amount:");
-		lblBonusAmount.setBounds(109, 194, 87, 14);
+		lblBonusAmount.setBounds(78, 194, 118, 14);
 		add(lblBonusAmount);
 		
 		JLabel lblDeliveryTime = new JLabel("Delivery Time");
@@ -75,7 +75,7 @@ public class UpdateBusinessParametersPanel extends JPanel {
 		add(lblCourierInfo);
 		
 		JLabel lblAverageSpeed = new JLabel("Average Speed:");
-		lblAverageSpeed.setBounds(491, 362, 86, 14);
+		lblAverageSpeed.setBounds(459, 362, 112, 14);
 		add(lblAverageSpeed);
 		
 		textField = new JTextField(Integer.toString(businessParameters.getBonusWindow())); //Bonus Window

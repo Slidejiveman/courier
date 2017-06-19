@@ -29,40 +29,40 @@ public class BillingReportOptionsPanel extends JPanel {
 		setLayout(null);
 		
 		JLabel lblSelectClient = new JLabel("Select Client:");
-		lblSelectClient.setBounds(130, 106, 63, 14);
+		lblSelectClient.setBounds(252, 184, 98, 14);
 		add(lblSelectClient);
 		
 		JLabel lblReportStartDate = new JLabel("Report Start Date:");
-		lblReportStartDate.setBounds(130, 150, 98, 14);
+		lblReportStartDate.setBounds(252, 228, 98, 14);
 		add(lblReportStartDate);
 		
 		JLabel lblReportEndDate = new JLabel("Report End Date:");
-		lblReportEndDate.setBounds(130, 195, 98, 14);
+		lblReportEndDate.setBounds(252, 273, 98, 14);
 		add(lblReportEndDate);
 		
 		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(238, 103, 132, 20);
+		comboBox.setBounds(360, 181, 144, 20);
 		DefaultListModel listModel = new DefaultListModel();
 		for(Client client: persistedClients)
 			comboBox.addItem(client);
 		add(comboBox);
 		
 		textField = new JTextField();
-		textField.setBounds(238, 147, 132, 20);
+		textField.setBounds(360, 225, 144, 20);
 		add(textField);
 		textField.setColumns(10);
 		
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
-		textField_1.setBounds(238, 192, 132, 20);
+		textField_1.setBounds(360, 270, 144, 20);
 		add(textField_1);
 		
 		JCheckBox chckbxSelectAllClients = new JCheckBox("Select All Clients");
-		chckbxSelectAllClients.setBounds(376, 102, 115, 23);
+		chckbxSelectAllClients.setBounds(521, 180, 170, 23);
 		add(chckbxSelectAllClients);
 		
 		JButton btnGenerateReport = new JButton("Generate Report");
-		btnGenerateReport.setBounds(130, 298, 115, 23);
+		btnGenerateReport.setBounds(238, 376, 129, 23);
 		btnGenerateReport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0)
 			{
@@ -82,7 +82,7 @@ public class BillingReportOptionsPanel extends JPanel {
 				currentFrame.getContentPane().revalidate();
 			}
 		});
-		btnNewButton.setBounds(306, 298, 115, 23);
+		btnNewButton.setBounds(428, 376, 115, 23);
 		add(btnNewButton);
 
 	}
