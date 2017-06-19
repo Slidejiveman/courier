@@ -60,6 +60,9 @@ setLayout(null);
 		JButton btnGenerate = new JButton("Generate");
 		btnGenerate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				currentFrame.getContentPane().removeAll();
+				currentFrame.getContentPane().add(new CourierPerformanceReport(currentFrame));
+				currentFrame.getContentPane().revalidate();
 			}
 		});
 		btnGenerate.setBounds(399, 385, 89, 23);
