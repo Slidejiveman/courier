@@ -19,6 +19,7 @@ import javax.swing.event.ListSelectionListener;
 
 import courierdm.DeliveryTicketDBAO;
 import courierpd.core.DeliveryTicket;
+import courierpd.core.User;
 
 public class DeliveryTicketListPanel extends JPanel {
 
@@ -29,9 +30,10 @@ public class DeliveryTicketListPanel extends JPanel {
 	JButton btnUpdate, btnDelete;
 	/**
 	 * Create the panel.
+	 * @param activeUser 
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public DeliveryTicketListPanel(CourierMainFrame mainFrame, String sortCriterium) {
+	public DeliveryTicketListPanel(CourierMainFrame mainFrame, String sortCriterium, User activeUser) {
 		setLayout(null);
 		
 		JLabel lblDeliveryTicketList = new JLabel("Delivery Ticket List");
@@ -97,7 +99,7 @@ public class DeliveryTicketListPanel extends JPanel {
 				Object item = event.getItem(); // Will be a string from the combobox
 				if (item != null) {
 					mainFrame.getContentPane().removeAll();
-					mainFrame.getContentPane().add(new DeliveryTicketListPanel(mainFrame, item.toString()));
+					mainFrame.getContentPane().add(new DeliveryTicketListPanel(mainFrame, item.toString(), activeUser));
 					mainFrame.getContentPane().revalidate();
 				}
 			}
@@ -111,7 +113,7 @@ public class DeliveryTicketListPanel extends JPanel {
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mainFrame.getContentPane().removeAll();
-				mainFrame.getContentPane().add(new AddUpdateDeliveryTicketPanel(mainFrame,new DeliveryTicket(),true));
+				mainFrame.getContentPane().add(new AddUpdateDeliveryTicketPanel(mainFrame,new DeliveryTicket(),activeUser,true));
 				mainFrame.getContentPane().revalidate();
 			}
 		});
@@ -123,7 +125,7 @@ public class DeliveryTicketListPanel extends JPanel {
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				mainFrame.getContentPane().removeAll();
-				mainFrame.getContentPane().add(new AddUpdateDeliveryTicketPanel(mainFrame,(DeliveryTicket)list.getSelectedValue(),false));
+				mainFrame.getContentPane().add(new AddUpdateDeliveryTicketPanel(mainFrame,(DeliveryTicket)list.getSelectedValue(),activeUser,false));
 				mainFrame.getContentPane().revalidate();
 			}
 		});
@@ -135,7 +137,7 @@ public class DeliveryTicketListPanel extends JPanel {
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				mainFrame.getContentPane().removeAll();
-				mainFrame.getContentPane().add(new DeleteTicketPanel(mainFrame,(DeliveryTicket)list.getSelectedValue() ));
+				mainFrame.getContentPane().add(new DeleteTicketPanel(mainFrame,(DeliveryTicket)list.getSelectedValue(), activeUser));
 				mainFrame.getContentPane().revalidate();
 			}
 		});

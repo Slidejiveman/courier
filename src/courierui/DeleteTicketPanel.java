@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import courierdm.CourierEntityManager;
 import courierdm.DeliveryTicketDBAO;
 import courierpd.core.DeliveryTicket;
+import courierpd.core.User;
 
 import javax.swing.JLabel;
 import javax.persistence.EntityTransaction;
@@ -23,7 +24,7 @@ public class DeleteTicketPanel extends JPanel {
 	 * Create the panel.
 	 * @param deliveryTicket 
 	 */
-	public DeleteTicketPanel(CourierMainFrame currentFrame, DeliveryTicket deliveryTicket) {
+	public DeleteTicketPanel(CourierMainFrame currentFrame, DeliveryTicket deliveryTicket, User activeUser) {
 		setLayout(null);
 		
 		JLabel lblDeleteDeliveryTiceket = new JLabel("Delete Delivery Ticket");
@@ -55,7 +56,7 @@ public class DeleteTicketPanel extends JPanel {
 					DeliveryTicketDBAO.deleteDeliveryTicket(deliveryTicket);
 					userTransaction.commit();
 					currentFrame.getContentPane().removeAll();
-					currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame, "Package Id"));
+					currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame, "Package Id", activeUser));
 					currentFrame.revalidate();
 				}
 			}
@@ -67,7 +68,7 @@ public class DeleteTicketPanel extends JPanel {
 		btnNoCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame, "Package Id"));
+				currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame, "Package Id", activeUser));
 				currentFrame.revalidate();
 			}
 		});

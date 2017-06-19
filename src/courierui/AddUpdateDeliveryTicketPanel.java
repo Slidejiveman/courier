@@ -49,7 +49,7 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 	 * @param deliveryTicket 
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public AddUpdateDeliveryTicketPanel(CourierMainFrame currentFrame, DeliveryTicket deliveryTicket, boolean isAdd) {
+	public AddUpdateDeliveryTicketPanel(CourierMainFrame currentFrame, DeliveryTicket deliveryTicket,User activeUser, boolean isAdd) {
 		setLayout(null);
 		
 		JPanel CustomerInfopanel = new JPanel();
@@ -74,6 +74,10 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 				PickupCustomercomboBox.addItem(client);
 				deliveryCustomercomboBox.addItem(client);
 			}
+		}
+		if(!isAdd){
+			PickupCustomercomboBox.setSelectedItem(deliveryTicket.getPickUpClient());
+			deliveryCustomercomboBox.setSelectedItem(deliveryTicket.getDeliveryClient());
 		}
 		PickupCustomercomboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -116,17 +120,17 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 		DeliveryInfopanel.add(lblCourier);
 		
 		JComboBox courierNamecomboBox = new JComboBox();
-		for(User user: EmployeeDBAO.listUsers()){
-			if(user.getEmployeeRole().equals(EmployeeRole.Courier) && user.getIsActive()){
-				courierNamecomboBox.addItem(user);
-			}
+		if(isAdd){
+			courierNamecomboBox.setSelectedItem(DefaultCourierAlgorithm.suggestDefaultCourier());
+		}else{
+			courierNamecomboBox.addItem(deliveryTicket.getCourier());
+			courierNamecomboBox.setSelectedItem(deliveryTicket.getCourier());
 		}
 		courierNamecomboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
 		courierNamecomboBox.setBounds(208, 26, 150, 20);
-		courierNamecomboBox.setSelectedItem(DefaultCourierAlgorithm.suggestDefaultCourier());
 		DeliveryInfopanel.add(courierNamecomboBox);
 		
 		JLabel lblDepartureTime = new JLabel("Departure Time: ");
@@ -281,13 +285,8 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 		OrderInfopanel.add(lblToBeCalculated);
 		
 		JComboBox orderTakerBox = new JComboBox();
-
-		for(User user: EmployeeDBAO.listUsers()){
-
-			if(user.getEmployeeRole().equals(EmployeeRole.OrderTaker) && user.getIsActive()){
-				orderTakerBox.addItem(user);
-			}
-		}
+		orderTakerBox.addItem(activeUser);
+		orderTakerBox.setSelectedItem(activeUser);
 		PickupCustomercomboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
@@ -342,7 +341,7 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 				System.out.println("=========================================\n");
 				System.out.print(translatedDirections);
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new DeliveryDirectionsPanel(currentFrame, translatedDirections, deliveryRoute));
+				currentFrame.getContentPane().add(new DeliveryDirectionsPanel(currentFrame, translatedDirections, deliveryRoute, activeUser));
 				currentFrame.revalidate();
 			}
 		});
@@ -353,7 +352,7 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame, "Package Id"));
+				currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame, "Package Id", activeUser));
 				currentFrame.revalidate();
 			}
 		});

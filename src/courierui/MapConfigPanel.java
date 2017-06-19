@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 
 import courierdm.CourierEntityManager;
 import courierdm.IntersectionDBAO;
+import courierpd.core.User;
 import courierpd.map.CityMap;
 import courierpd.map.Intersection;
 
@@ -30,7 +31,7 @@ public class MapConfigPanel extends JPanel {
 	 * Create the panel.
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public MapConfigPanel(CourierMainFrame currentFrame, CityMap map) {
+	public MapConfigPanel(CourierMainFrame currentFrame, CityMap map, User activeUser) {
 		setLayout(null);
 		
 		JLabel lblUpdateMapInformation = new JLabel("Update Map Information");
@@ -99,7 +100,7 @@ public class MapConfigPanel extends JPanel {
 				
 				//Refresh the page
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new MapConfigPanel(currentFrame,map));
+				currentFrame.getContentPane().add(new MapConfigPanel(currentFrame,map, activeUser));
 				currentFrame.getContentPane().revalidate();
 
 			}
@@ -150,7 +151,7 @@ public class MapConfigPanel extends JPanel {
 					
 					//refresh the content pane
 					currentFrame.getContentPane().removeAll();
-					currentFrame.getContentPane().add(new MapConfigPanel(currentFrame,map));
+					currentFrame.getContentPane().add(new MapConfigPanel(currentFrame,map, activeUser));
 					currentFrame.getContentPane().revalidate();
 				}else{
 					System.out.println("You need to select an intersection to reopen");
@@ -165,7 +166,7 @@ public class MapConfigPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame, "Package Id"));
+				currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame, "Package Id", activeUser));
 				currentFrame.revalidate();
 			}
 		});

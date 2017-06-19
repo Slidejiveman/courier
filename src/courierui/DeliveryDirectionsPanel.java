@@ -17,6 +17,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import courierpd.core.User;
 import courierpd.map.Route;
 
 import java.io.*;
@@ -34,7 +35,7 @@ public class DeliveryDirectionsPanel extends JPanel {
 	 * @param currentFrame 
 	 * @param deliveryRoute2 
 	 */
-	public DeliveryDirectionsPanel(CourierMainFrame currentFrame, String deliveryRoute, Route route) {
+	public DeliveryDirectionsPanel(CourierMainFrame currentFrame, String deliveryRoute, Route route, User activeUser) {
 		setLayout(null);
 		
 		JLabel lblPackageid = new JLabel("PackageId: ");
@@ -135,7 +136,7 @@ public class DeliveryDirectionsPanel extends JPanel {
 				
 				//Add code to save the instructions as on a PDF file
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame, "Package Id"));
+				currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame, "Package Id", activeUser));
 				currentFrame.revalidate();
 			}
 		});
