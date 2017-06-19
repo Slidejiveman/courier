@@ -56,7 +56,7 @@ public class BillingReportOptionsPanel extends JPanel {
 		for(Client client: persistedClients)
 			comboBox.addItem(client);
 		//comboBox.getSelectedIndex();
-		clientList.add((Client) comboBox.getItemAt(0));
+		//clientList.add((Client) comboBox.getSelectedItem());
 		add(comboBox);
 		
 		textField = new JTextField();
@@ -82,10 +82,6 @@ public class BillingReportOptionsPanel extends JPanel {
 						clientList.add(client);
 					}
 				}
-				else
-				{
-					clientList.add((Client) comboBox.getSelectedItem());
-				}
 			}
 		});
 		chckbxSelectAllClients.setBounds(521, 180, 170, 23);
@@ -96,6 +92,12 @@ public class BillingReportOptionsPanel extends JPanel {
 		btnGenerateReport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0)
 			{	
+				if(!chckbxSelectAllClients.isSelected())
+				{
+					clientList.clear();
+					clientList.add((Client) comboBox.getSelectedItem());
+				}
+				
 				currentFrame.getContentPane().removeAll();
 				currentFrame.getContentPane().add(new BillingReportPanel(currentFrame, activeUser, clientList));
 				currentFrame.getContentPane().revalidate();
