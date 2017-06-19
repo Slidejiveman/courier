@@ -49,13 +49,15 @@ public class DeleteTicketPanel extends JPanel {
 		JButton btnYesDelete = new JButton("Yes, Delete");
 		btnYesDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				EntityTransaction userTransaction = CourierEntityManager.getEntityManager().getTransaction();
-				userTransaction.begin();
-				DeliveryTicketDBAO.deleteDeliveryTicket(deliveryTicket);
-				userTransaction.commit();
-				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame, "Package Id"));
-				currentFrame.revalidate();
+				if (deliveryTicket.isOkToDelete()) {
+					EntityTransaction userTransaction = CourierEntityManager.getEntityManager().getTransaction();
+					userTransaction.begin();
+					DeliveryTicketDBAO.deleteDeliveryTicket(deliveryTicket);
+					userTransaction.commit();
+					currentFrame.getContentPane().removeAll();
+					currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame, "Package Id"));
+					currentFrame.revalidate();
+				}
 			}
 		});
 		btnYesDelete.setBounds(385, 400, 100, 23);

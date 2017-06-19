@@ -483,6 +483,23 @@ public class DeliveryTicket implements Serializable, Comparable<DeliveryTicket> 
 	public Time getOrderPlacementTime(){
 		return new Time(this.orderDate.getHours(), this.orderDate.getMinutes(),this.orderDate.getSeconds());
 	}
+	
+	/**
+	 * This function checks to see if the delivery ticket is okay to delete
+	 * based on its status. Cancelled delivery tickets may be deleted.
+	 * 
+	 * @return retval -- whether a ticket should be deletable.
+	 */
+	public boolean isOkToDelete() {
+		boolean retval = false;
+		
+		if (this.getStatus().equals(TicketStatus.Canceled)) {
+			retval = true;
+		}
+		
+		return retval;
+	}
+	
 	@Override
 	public String toString (){
 		return "                       "+this.getPackageID()
