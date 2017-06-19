@@ -502,11 +502,9 @@ public class DeliveryTicket implements Serializable, Comparable<DeliveryTicket> 
 	
 	@Override
 	public String toString (){
-		return "                       "+this.getPackageID()
-		+ "                                "+this.getOrderDate()
-		+"                             "+this.getStatus().toString()
-		+"                             "+this.getPickUpClient().getName()
-		+"                                 "+this.getDeliveryClient().getName();
+		return String.format("%-20s %-40s %-20s %-25s %s", this.getPackageID(), 
+				this.getOrderDate(),this.getStatus().toString(), 
+				this.getPickUpClient().getName(), this.getDeliveryClient().getName());
 	}
 
 	/**
