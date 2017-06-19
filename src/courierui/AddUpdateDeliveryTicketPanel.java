@@ -39,9 +39,11 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 	private static final long serialVersionUID = -6213870661817657700L;
 	private JTextField departureTimetextField;
 	private JTextField returnTimetextField;
-	private JTextField packageIdtextField;
+	private JLabel packageIdLabel;
 	private JLabel orderDateLabel;
 	private JLabel orderTimeLabel;
+	private JTextField PickUpTimetextField;
+	private JTextField DeliveryTimeTextField;
 
 	/**
 	 * Create the panel.
@@ -187,22 +189,25 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 		lblEstDeliveryTime.setBounds(650, 100, 150, 14);
 		DeliveryInfopanel.add(lblEstDeliveryTime);
 		
-		JLabel lblTbd = new JLabel("TBE");
-		lblTbd.setBounds(501, 68, 46, 14);
-		DeliveryInfopanel.add(lblTbd);
+		PickUpTimetextField = new JTextField();
+		PickUpTimetextField.setBounds(511, 65, 86, 20);
+		DeliveryInfopanel.add(PickUpTimetextField);
+		PickUpTimetextField.setColumns(10);
 		
-		JLabel lblTbd_1 = new JLabel("TBE");
-		lblTbd_1.setBounds(501, 100, 46, 14);
-		DeliveryInfopanel.add(lblTbd_1);
+		DeliveryTimeTextField = new JTextField();
+		DeliveryTimeTextField.setBounds(511, 97, 86, 20);
+		DeliveryInfopanel.add(DeliveryTimeTextField);
+		DeliveryTimeTextField.setColumns(10);
 		
-		JLabel lblTbe = new JLabel("TBE");
-		lblTbe.setBounds(800, 68, 46, 14);
-		DeliveryInfopanel.add(lblTbe);
+		JLabel estBlocksLabel = new JLabel("TBE");
+		estBlocksLabel.setBounds(754, 68, 46, 14);
+		DeliveryInfopanel.add(estBlocksLabel);
 		
-		JLabel lblTbe_1 = new JLabel("TBE");
-		lblTbe_1.setBounds(800, 100, 46, 14);
-		DeliveryInfopanel.add(lblTbe_1);
+		JLabel estDeliveryTimeLabel = new JLabel("TBE");
+		estDeliveryTimeLabel.setBounds(810, 100, 46, 14);
+		DeliveryInfopanel.add(estDeliveryTimeLabel);
 		
+
 		JPanel OrderInfopanel = new JPanel();
 		OrderInfopanel.setBounds(50, 360, 900, 130);
 		OrderInfopanel.setBackground(Color.LIGHT_GRAY);
@@ -256,14 +261,10 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 		statusComboBox.setBounds(720, 102, 130, 20);
 		OrderInfopanel.add(statusComboBox);
 		
-		packageIdtextField = new JTextField(Integer.toString(deliveryTicket.getPackageID()));
-		packageIdtextField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		packageIdtextField.setBounds(205, 62, 150, 20);
-		OrderInfopanel.add(packageIdtextField);
-		packageIdtextField.setColumns(10);
+		packageIdLabel= new JLabel(Integer.toString(deliveryTicket.getPackageID()));
+		packageIdLabel.setBounds(205, 62, 150, 20);
+		OrderInfopanel.add(packageIdLabel);
+		
 		if(!isAdd && (deliveryTicket.getOrderDate()!=null)){
 			orderDateLabel = new JLabel(deliveryTicket.getOrderDate().toString());		
 			}else{
@@ -319,10 +320,10 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 				deliveryTicket.setIsBonusEarned(true);
 				deliveryTicket.setOrderDate(null);
 				deliveryTicket.setOrderTaker((OrderTaker)orderTakerBox.getSelectedItem());
-				if(packageIdtextField.getText()==""){
+				if(packageIdLabel.getText()==""){
 					deliveryTicket.setPackageID(0);
 				}else{
-					deliveryTicket.setPackageID(Integer.parseInt(packageIdtextField.getText()));
+					deliveryTicket.setPackageID(Integer.parseInt(packageIdLabel.getText()));
 				}
 				deliveryTicket.setPickUpClient((Client)PickupCustomercomboBox.getSelectedItem());
 				deliveryTicket.setRequestedPickUpTime(null);
@@ -364,5 +365,4 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 		add(lbltbeToBe);
 
 	}
-	
 }
