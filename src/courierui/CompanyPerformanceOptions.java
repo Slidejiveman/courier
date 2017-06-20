@@ -4,13 +4,17 @@ import javax.swing.JPanel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
+import courierdm.EmployeeDBAO;
 import courierpd.core.User;
+import courierpd.enums.EmployeeRole;
 
 import javax.swing.JRadioButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class CompanyPerformanceOptions extends JPanel {
@@ -20,7 +24,9 @@ public class CompanyPerformanceOptions extends JPanel {
 	 * Create the panel.
 	 */
 	public CompanyPerformanceOptions(CourierMainFrame currentFrame, User activeUser) {
-setLayout(null);
+		List<User> persistedUsers = EmployeeDBAO.listUsers();
+		List<User> userList = new ArrayList<User>();
+		setLayout(null);
 		
 		JRadioButton rdbtnWeekly = new JRadioButton("Weekly");
 		rdbtnWeekly.setBounds(626, 221, 109, 23);
@@ -51,11 +57,17 @@ setLayout(null);
 		JButton btnGenerate = new JButton("Generate");
 		btnGenerate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				for(User user: persistedUsers)
+				{
+					if(user.getEmployeeRole().equals(EmployeeRole.Courier)){
+						userList.add(user);
+				}
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new CompanyPerformanceReport(currentFrame, activeUser));
+				currentFrame.getContentPane().add(new CompanyPerformanceReport(currentFrame, activeUser, userList));
 				currentFrame.getContentPane().revalidate();
+				}
 			}
-		});
+			});
 		btnGenerate.setBounds(399, 385, 89, 23);
 		add(btnGenerate);
 		

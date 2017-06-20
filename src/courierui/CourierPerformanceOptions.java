@@ -28,7 +28,7 @@ public class CourierPerformanceOptions extends JPanel {
 	public CourierPerformanceOptions(CourierMainFrame currentFrame, User activeUser) {
 		List<User> persistedUsers = EmployeeDBAO.listUsers();
 		List<User> userList = new ArrayList<User>();
-setLayout(null);
+		setLayout(null);
 		
 		JRadioButton rdbtnWeekly = new JRadioButton("Weekly");
 		rdbtnWeekly.setBounds(626, 221, 109, 23);
