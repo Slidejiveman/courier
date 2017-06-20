@@ -14,6 +14,7 @@ import courierdm.DeliveryTicketDBAO;
 import courierpd.core.Client;
 import courierpd.core.DeliveryTicket;
 import courierpd.core.User;
+import courierpd.other.DateParser;
 
 public class CourierPerformanceReport extends JPanel {
 
@@ -39,7 +40,7 @@ public class CourierPerformanceReport extends JPanel {
 					else {
 						bonusstr = "No";
 					}
-					listModel.addElement(deliveryTicket.getOrderDate() + "       " + deliveryTicket.getCourier().getNumber() + "        " + deliveryTicket.getRequestedPickUpTime() + "       " + deliveryTicket.getActualPickUpTime() + "     " + deliveryTicket.getEstDeliveryTime() + "      " + deliveryTicket.getActualDeliveryTime() + "     " + bonusstr); 
+					listModel.addElement(DateParser.printDate(deliveryTicket.getOrderDate()) + "       " + deliveryTicket.getCourier().getNumber() + "        " + DateParser.printTime(deliveryTicket.getRequestedPickUpTime()) + "       " + DateParser.printTime(deliveryTicket.getActualPickUpTime()) + "     " + DateParser.printTime(deliveryTicket.getEstDeliveryTime()) + "      " + DateParser.printTime(deliveryTicket.getActualDeliveryTime()) + "     " + bonusstr); 
 			
 				}
 			}
