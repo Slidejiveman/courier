@@ -1,21 +1,6 @@
 package courierui;
 
-import javax.swing.JPanel;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
-
-import courierdm.ClientDBAO;
-import courierdm.EmployeeDBAO;
-import courierpd.core.Client;
-import courierpd.core.User;
-import courierpd.enums.EmployeeRole;
-
-import javax.swing.JRadioButton;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -24,7 +9,20 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.awt.event.ActionEvent;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+
+import courierdm.EmployeeDBAO;
+import courierpd.core.User;
+import courierpd.enums.EmployeeRole;
 
 public class CourierPerformanceOptions extends JPanel {
 	private JTextField textField;
@@ -62,7 +60,7 @@ public class CourierPerformanceOptions extends JPanel {
 					{
 						if(user.getEmployeeRole().equals(EmployeeRole.Courier)){
 							userList.add(user);
-					}
+						}
 					}
 				}
 			}

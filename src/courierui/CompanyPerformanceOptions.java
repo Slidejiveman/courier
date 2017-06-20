@@ -1,19 +1,6 @@
 package courierui;
 
-import javax.swing.JPanel;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
-
-import courierdm.EmployeeDBAO;
-import courierpd.core.User;
-import courierpd.enums.EmployeeRole;
-
-import javax.swing.JRadioButton;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -22,7 +9,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.awt.event.ActionEvent;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+
+import courierdm.EmployeeDBAO;
+import courierpd.core.User;
+import courierpd.enums.EmployeeRole;
 
 public class CompanyPerformanceOptions extends JPanel {
 	private JTextField textField;
@@ -73,6 +71,7 @@ public class CompanyPerformanceOptions extends JPanel {
 				{
 					if(user.getEmployeeRole().equals(EmployeeRole.Courier)){
 						userList.add(user);
+					}
 				}
 					Date startDate = parseStringDate(textField.getText());
 					Date endDate = parseStringDate(textField_1.getText());
@@ -90,9 +89,7 @@ public class CompanyPerformanceOptions extends JPanel {
 								"Generation Failed", JOptionPane.ERROR_MESSAGE);
 				}
 			}
-		};
-			
-			});
+		});
 		btnGenerate.setBounds(399, 385, 89, 23);
 		add(btnGenerate);
 		
