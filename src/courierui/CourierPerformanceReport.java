@@ -2,12 +2,17 @@ package courierui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
+import courierdm.DeliveryTicketDBAO;
+import courierpd.core.Client;
+import courierpd.core.DeliveryTicket;
 import courierpd.core.User;
 
 public class CourierPerformanceReport extends JPanel {
@@ -15,10 +20,31 @@ public class CourierPerformanceReport extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public CourierPerformanceReport(CourierMainFrame currentFrame, User activeUser) {
-setLayout(null);
-		
-		JList list = new JList();
+	public CourierPerformanceReport(CourierMainFrame currentFrame, User activeUser, List<User> userList) {
+		List<DeliveryTicket> persistedDeliveryTickets = DeliveryTicketDBAO.listDeliveryTickets();
+		setLayout(null);
+
+		DefaultListModel listModel = new DefaultListModel();
+		for(User user: userList)
+	
+		{
+			for(DeliveryTicket deliveryTicket: persistedDeliveryTickets)
+			{
+				if (deliveryTicket.getCourier().getNumber() == user.getNumber())
+				{ 
+					String bonusstr;
+					if(deliveryTicket.getIsBonusEarned()){
+						bonusstr = "Yes";
+					}
+					else {
+						bonusstr = "No";
+					}
+					listModel.addElement(deliveryTicket.getOrderDate() + "       " + deliveryTicket.getCourier().getNumber() + "        " + deliveryTicket.getRequestedPickUpTime() + "       " + deliveryTicket.getActualPickUpTime() + "     " + deliveryTicket.getEstDeliveryTime() + "      " + deliveryTicket.getActualDeliveryTime() + "     " + bonusstr); 
+			
+				}
+			}
+		}
+		JList list = new JList(listModel);
 		list.setBounds(64, 135, 897, 288);
 		add(list);
 		

@@ -4,7 +4,9 @@ import javax.swing.JPanel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
+import courierdm.ClientDBAO;
 import courierdm.EmployeeDBAO;
+import courierpd.core.Client;
 import courierpd.core.User;
 import courierpd.enums.EmployeeRole;
 
@@ -13,6 +15,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class CourierPerformanceOptions extends JPanel {
@@ -22,6 +26,8 @@ public class CourierPerformanceOptions extends JPanel {
 	 * Create the panel.
 	 */
 	public CourierPerformanceOptions(CourierMainFrame currentFrame, User activeUser) {
+		List<User> persistedUsers = EmployeeDBAO.listUsers();
+		List<User> userList = new ArrayList<User>();
 setLayout(null);
 		
 		JRadioButton rdbtnWeekly = new JRadioButton("Weekly");
@@ -33,6 +39,22 @@ setLayout(null);
 		add(rdbtnMonthly);
 		
 		JCheckBox chckbxNewCheckBox = new JCheckBox("Select All Couriers");
+		chckbxNewCheckBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0)
+			{
+				userList.clear();
+				
+				if(chckbxNewCheckBox.isSelected())
+				{
+					for(User user: persistedUsers)
+					{
+						if(user.getEmployeeRole().equals(EmployeeRole.Courier)){
+							userList.add(user);
+					}
+					}
+				}
+			}
+		});
 		chckbxNewCheckBox.setBounds(626, 158, 155, 23);
 		add(chckbxNewCheckBox);
 		
@@ -70,8 +92,13 @@ setLayout(null);
 		JButton btnGenerate = new JButton("Generate");
 		btnGenerate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(!chckbxNewCheckBox.isSelected())
+				{
+					userList.clear();
+					userList.add((User) comboBox.getSelectedItem());
+				}
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new CourierPerformanceReport(currentFrame,activeUser));
+				currentFrame.getContentPane().add(new CourierPerformanceReport(currentFrame,activeUser, userList ));
 				currentFrame.getContentPane().revalidate();
 			}
 		});
