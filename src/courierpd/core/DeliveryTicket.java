@@ -479,9 +479,8 @@ public class DeliveryTicket implements Serializable, Comparable<DeliveryTicket> 
 	public void setDeliveryCustomer(Client client) {
 		this.deliveryClient=client;
 	}
-	@SuppressWarnings("deprecation")
-	public Time getOrderPlacementTime(){
-		return new Time(this.orderDate.getHours(), this.orderDate.getMinutes(),this.orderDate.getSeconds());
+	public Date getOrderPlacementTime(){
+		return this.orderDate;
 	}
 	
 	/**

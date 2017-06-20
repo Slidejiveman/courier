@@ -31,7 +31,7 @@ import courierpd.enums.EmployeeRole;
 import courierpd.enums.TicketStatus;
 import courierpd.map.PathAlgorithm;
 import courierpd.map.Route;
-
+import courierpd.other.DateParser;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -50,7 +50,23 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 	private JTextField PickUpTimetextField;
 	private JTextField DeliveryTimeTextField;
 	private JTextField requestedPickupTimetextField;
-
+	private JPanel CustomerInfopanel;
+	private JPanel DeliveryInfopanel;
+	private JPanel OrderInfopanel;
+	@SuppressWarnings("rawtypes")
+	private JComboBox PickupCustomercomboBox;
+	@SuppressWarnings("rawtypes")
+	private JComboBox deliveryCustomercomboBox;
+	private JTextArea specialDeliverytextArea;
+	@SuppressWarnings("rawtypes")
+	private JComboBox courierNamecomboBox;
+	private JLabel estBlocksLabel;
+	private JLabel estDeliveryTimeLabel;
+	private JLabel estDepartureTimeLabel;
+	private JCheckBox chckbxBonus;
+	@SuppressWarnings("rawtypes")
+	private JComboBox statusComboBox;
+	private JLabel estPriceLabel;
 	/**
 	 * Create the panel.
 	 * @param b 
@@ -60,214 +76,83 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 	public AddUpdateDeliveryTicketPanel(CourierMainFrame currentFrame, DeliveryTicket deliveryTicket,User activeUser, boolean isAdd) {
 		setLayout(null);
 		
-		JPanel CustomerInfopanel = new JPanel();
+		CustomerInfopanel = new JPanel();
 		CustomerInfopanel.setBounds(50, 50, 900, 130);
 		CustomerInfopanel.setBackground(Color.LIGHT_GRAY);
 		add(CustomerInfopanel);
 		CustomerInfopanel.setLayout(null);
 		
-		JLabel lblPickupCustomer = new JLabel("Pick-up Customer: ");
-		lblPickupCustomer.setBounds(75, 46, 120, 21);
-		CustomerInfopanel.add(lblPickupCustomer);
+		DeliveryInfopanel = new JPanel();
+		DeliveryInfopanel.setBounds(50, 205, 900, 130);
+		DeliveryInfopanel.setBackground(Color.LIGHT_GRAY);
+		add(DeliveryInfopanel);
+		DeliveryInfopanel.setLayout(null);
 		
-		JLabel lblDeliveryCustomer = new JLabel("Delivery Customer");
-		lblDeliveryCustomer.setBounds(75, 78, 120, 21);
-		CustomerInfopanel.add(lblDeliveryCustomer);
+		OrderInfopanel = new JPanel();
+		OrderInfopanel.setBounds(50, 360, 900, 130);
+		OrderInfopanel.setBackground(Color.LIGHT_GRAY);
+		add(OrderInfopanel);
+		OrderInfopanel.setLayout(null);
 		
-		JComboBox PickupCustomercomboBox = new JComboBox();
-		JComboBox deliveryCustomercomboBox = new JComboBox();
-
+		PickupCustomercomboBox = new JComboBox();
+		deliveryCustomercomboBox = new JComboBox();
+		courierNamecomboBox = new JComboBox();
+		
 		for(Client client: ClientDBAO.listClients()){
 			if (client.getIsActive()) {
 				PickupCustomercomboBox.addItem(client);
 				deliveryCustomercomboBox.addItem(client);
 			}
 		}
-		if(!isAdd){
-			PickupCustomercomboBox.setSelectedItem(deliveryTicket.getPickUpClient());
-			deliveryCustomercomboBox.setSelectedItem(deliveryTicket.getDeliveryClient());
-		}
-		PickupCustomercomboBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		PickupCustomercomboBox.setBounds(205, 46, 150, 21);
-		CustomerInfopanel.add(PickupCustomercomboBox);
-		
-		deliveryCustomercomboBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		deliveryCustomercomboBox.setBounds(205, 78, 150, 21);
-		CustomerInfopanel.add(deliveryCustomercomboBox);
-		
-		JLabel lblCustomerInfo = new JLabel("Customer Info");
-		lblCustomerInfo.setBounds(420, 11, 128, 14);
-		CustomerInfopanel.add(lblCustomerInfo);
-		
-		JLabel lblSpecialDelivery = new JLabel("Special Delivery");
-		lblSpecialDelivery.setBounds(675, 26, 100, 14);
-		CustomerInfopanel.add(lblSpecialDelivery);
-		
-		JTextArea specialDeliverytextArea = new JTextArea(deliveryTicket.getSpecialDeliveryInstructions());
-		specialDeliverytextArea.setBounds(600, 59, 250, 50);
-		CustomerInfopanel.add(specialDeliverytextArea);
-		
-		JPanel DeliveryInfopanel = new JPanel();
-		DeliveryInfopanel.setBounds(50, 205, 900, 130);
-		DeliveryInfopanel.setBackground(Color.LIGHT_GRAY);
-		add(DeliveryInfopanel);
-		DeliveryInfopanel.setLayout(null);
-		
-		JLabel lblDeliveryInfo = new JLabel("Delivery Info");
-		lblDeliveryInfo.setBounds(420, 11, 85, 14);
-		DeliveryInfopanel.add(lblDeliveryInfo);
-		
-		JLabel lblCourier = new JLabel("Courier: ");
-		lblCourier.setBounds(78, 29, 120, 14);
-		DeliveryInfopanel.add(lblCourier);
-		
-		JComboBox courierNamecomboBox = new JComboBox();
 		for(User courier: EmployeeDBAO.listUsers()){
 			if(courier.getEmployeeRole().equals(EmployeeRole.Courier) && courier.getIsActive()){
 				courierNamecomboBox.addItem(courier);
 			}
 		}
 		if(isAdd){
+			specialDeliverytextArea = new JTextArea();
 			courierNamecomboBox.setSelectedItem(DefaultCourierAlgorithm.suggestDefaultCourier());
-		}else{
-			courierNamecomboBox.setSelectedItem(deliveryTicket.getCourier());
-		}
-		courierNamecomboBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		courierNamecomboBox.setBounds(208, 26, 150, 20);
-		DeliveryInfopanel.add(courierNamecomboBox);
-		
-		JLabel lblDepartureTime = new JLabel("Departure Time: ");
-		lblDepartureTime.setBounds(78, 65, 120, 20);
-		DeliveryInfopanel.add(lblDepartureTime);
-		
-		JLabel lblCourierReturnTime = new JLabel("Courier Return Time: ");
-		lblCourierReturnTime.setBounds(78, 96, 120, 23);
-		DeliveryInfopanel.add(lblCourierReturnTime);
-		if(!isAdd && (deliveryTicket.getActualDepartureTime()!=null)){
-			departureTimetextField = new JTextField(deliveryTicket.getActualDepartureTime().toString());
-		}else{
 			departureTimetextField = new JTextField();
-		}
-		
-		departureTimetextField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-			}
-		});
-		departureTimetextField.setBounds(209, 65, 149, 20);
-		DeliveryInfopanel.add(departureTimetextField);
-		departureTimetextField.setColumns(10);
-		
-		if(!isAdd&&(deliveryTicket.getCourierReturnTime()!=null)){
-			returnTimetextField = new JTextField(deliveryTicket.getCourierReturnTime().toString());
-		}else{
 			returnTimetextField = new JTextField();
-		}
-		returnTimetextField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		returnTimetextField.setBounds(209, 97, 149, 20);
-		DeliveryInfopanel.add(returnTimetextField);
-		returnTimetextField.setColumns(10);
+			PickUpTimetextField = new JTextField();
+			DeliveryTimeTextField = new JTextField();
+			estBlocksLabel = new JLabel("TBE");
+			estDeliveryTimeLabel = new JLabel(DateParser.printTime(parseStringDatabaseDateToDate("Sat Jan 01 00:01:00 CDT 2000")));
+			estDepartureTimeLabel = new JLabel(DateParser.printTime(parseStringDatabaseDateToDate("Sat Jan 01 00:01:00 CDT 2000")));
+			requestedPickupTimetextField = new JTextField();
+			orderDateLabel = new JLabel(DateParser.printDate(new Date()));	
+			orderTimeLabel = new JLabel(DateParser.printTime(new Date()));
+			estPriceLabel = new JLabel("TBE");
 		
-		JLabel lblPickupTime = new JLabel("Pick-up Time: ");
-		lblPickupTime.setBounds(420, 68, 81, 14);
-		DeliveryInfopanel.add(lblPickupTime);
-		
-		JLabel lblDeliveryTime = new JLabel("Delivery TIme: ");
-		lblDeliveryTime.setBounds(420, 100, 102, 14);
-		DeliveryInfopanel.add(lblDeliveryTime);
-		
-		JLabel lblEstBlocks = new JLabel("Est. Blocks: ");
-		lblEstBlocks.setBounds(650, 68, 150, 14);
-		DeliveryInfopanel.add(lblEstBlocks);
-		
-		JLabel lblEstDeliveryTime = new JLabel("Est. Delivery Time: ");
-		lblEstDeliveryTime.setBounds(650, 100, 150, 14);
-		DeliveryInfopanel.add(lblEstDeliveryTime);
-		
-		PickUpTimetextField = new JTextField();
-		PickUpTimetextField.setBounds(511, 65, 86, 20);
-		DeliveryInfopanel.add(PickUpTimetextField);
-		PickUpTimetextField.setColumns(10);
-		
-		DeliveryTimeTextField = new JTextField();
-		DeliveryTimeTextField.setBounds(511, 97, 86, 20);
-		DeliveryInfopanel.add(DeliveryTimeTextField);
-		DeliveryTimeTextField.setColumns(10);
-		
-		JLabel estBlocksLabel = new JLabel("TBE");
-		estBlocksLabel.setBounds(754, 68, 46, 14);
-		DeliveryInfopanel.add(estBlocksLabel);
-		
-		JLabel estDeliveryTimeLabel = new JLabel("Sat Jan 01 00:01:00 CDT 2000");
-		estDeliveryTimeLabel.setBounds(810, 100, 46, 14);
-		DeliveryInfopanel.add(estDeliveryTimeLabel);
-		
-		JLabel lblEstDepartureTime = new JLabel("Est. Departure Time:");
-		lblEstDepartureTime.setBounds(651, 29, 127, 14);
-		DeliveryInfopanel.add(lblEstDepartureTime);
-		
-		JLabel lblRequestedPickupTime = new JLabel("Requested Pickup Time:");
-		lblRequestedPickupTime.setBounds(420, 29, 134, 14);
-		DeliveryInfopanel.add(lblRequestedPickupTime);
-		
-		JLabel estDepartureTimeLabel = new JLabel("Sat Jan 01 00:01:00 CDT 2000");
-		estDepartureTimeLabel.setBounds(790, 29, 46, 14);
-		DeliveryInfopanel.add(estDepartureTimeLabel);
-		
-		requestedPickupTimetextField = new JTextField();
-		requestedPickupTimetextField.setBounds(555, 26, 70, 20);
-		DeliveryInfopanel.add(requestedPickupTimetextField);
-		requestedPickupTimetextField.setColumns(10);
-		
+		}else{
+			PickupCustomercomboBox.setSelectedItem(deliveryTicket.getPickUpClient());
+			deliveryCustomercomboBox.setSelectedItem(deliveryTicket.getDeliveryClient());
+			specialDeliverytextArea = new JTextArea(deliveryTicket.getSpecialDeliveryInstructions());
+			courierNamecomboBox.setSelectedItem(deliveryTicket.getCourier());
+			if (deliveryTicket.getActualDepartureTime()!=null)
+				departureTimetextField = new JTextField(DateParser.printTime(deliveryTicket.getActualDepartureTime()));
+			if(deliveryTicket.getCourierReturnTime()!=null)
+				returnTimetextField = new JTextField(DateParser.printTime(deliveryTicket.getCourierReturnTime()));
+			PickUpTimetextField = new JTextField(DateParser.printTime(deliveryTicket.getActualPickUpTime()));
+			DeliveryTimeTextField = new JTextField(DateParser.printTime(deliveryTicket.getActualDeliveryTime()));
+			estBlocksLabel = new JLabel(Integer.toString(deliveryTicket.getEstBlocks()));
+			estDeliveryTimeLabel = new JLabel(DateParser.printTime(deliveryTicket.getEstDeliveryTime()));
+			estDepartureTimeLabel = new JLabel(DateParser.printTime(deliveryTicket.getEstimatedDepartureTime()));
+			requestedPickupTimetextField = new JTextField(DateParser.printTime(deliveryTicket.getRequestedPickUpTime()));
+			if(deliveryTicket.getOrderDate()!=null){
+				orderDateLabel = new JLabel(DateParser.printDate(deliveryTicket.getOrderDate()));		
+				orderTimeLabel = new JLabel(DateParser.printTime(deliveryTicket.getOrderPlacementTime()));	
 
-		JPanel OrderInfopanel = new JPanel();
-		OrderInfopanel.setBounds(50, 360, 900, 130);
-		OrderInfopanel.setBackground(Color.LIGHT_GRAY);
-		add(OrderInfopanel);
-		OrderInfopanel.setLayout(null);
-		
-		JLabel lblOrderInfo = new JLabel("Order Info");
-		lblOrderInfo.setBounds(420, 11, 86, 14);
-		OrderInfopanel.add(lblOrderInfo);
-	
-		JLabel lblOrderTaker = new JLabel("Order Taker: ");
-		lblOrderTaker.setBounds(75, 38, 120, 14);
-		OrderInfopanel.add(lblOrderTaker);
-		
-		JLabel lblPackageId = new JLabel("Package ID: ");
-		lblPackageId.setBounds(75, 65, 120, 14);
-		OrderInfopanel.add(lblPackageId);
-		
-		JLabel lblEstPrice = new JLabel("Est. Price:");
-		lblEstPrice.setBounds(75, 90, 120, 14);
-		OrderInfopanel.add(lblEstPrice);
-		
-		JLabel lblTime = new JLabel("Time:");
-		lblTime.setBounds(420, 65, 46, 14);
-		OrderInfopanel.add(lblTime);
-		
-		JLabel lblDate = new JLabel("Date:");
-		lblDate.setBounds(420, 90, 46, 14);
-		OrderInfopanel.add(lblDate);
-		
+			}
+			estPriceLabel= new JLabel(Float.toString(deliveryTicket.getEstPrice()));
+		}
+
 		JRadioButton rdbtnBillToPickup = new JRadioButton("Bill to pickup");
-		rdbtnBillToPickup.setBounds(720, 7, 130, 23);
+		rdbtnBillToPickup.setBounds(720, 7, 170, 23);
 		OrderInfopanel.add(rdbtnBillToPickup);
 		
 		JRadioButton rdbtnBillToDelivery = new JRadioButton("Bill to Delivery");
-		rdbtnBillToDelivery.setBounds(720, 34, 130, 23);
+		rdbtnBillToDelivery.setBounds(720, 34, 170, 23);
 		OrderInfopanel.add(rdbtnBillToDelivery);
 		
 		ButtonGroup buttonGroup = new ButtonGroup();
@@ -281,44 +166,25 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 	    	buttonGroup.setSelected(rdbtnBillToPickup.getModel(), true);
 	    }
 	    		
-		JCheckBox chckbxBonus = new JCheckBox("Bonus");
-		chckbxBonus.setBounds(720, 61, 130, 23);
+		chckbxBonus = new JCheckBox("Bonus");
+		chckbxBonus.setBounds(720, 61, 170, 23);
 		OrderInfopanel.add(chckbxBonus);
 		
 		JLabel lblStatus = new JLabel("Status: ");
 		lblStatus.setBounds(650, 105, 46, 14);
 		OrderInfopanel.add(lblStatus);
 		
-		JComboBox statusComboBox = new JComboBox();
+		statusComboBox = new JComboBox();
 		statusComboBox.addItem(TicketStatus.Opened);
 		statusComboBox.addItem(TicketStatus.Closed);
 		statusComboBox.addItem(TicketStatus.Canceled);
-		statusComboBox.setBounds(720, 102, 130, 20);
+		statusComboBox.setBounds(720, 102, 170, 20);
 		OrderInfopanel.add(statusComboBox);
 		
 		packageIdLabel= new JLabel(Integer.toString(deliveryTicket.getPackageID()));
 		packageIdLabel.setBounds(205, 62, 150, 20);
 		OrderInfopanel.add(packageIdLabel);
 		
-		if(!isAdd && (deliveryTicket.getOrderDate()!=null)){
-			orderDateLabel = new JLabel(deliveryTicket.getOrderDate().toString());		
-			}else{
-				orderDateLabel = new JLabel(new Date().toString());	
-		}
-		orderDateLabel.setBounds(487, 87, 86, 20);
-		OrderInfopanel.add(orderDateLabel);
-		
-		if(!isAdd&&(deliveryTicket.getOrderDate()!=null)){
-			orderTimeLabel = new JLabel(deliveryTicket.getOrderPlacementTime().toString());	
-			}else{
-				orderTimeLabel = new JLabel(new Date().toString());
-		}
-		orderTimeLabel.setBounds(487, 62, 86, 20);
-		OrderInfopanel.add(orderTimeLabel);
-		
-		JLabel lblToBeCalculated = new JLabel("TBE");// TBE = to be evaluated
-		lblToBeCalculated.setBounds(205, 90, 150, 14);
-		OrderInfopanel.add(lblToBeCalculated);
 		
 		JComboBox orderTakerBox = new JComboBox();
 		orderTakerBox.addItem(activeUser);
@@ -355,7 +221,7 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 					if(!requestedPickupTimetextField.getText().equals("")){
 						deliveryTicket.setRequestedPickUpTime(parseStringTime(requestedPickupTimetextField.getText()));
 					}else{
-						
+						System.out.println("No pick up time specified.");
 					}
 					deliveryTicket.setCourier((Courier)courierNamecomboBox.getSelectedItem());
 					deliveryTicket.setDeliveryClient((Client)deliveryCustomercomboBox.getSelectedItem());
@@ -423,6 +289,133 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 		});
 		btnCancel.setBounds(660, 510, 89, 23);
 		add(btnCancel);
+		
+		
+		PickupCustomercomboBox.setBounds(205, 46, 150, 21);
+		CustomerInfopanel.add(PickupCustomercomboBox);
+		deliveryCustomercomboBox.setBounds(205, 78, 150, 21);
+		CustomerInfopanel.add(deliveryCustomercomboBox);
+		specialDeliverytextArea.setBounds(600, 59, 290, 50);
+		CustomerInfopanel.add(specialDeliverytextArea);
+		courierNamecomboBox.setBounds(208, 26, 150, 20);
+		DeliveryInfopanel.add(courierNamecomboBox);
+		departureTimetextField.setBounds(209, 65, 149, 20);
+		DeliveryInfopanel.add(departureTimetextField);
+		departureTimetextField.setColumns(10);
+		returnTimetextField.setBounds(209, 97, 149, 20);
+		DeliveryInfopanel.add(returnTimetextField);
+		returnTimetextField.setColumns(10);
+		
+		PickUpTimetextField.setBounds(511, 65, 101, 20);
+		DeliveryInfopanel.add(PickUpTimetextField);
+		PickUpTimetextField.setColumns(10);
+		
+		DeliveryTimeTextField.setBounds(511, 97, 101, 20);
+		DeliveryInfopanel.add(DeliveryTimeTextField);
+		DeliveryTimeTextField.setColumns(10);
+		
+		estBlocksLabel.setBounds(790, 68, 100, 14);
+		DeliveryInfopanel.add(estBlocksLabel);
+		
+		estDeliveryTimeLabel.setBounds(790, 100, 100, 14);
+		DeliveryInfopanel.add(estDeliveryTimeLabel);
+		
+		estDepartureTimeLabel.setBounds(790, 29, 100, 14);
+		DeliveryInfopanel.add(estDepartureTimeLabel);
+			
+		requestedPickupTimetextField.setBounds(542, 40, 70, 20);
+		DeliveryInfopanel.add(requestedPickupTimetextField);
+		requestedPickupTimetextField.setColumns(10);
+		
+		orderDateLabel.setBounds(487, 87, 120, 20);
+		OrderInfopanel.add(orderDateLabel);
+
+		orderTimeLabel.setBounds(487, 62, 120, 20);
+		OrderInfopanel.add(orderTimeLabel);
+
+		JLabel lblPickupCustomer = new JLabel("Pick-up Customer: ");
+		lblPickupCustomer.setBounds(75, 46, 120, 21);
+		CustomerInfopanel.add(lblPickupCustomer);
+		
+		JLabel lblDeliveryCustomer = new JLabel("Delivery Customer");
+		lblDeliveryCustomer.setBounds(75, 78, 120, 21);
+		CustomerInfopanel.add(lblDeliveryCustomer);
+		
+		JLabel lblCustomerInfo = new JLabel("Customer Info");
+		lblCustomerInfo.setBounds(420, 11, 128, 14);
+		CustomerInfopanel.add(lblCustomerInfo);
+		
+		JLabel lblSpecialDelivery = new JLabel("Special Delivery");
+		lblSpecialDelivery.setBounds(675, 26, 100, 14);
+		CustomerInfopanel.add(lblSpecialDelivery);
+		
+		JLabel lblDeliveryInfo = new JLabel("Delivery Info");
+		lblDeliveryInfo.setBounds(420, 11, 85, 14);
+		DeliveryInfopanel.add(lblDeliveryInfo);
+		
+		JLabel lblCourier = new JLabel("Courier: ");
+		lblCourier.setBounds(78, 29, 120, 14);
+		DeliveryInfopanel.add(lblCourier);
+		
+		JLabel lblDepartureTime = new JLabel("Departure Time: ");
+		lblDepartureTime.setBounds(78, 65, 120, 20);
+		DeliveryInfopanel.add(lblDepartureTime);
+		
+		JLabel lblCourierReturnTime = new JLabel("Courier Return Time: ");
+		lblCourierReturnTime.setBounds(78, 96, 120, 23);
+		DeliveryInfopanel.add(lblCourierReturnTime);
+		
+		JLabel lblPickupTime = new JLabel("Pick-up Time: ");
+		lblPickupTime.setBounds(385, 68, 81, 14);
+		DeliveryInfopanel.add(lblPickupTime);
+		
+		JLabel lblDeliveryTime = new JLabel("Delivery TIme: ");
+		lblDeliveryTime.setBounds(385, 100, 102, 14);
+		DeliveryInfopanel.add(lblDeliveryTime);
+		
+		JLabel lblEstBlocks = new JLabel("Est. Blocks: ");
+		lblEstBlocks.setBounds(650, 68, 85, 14);
+		DeliveryInfopanel.add(lblEstBlocks);
+		
+		JLabel lblEstDeliveryTime = new JLabel("Est. Delivery Time: ");
+		lblEstDeliveryTime.setBounds(650, 100, 130, 14);
+		DeliveryInfopanel.add(lblEstDeliveryTime);
+		
+		JLabel lblEstDepartureTime = new JLabel("Est. Departure Time:");
+		lblEstDepartureTime.setBounds(651, 29, 127, 14);
+		DeliveryInfopanel.add(lblEstDepartureTime);
+		
+		JLabel lblRequestedPickupTime = new JLabel("Requested Pickup Time:");
+		lblRequestedPickupTime.setBounds(385, 43, 150, 14);
+		DeliveryInfopanel.add(lblRequestedPickupTime);
+		
+		estPriceLabel.setBounds(205, 90, 150, 14);
+		OrderInfopanel.add(estPriceLabel);
+		
+		JLabel lblOrderInfo = new JLabel("Order Info");
+		lblOrderInfo.setBounds(420, 11, 86, 14);
+		OrderInfopanel.add(lblOrderInfo);
+	
+		JLabel lblOrderTaker = new JLabel("Order Taker: ");
+		lblOrderTaker.setBounds(75, 38, 120, 14);
+		OrderInfopanel.add(lblOrderTaker);
+		
+		JLabel lblPackageId = new JLabel("Package ID: ");
+		lblPackageId.setBounds(75, 65, 120, 14);
+		OrderInfopanel.add(lblPackageId);
+		
+		JLabel lblEstPrice = new JLabel("Est. Price:");
+		lblEstPrice.setBounds(75, 90, 120, 14);
+		OrderInfopanel.add(lblEstPrice);
+		
+		JLabel lblTime = new JLabel("Time:");
+		lblTime.setBounds(391, 65, 46, 14);
+		OrderInfopanel.add(lblTime);
+		
+		JLabel lblDate = new JLabel("Date:");
+		lblDate.setBounds(391, 90, 46, 14);
+		OrderInfopanel.add(lblDate);
+		
 		
 		JLabel lbltbeToBe = new JLabel("*TBE: To Be Evaluated");
 		lbltbeToBe.setBounds(442, 11, 166, 14);

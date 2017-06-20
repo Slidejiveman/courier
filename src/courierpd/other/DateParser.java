@@ -4,12 +4,14 @@ import java.util.Date;
 
 public class DateParser {
 	
+	@SuppressWarnings("deprecation")
 	public static String printDate(Date date) {
 		String dateYear = String.valueOf((date.getYear()+1900));
 		
 		return date.getMonth() + "/" + date.getDate() + "/" + dateYear;
 	}
 	
+	@SuppressWarnings("deprecation")
 	public static String printTime(Date date) {
 		
 		String hourString = String.valueOf(date.getHours());
