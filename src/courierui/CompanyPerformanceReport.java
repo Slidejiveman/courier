@@ -21,7 +21,7 @@ public class CompanyPerformanceReport extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public CompanyPerformanceReport(CourierMainFrame currentFrame, User activeUser, List<User> userList) {
+	public CompanyPerformanceReport(CourierMainFrame currentFrame, User activeUser, List<User> userList, Date startDate, Date endDate) {
 		List<DeliveryTicket> persistedDeliveryTickets = DeliveryTicketDBAO.listDeliveryTickets();
 		setLayout(null);
 

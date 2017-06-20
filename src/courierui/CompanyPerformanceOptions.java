@@ -11,11 +11,17 @@ import courierpd.enums.EmployeeRole;
 import javax.swing.JRadioButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.awt.event.ActionEvent;
 
 public class CompanyPerformanceOptions extends JPanel {
@@ -68,11 +74,24 @@ public class CompanyPerformanceOptions extends JPanel {
 					if(user.getEmployeeRole().equals(EmployeeRole.Courier)){
 						userList.add(user);
 				}
-				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new CompanyPerformanceReport(currentFrame, activeUser, userList));
-				currentFrame.getContentPane().revalidate();
+					Date startDate = parseStringDate(textField.getText());
+					Date endDate = parseStringDate(textField_1.getText());
+					
+					if(startDate.before(endDate))
+					{
+						currentFrame.getContentPane().removeAll();
+						currentFrame.getContentPane().add(new CompanyPerformanceReport(currentFrame, activeUser, userList, startDate, endDate));
+						currentFrame.getContentPane().revalidate();
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null,
+								"End Date is not valid; it needs to be after the start date.", 
+								"Generation Failed", JOptionPane.ERROR_MESSAGE);
 				}
 			}
+		};
+			
 			});
 		btnGenerate.setBounds(399, 385, 89, 23);
 		add(btnGenerate);
@@ -89,5 +108,24 @@ public class CompanyPerformanceOptions extends JPanel {
 		add(btnCancel);
 		
 	}
-
+	
+	@SuppressWarnings("deprecation")
+	public Date parseStringDate (String timeString){
+	
+		Date date = new Date();
+		Date tempDate = null;
+		DateFormat dateFormatter;
+		dateFormatter = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
+		try {
+			tempDate = dateFormatter.parse(timeString);
+			date.setMonth(tempDate.getMonth());
+			date.setDate(tempDate.getDate());
+			date.setYear(tempDate.getYear());
+		} catch (ParseException e1) {
+			JOptionPane.showMessageDialog(null,
+					"Dates need to be entered in the format of 'January 1, 2017'", 
+					"Generation Failed", JOptionPane.ERROR_MESSAGE);
+		}
+		return date;
+	}
 }
