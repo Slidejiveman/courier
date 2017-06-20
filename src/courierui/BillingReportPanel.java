@@ -3,6 +3,7 @@ package courierui;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -23,7 +24,7 @@ public class BillingReportPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public BillingReportPanel(CourierMainFrame currentFrame, User activeUser, List<Client> clientList, boolean allClients) {
+	public BillingReportPanel(CourierMainFrame currentFrame, User activeUser, List<Client> clientList, boolean allClients, Date startDate, Date endDate) {
 		List<DeliveryTicket> persistedDeliveryTickets = DeliveryTicketDBAO.listDeliveryTickets();
 		setLayout(null);
 		
@@ -53,7 +54,7 @@ public class BillingReportPanel extends JPanel {
 		{ 
 			for(DeliveryTicket deliveryTicket: persistedDeliveryTickets)
 			{
-				if((deliveryTicket.getPickUpClient() == client && deliveryTicket.getIsBillPickUp()) || (deliveryTicket.getDeliveryClient() == client && !deliveryTicket.getIsBillPickUp()))
+				if(((deliveryTicket.getPickUpClient() == client && deliveryTicket.getIsBillPickUp()) || (deliveryTicket.getDeliveryClient() == client && !deliveryTicket.getIsBillPickUp())) && (deliveryTicket.getOrderDate().after(startDate) && deliveryTicket.getOrderDate().before(endDate)))
 				{
 					listModel.addElement(DateParser.printDate(deliveryTicket.getOrderDate()) + "    " + deliveryTicket.getPackageID() + "    " + DateParser.printTime(deliveryTicket.getActualPickUpTime()) + "    " + DateParser.printTime(deliveryTicket.getActualDeliveryTime()) + "    " + deliveryTicket.getEstPrice());
 				}

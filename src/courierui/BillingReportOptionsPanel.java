@@ -108,7 +108,7 @@ public class BillingReportOptionsPanel extends JPanel {
 				if(startDate.before(endDate))
 				{
 					currentFrame.getContentPane().removeAll();
-					currentFrame.getContentPane().add(new BillingReportPanel(currentFrame, activeUser, clientList, chckbxSelectAllClients.isSelected()));
+					currentFrame.getContentPane().add(new BillingReportPanel(currentFrame, activeUser, clientList, chckbxSelectAllClients.isSelected(), startDate, endDate));
 					currentFrame.getContentPane().revalidate();
 				}
 				else
