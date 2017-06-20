@@ -20,12 +20,14 @@ import javax.swing.JTextField;
 import courierdm.ClientDBAO;
 import courierdm.CourierEntityManager;
 import courierdm.DeliveryTicketDBAO;
+import courierdm.EmployeeDBAO;
 import courierpd.core.Client;
 import courierpd.core.Courier;
 import courierpd.core.DefaultCourierAlgorithm;
 import courierpd.core.DeliveryTicket;
 import courierpd.core.OrderTaker;
 import courierpd.core.User;
+import courierpd.enums.EmployeeRole;
 import courierpd.enums.TicketStatus;
 import courierpd.map.PathAlgorithm;
 import courierpd.map.Route;
@@ -126,10 +128,14 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 		DeliveryInfopanel.add(lblCourier);
 		
 		JComboBox courierNamecomboBox = new JComboBox();
+		for(User courier: EmployeeDBAO.listUsers()){
+			if(courier.getEmployeeRole().equals(EmployeeRole.Courier) && courier.getIsActive()){
+				courierNamecomboBox.addItem(courier);
+			}
+		}
 		if(isAdd){
 			courierNamecomboBox.setSelectedItem(DefaultCourierAlgorithm.suggestDefaultCourier());
 		}else{
-			courierNamecomboBox.addItem(deliveryTicket.getCourier());
 			courierNamecomboBox.setSelectedItem(deliveryTicket.getCourier());
 		}
 		courierNamecomboBox.addActionListener(new ActionListener() {
@@ -333,24 +339,32 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 				//try- catch starts here
 				try {
 					userTransaction.begin();
-					deliveryTicket.setActualDeliveryTime(parseStringTime(DeliveryTimeTextField.getText()));
-					deliveryTicket.setActualDepartureTime(parseStringTime(departureTimetextField.getText()));
-					deliveryTicket.setActualPickUpTime(parseStringTime(PickUpTimetextField.getText()));
+					if(!DeliveryTimeTextField.getText().equals("")){
+						deliveryTicket.setActualDeliveryTime(parseStringTime(DeliveryTimeTextField.getText()));
+					}
+					if(!departureTimetextField.getText().equals("")){
+						deliveryTicket.setActualDepartureTime(parseStringTime(departureTimetextField.getText()));
+					}
+					if(!PickUpTimetextField.getText().equals("")){
+						deliveryTicket.setActualPickUpTime(parseStringTime(PickUpTimetextField.getText()));
+					}
 					deliveryTicket.setCourier((Courier)courierNamecomboBox.getSelectedItem());		
-					deliveryTicket.setCourierReturnTime(parseStringTime(returnTimetextField.getText()));
-					deliveryTicket.setRequestedPickUpTime(parseStringTime(requestedPickupTimetextField.getText()));
+					if(!returnTimetextField.getText().equals("")){
+						deliveryTicket.setCourierReturnTime(parseStringTime(returnTimetextField.getText()));
+					}
+					if(!requestedPickupTimetextField.getText().equals("")){
+						deliveryTicket.setRequestedPickUpTime(parseStringTime(requestedPickupTimetextField.getText()));
+					}else{
+						
+					}
 					deliveryTicket.setCourier((Courier)courierNamecomboBox.getSelectedItem());
 					deliveryTicket.setDeliveryClient((Client)deliveryCustomercomboBox.getSelectedItem());
-					deliveryTicket.setEstBlocks(0);
-					deliveryTicket.setEstDeliveryTime(parseStringDatabaseDateToDate(estDeliveryTimeLabel.getText()));
-					deliveryTicket.setEstimatedDepartureTime(parseStringDatabaseDateToDate(estDepartureTimeLabel.getText()));
-					deliveryTicket.setEstPrice(0.0f);
+					
 					if(buttonGroup.isSelected(rdbtnBillToPickup.getModel())) {
 						deliveryTicket.setIsBillPickUp(true);
 					} else {
-					    deliveryTicket.setIsBillPickUp(false);
 					}
-					deliveryTicket.setIsBonusEarned(true);
+					
 					deliveryTicket.setOrderDate(parseStringDatabaseDateToDate(orderDateLabel.getText()));
 					deliveryTicket.setOrderTaker((OrderTaker)orderTakerBox.getSelectedItem());
 					if(packageIdLabel.getText()==""){
@@ -359,7 +373,6 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 						deliveryTicket.setPackageID(Integer.parseInt(packageIdLabel.getText()));
 					}
 					deliveryTicket.setPickUpClient((Client)PickupCustomercomboBox.getSelectedItem());
-					deliveryTicket.setRequestedPickUpTime(null);
 					deliveryTicket.setSpecialDeliveryInstructions(specialDeliverytextArea.getText());
 					deliveryTicket.setStatus((TicketStatus)statusComboBox.getSelectedItem());
 					if(isAdd){
@@ -376,6 +389,15 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 					System.out.println("=========================================\n");
 					System.out.print(translatedDirections);
 					
+					EntityTransaction estimatesTransaction = CourierEntityManager.getEntityManager().getTransaction();
+					estimatesTransaction.begin();
+					deliveryTicket.setEstBlocks(0);
+					deliveryTicket.setEstDeliveryTime(parseStringDatabaseDateToDate(estDeliveryTimeLabel.getText()));
+					deliveryTicket.setEstimatedDepartureTime(parseStringDatabaseDateToDate(estDepartureTimeLabel.getText()));
+					deliveryTicket.setEstPrice(0.0f);
+					deliveryTicket.setIsBonusEarned(true);
+					estimatesTransaction.commit();
+						
 					//Frame revalidation section
 					currentFrame.getContentPane().removeAll();
 					currentFrame.getContentPane().add(new DeliveryDirectionsPanel(currentFrame, translatedDirections, deliveryRoute, activeUser));
@@ -383,7 +405,7 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 					
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(null,
-							"Required fields have not been filled.", 
+							"The request pickup time is empty.", 
 							"Save Failed", JOptionPane.ERROR_MESSAGE);
 				}
 			}
