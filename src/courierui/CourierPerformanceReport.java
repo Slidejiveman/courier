@@ -2,6 +2,7 @@ package courierui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -21,7 +22,7 @@ public class CourierPerformanceReport extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public CourierPerformanceReport(CourierMainFrame currentFrame, User activeUser, List<User> userList, boolean allCouriers) {
+	public CourierPerformanceReport(CourierMainFrame currentFrame, User activeUser, List<User> userList, boolean allCouriers, Date startDate, Date endDate) {
 		List<DeliveryTicket> persistedDeliveryTickets = DeliveryTicketDBAO.listDeliveryTickets();
 		setLayout(null);
 
@@ -31,7 +32,7 @@ public class CourierPerformanceReport extends JPanel {
 		{
 			for(DeliveryTicket deliveryTicket: persistedDeliveryTickets)
 			{
-				if (deliveryTicket.getCourier().getNumber() == user.getNumber())
+				if ((deliveryTicket.getCourier().getNumber() == user.getNumber()) && ((deliveryTicket.getOrderDate().after(startDate) && deliveryTicket.getOrderDate().before(endDate))))
 				{ 
 					String bonusstr;
 					if(deliveryTicket.getIsBonusEarned()){

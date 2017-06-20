@@ -31,7 +31,7 @@ public class CompanyPerformanceReport extends JPanel {
 		{
 			for(DeliveryTicket deliveryTicket: persistedDeliveryTickets)
 			{
-				if (deliveryTicket.getCourier().getNumber() == user.getNumber())
+				if ((deliveryTicket.getCourier().getNumber() == user.getNumber()) && (deliveryTicket.getOrderDate().after(startDate) && deliveryTicket.getOrderDate().before(endDate))) 
 				{ 
 					Date today = new Date();
 					listModel.addElement(deliveryTicket.getCourier().getNumber() + "        " + deliveryTicket.getPackageID() + "       " + DateParser.printDate(deliveryTicket.getOrderDate()) + "     " + DateParser.printDate(today) +"      "+ DateParser.printTime(deliveryTicket.getEstDeliveryTime()) + "      " + DateParser.printTime(deliveryTicket.getActualDeliveryTime())); 
