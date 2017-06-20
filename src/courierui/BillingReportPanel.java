@@ -1,19 +1,5 @@
 package courierui;
 
-import javax.swing.JPanel;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
-import courierdm.ClientDBAO;
-import courierdm.DeliveryTicketDBAO;
-import courierpd.core.Client;
-import courierpd.core.DeliveryTicket;
-import courierpd.core.User;
-
-import javax.swing.JLabel;
-import javax.swing.JList;
-
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,13 +7,23 @@ import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.ListSelectionModel;
+
+import courierdm.DeliveryTicketDBAO;
+import courierpd.core.Client;
+import courierpd.core.DeliveryTicket;
+import courierpd.core.User;
+import courierpd.other.DateParser;
 
 public class BillingReportPanel extends JPanel {
 
 	/**
 	 * Create the panel.
 	 */
-	public BillingReportPanel(CourierMainFrame currentFrame, User activeUser, List<Client> clientList) {
+	public BillingReportPanel(CourierMainFrame currentFrame, User activeUser, List<Client> clientList, boolean allClients) {
 		List<DeliveryTicket> persistedDeliveryTickets = DeliveryTicketDBAO.listDeliveryTickets();
 		setLayout(null);
 		
@@ -35,18 +31,31 @@ public class BillingReportPanel extends JPanel {
 		lblClient.setBounds(69, 35, 46, 14);
 		add(lblClient);
 		
-		JLabel lblInsertName = new JLabel("Insert Name");
-		lblInsertName.setBounds(125, 35, 88, 14);
+		String name = "";
+		if(allClients)
+		{
+			name = "All Clients";
+		}
+		else
+		{
+			for(Client client: clientList)
+			{
+				name = client.getName();
+			}
+		}
+		
+		JLabel lblInsertName = new JLabel(name);
+		lblInsertName.setBounds(125, 35, 189, 14);
 		add(lblInsertName);
 		
 		DefaultListModel listModel = new DefaultListModel();
 		for(Client client: clientList)
-		{
+		{ 
 			for(DeliveryTicket deliveryTicket: persistedDeliveryTickets)
 			{
 				if((deliveryTicket.getPickUpClient() == client && deliveryTicket.getIsBillPickUp()) || (deliveryTicket.getDeliveryClient() == client && !deliveryTicket.getIsBillPickUp()))
 				{
-					listModel.addElement(deliveryTicket.getOrderDate() + "    " + deliveryTicket.getPackageID() + "    " + deliveryTicket.getActualPickUpTime() + "    " + deliveryTicket.getActualDeliveryTime() + "    " + deliveryTicket.getEstPrice());
+					listModel.addElement(DateParser.printDate(deliveryTicket.getOrderDate()) + "    " + deliveryTicket.getPackageID() + "    " + DateParser.printTime(deliveryTicket.getActualPickUpTime()) + "    " + DateParser.printTime(deliveryTicket.getActualDeliveryTime()) + "    " + deliveryTicket.getEstPrice());
 				}
 			}
 		}
@@ -85,15 +94,15 @@ public class BillingReportPanel extends JPanel {
 		add(lblPackageId);
 		
 		JLabel lblPickupTime = new JLabel("Pick-up Time");
-		lblPickupTime.setBounds(235, 67, 69, 14);
+		lblPickupTime.setBounds(235, 67, 100, 14);
 		add(lblPickupTime);
 		
 		JLabel lblDeliveryTime = new JLabel("Delivery Time");
-		lblDeliveryTime.setBounds(358, 67, 69, 14);
+		lblDeliveryTime.setBounds(358, 67, 100, 14);
 		add(lblDeliveryTime);
 		
 		JLabel lblBillingRate = new JLabel("Billing Rate");
-		lblBillingRate.setBounds(468, 67, 63, 14);
+		lblBillingRate.setBounds(468, 67, 87, 14);
 		add(lblBillingRate);
 
 	}
