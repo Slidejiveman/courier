@@ -28,6 +28,9 @@ import javax.swing.JCheckBox;
 import javax.persistence.EntityTransaction;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.Date;
 import java.awt.event.ActionEvent;
@@ -44,6 +47,7 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 	private JLabel orderTimeLabel;
 	private JTextField PickUpTimetextField;
 	private JTextField DeliveryTimeTextField;
+	private JTextField requestedPickupTimetextField;
 
 	/**
 	 * Create the panel.
@@ -150,10 +154,7 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 		
 		departureTimetextField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (!departureTimetextField.hasFocus()){
-					Date today = new Date();
-					deliveryTicket.setActualDepartureTime(today);
-				}
+
 			}
 		});
 		departureTimetextField.setBounds(209, 65, 149, 20);
@@ -203,9 +204,26 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 		estBlocksLabel.setBounds(754, 68, 46, 14);
 		DeliveryInfopanel.add(estBlocksLabel);
 		
-		JLabel estDeliveryTimeLabel = new JLabel("TBE");
+		JLabel estDeliveryTimeLabel = new JLabel("Sat Jan 01 00:01:00 CDT 2000");
 		estDeliveryTimeLabel.setBounds(810, 100, 46, 14);
 		DeliveryInfopanel.add(estDeliveryTimeLabel);
+		
+		JLabel lblEstDepartureTime = new JLabel("Est. Departure Time:");
+		lblEstDepartureTime.setBounds(651, 29, 127, 14);
+		DeliveryInfopanel.add(lblEstDepartureTime);
+		
+		JLabel lblRequestedPickupTime = new JLabel("Requested Pickup Time:");
+		lblRequestedPickupTime.setBounds(420, 29, 134, 14);
+		DeliveryInfopanel.add(lblRequestedPickupTime);
+		
+		JLabel estDepartureTimeLabel = new JLabel("Sat Jan 01 00:01:00 CDT 2000");
+		estDepartureTimeLabel.setBounds(790, 29, 46, 14);
+		DeliveryInfopanel.add(estDepartureTimeLabel);
+		
+		requestedPickupTimetextField = new JTextField();
+		requestedPickupTimetextField.setBounds(555, 26, 70, 20);
+		DeliveryInfopanel.add(requestedPickupTimetextField);
+		requestedPickupTimetextField.setColumns(10);
 		
 
 		JPanel OrderInfopanel = new JPanel();
@@ -302,23 +320,22 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 				
 				EntityTransaction userTransaction = CourierEntityManager.getEntityManager().getTransaction();
 				userTransaction.begin();
-				deliveryTicket.setActualDeliveryTime(null);
-				//LocalTime departureTime = LocalTime.parse(departureTimetextField.getText());
-				Date today = new Date();
-				//today.setHours(departureTime.getHour());
-				//today.setMinutes(departureTime.getMinute());
-				deliveryTicket.setActualDepartureTime(today);
-				deliveryTicket.setActualPickUpTime(null);
-				deliveryTicket.setCourier((Courier)courierNamecomboBox.getSelectedItem());
-				deliveryTicket.setCourierReturnTime(null);
+				
+				deliveryTicket.setActualDeliveryTime(parseStringTime(DeliveryTimeTextField.getText()));
+				deliveryTicket.setActualDepartureTime(parseStringTime(departureTimetextField.getText()));
+				deliveryTicket.setActualPickUpTime(parseStringTime(PickUpTimetextField.getText()));
+				deliveryTicket.setCourier((Courier)courierNamecomboBox.getSelectedItem());		
+				deliveryTicket.setCourierReturnTime(parseStringTime(returnTimetextField.getText()));
+				deliveryTicket.setRequestedPickUpTime(parseStringTime(requestedPickupTimetextField.getText()));
+
 				deliveryTicket.setDeliveryClient((Client)deliveryCustomercomboBox.getSelectedItem());
 				deliveryTicket.setEstBlocks(0);
-				deliveryTicket.setEstDeliveryTime(null);
-				deliveryTicket.setEstimatedDepartureTime(null);
+				deliveryTicket.setEstDeliveryTime(parseStringDatabaseDateToDate(estDeliveryTimeLabel.getText()));
+				deliveryTicket.setEstimatedDepartureTime(parseStringDatabaseDateToDate(estDepartureTimeLabel.getText()));
 				deliveryTicket.setEstPrice(0.0f);
 				deliveryTicket.setIsBillPickUp(false);
 				deliveryTicket.setIsBonusEarned(true);
-				deliveryTicket.setOrderDate(null);
+				deliveryTicket.setOrderDate(parseStringDatabaseDateToDate(orderDateLabel.getText()));
 				deliveryTicket.setOrderTaker((OrderTaker)orderTakerBox.getSelectedItem());
 				if(packageIdLabel.getText()==""){
 					deliveryTicket.setPackageID(0);
@@ -364,5 +381,33 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 		lbltbeToBe.setBounds(442, 11, 166, 14);
 		add(lbltbeToBe);
 
+	}
+	@SuppressWarnings("deprecation")
+	public Date parseStringTime (String timeString){
+	
+		Date date = new Date();
+		Date tempDate = null;
+		DateFormat dateFormatter;
+		dateFormatter = new SimpleDateFormat("h:mm a");
+		try {
+			tempDate = dateFormatter.parse(timeString);
+			date.setHours(tempDate.getHours());
+			date.setMinutes(tempDate.getMinutes());
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
+		return date;
+	}
+	
+	public Date parseStringDatabaseDateToDate (String databaseDate){
+		Date date = null;
+		DateFormat dateFormatter;
+		dateFormatter = new SimpleDateFormat("EEE MMM dd h:mm:ss z yyyy");
+		try {
+			date = dateFormatter.parse(databaseDate);
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
+		return date;
 	}
 }
