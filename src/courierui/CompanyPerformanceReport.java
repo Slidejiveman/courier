@@ -4,11 +4,15 @@ import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.JTextField;
 
+import courierdm.DeliveryTicketDBAO;
+import courierpd.core.DeliveryTicket;
 import courierpd.core.User;
 
 import javax.swing.JLabel;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class CompanyPerformanceReport extends JPanel {
@@ -16,8 +20,23 @@ public class CompanyPerformanceReport extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public CompanyPerformanceReport(CourierMainFrame currentFrame, User activeUser) {
+	public CompanyPerformanceReport(CourierMainFrame currentFrame, User activeUser, List<User> userList) {
+		List<DeliveryTicket> persistedDeliveryTickets = DeliveryTicketDBAO.listDeliveryTickets();
 		setLayout(null);
+
+		DefaultListModel listModel = new DefaultListModel();
+		for(User user: userList)
+	
+		{
+			for(DeliveryTicket deliveryTicket: persistedDeliveryTickets)
+			{
+				if (deliveryTicket.getCourier().getNumber() == user.getNumber())
+				{ 
+					listModel.addElement(deliveryTicket.getCourier().getNumber() + "        " + deliveryTicket.getPackageID() + "       " + deliveryTicket.getOrderDate() + "     " + deliveryTicket.getEstDeliveryTime() + "      " + deliveryTicket.getActualDeliveryTime()); 
+					
+				}
+			}
+		}
 		
 		JList list = new JList();
 		list.setBounds(56, 135, 804, 288);
