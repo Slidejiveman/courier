@@ -7,7 +7,6 @@ import java.util.Date;
 
 import javax.persistence.EntityTransaction;
 import javax.swing.ButtonGroup;
-import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -32,17 +31,9 @@ import courierpd.map.PathAlgorithm;
 import courierpd.map.Route;
 
 
-import javax.swing.JRadioButton;
-import javax.swing.JCheckBox;
-import javax.persistence.EntityTransaction;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalTime;
-import java.util.Date;
-import java.awt.event.ActionEvent;
 
 public class AddUpdateDeliveryTicketPanel extends JPanel {
 	/**
@@ -57,7 +48,6 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 	private JTextField PickUpTimetextField;
 	private JTextField DeliveryTimeTextField;
 	private JTextField requestedPickupTimetextField;
-	private Date today = new Date();
 
 	/**
 	 * Create the panel.
