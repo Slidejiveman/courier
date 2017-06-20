@@ -13,6 +13,7 @@ import courierpd.enums.EmployeeRole;
 import javax.swing.JRadioButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -38,6 +39,11 @@ public class CourierPerformanceOptions extends JPanel {
 		rdbtnMonthly.setBounds(626, 247, 109, 23);
 		add(rdbtnMonthly);
 		
+		ButtonGroup buttonGroup = new ButtonGroup();
+		buttonGroup.add(rdbtnWeekly);
+	    buttonGroup.add(rdbtnMonthly);
+	    buttonGroup.setSelected(rdbtnWeekly.getModel(), true);
+	    
 		JCheckBox chckbxNewCheckBox = new JCheckBox("Select All Couriers");
 		chckbxNewCheckBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0)
@@ -98,7 +104,7 @@ public class CourierPerformanceOptions extends JPanel {
 					userList.add((User) comboBox.getSelectedItem());
 				}
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new CourierPerformanceReport(currentFrame,activeUser, userList ));
+				currentFrame.getContentPane().add(new CourierPerformanceReport(currentFrame,activeUser, userList, chckbxNewCheckBox.isSelected()));
 				currentFrame.getContentPane().revalidate();
 			}
 		});

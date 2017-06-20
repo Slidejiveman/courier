@@ -1,19 +1,20 @@
 package courierui;
 
-import javax.swing.JPanel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Date;
+import java.util.List;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JTextField;
+import javax.swing.JPanel;
 
 import courierdm.DeliveryTicketDBAO;
 import courierpd.core.DeliveryTicket;
 import courierpd.core.User;
-
-import javax.swing.JLabel;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.util.List;
-import java.awt.event.ActionEvent;
+import courierpd.other.DateParser;
 
 public class CompanyPerformanceReport extends JPanel {
 
@@ -32,13 +33,14 @@ public class CompanyPerformanceReport extends JPanel {
 			{
 				if (deliveryTicket.getCourier().getNumber() == user.getNumber())
 				{ 
-					listModel.addElement(deliveryTicket.getCourier().getNumber() + "        " + deliveryTicket.getPackageID() + "       " + deliveryTicket.getOrderDate() + "     " + deliveryTicket.getEstDeliveryTime() + "      " + deliveryTicket.getActualDeliveryTime()); 
+					Date today = new Date();
+					listModel.addElement(deliveryTicket.getCourier().getNumber() + "        " + deliveryTicket.getPackageID() + "       " + DateParser.printDate(deliveryTicket.getOrderDate()) + "     " + DateParser.printDate(today) +"      "+ DateParser.printTime(deliveryTicket.getEstDeliveryTime()) + "      " + DateParser.printTime(deliveryTicket.getActualDeliveryTime())); 
 					
 				}
 			}
 		}
 		
-		JList list = new JList();
+		JList list = new JList(listModel);
 		list.setBounds(56, 135, 804, 288);
 		add(list);
 		

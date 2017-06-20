@@ -86,7 +86,7 @@ public class DeliveryDirectionsPanel extends JPanel {
 		estBlocksValue.setBounds(846, 23, 103, 14);
 		add(estBlocksValue);
 		
-		JLabel estDepartureTimeValue = new JLabel(route.getCurrentOrder().getActualDepartureTime().toString());
+		JLabel estDepartureTimeValue = new JLabel(route.getCurrentOrder().getEstimatedDepartureTime().toString());
 		estDepartureTimeValue.setBounds(846, 48, 103, 43);
 		add(estDepartureTimeValue);
 		
@@ -122,7 +122,8 @@ public class DeliveryDirectionsPanel extends JPanel {
 					String folderName = destinationFolder.getAbsolutePath();
 					System.out.println("The selected path: "+folderName);
 				
-					PdfWriter.getInstance(document, new FileOutputStream(folderName+"/directions.pdf"));
+					PdfWriter.getInstance(document, new FileOutputStream(folderName+"/directionsForTicketNo" + 
+					                       route.getCurrentOrder().getPackageID() + ".pdf"));
 					document.open();
 					Paragraph paragraph = new Paragraph();
 					paragraph.add(directionstextArea.getText());
