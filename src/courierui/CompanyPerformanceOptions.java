@@ -11,6 +11,7 @@ import courierpd.enums.EmployeeRole;
 import javax.swing.JRadioButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -35,6 +36,11 @@ public class CompanyPerformanceOptions extends JPanel {
 		JRadioButton rdbtnMonthly = new JRadioButton("Monthly");
 		rdbtnMonthly.setBounds(626, 247, 109, 23);
 		add(rdbtnMonthly);
+		
+		ButtonGroup buttonGroup = new ButtonGroup();
+		buttonGroup.add(rdbtnWeekly);
+	    buttonGroup.add(rdbtnMonthly);
+	    buttonGroup.setSelected(rdbtnWeekly.getModel(), true);
 		
 		JLabel lblReportStartDate = new JLabel("Report Start Date");
 		lblReportStartDate.setBounds(296, 208, 127, 14);

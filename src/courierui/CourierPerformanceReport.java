@@ -21,7 +21,7 @@ public class CourierPerformanceReport extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public CourierPerformanceReport(CourierMainFrame currentFrame, User activeUser, List<User> userList) {
+	public CourierPerformanceReport(CourierMainFrame currentFrame, User activeUser, List<User> userList, boolean allCouriers) {
 		List<DeliveryTicket> persistedDeliveryTickets = DeliveryTicketDBAO.listDeliveryTickets();
 		setLayout(null);
 
@@ -49,7 +49,7 @@ public class CourierPerformanceReport extends JPanel {
 		list.setBounds(64, 135, 897, 288);
 		add(list);
 		
-		JLabel lblCouriersId = new JLabel("Date");
+		JLabel lblCouriersId = new JLabel("Date: " /*+ DateParser.printDate(firstDate) + "-" + DateParser.printDate(secondDate)*/);
 		lblCouriersId.setBounds(73, 110, 61, 14);
 		add(lblCouriersId);
 		
@@ -101,11 +101,22 @@ public class CourierPerformanceReport extends JPanel {
 		add(lblBonusRecieved);
 		
 		JLabel lblDate = new JLabel("Date:");
-		lblDate.setBounds(64, 58, 46, 14);
+		lblDate.setBounds(64, 58, 344, 14);
 		add(lblDate);
 		
-		JLabel lblCourier = new JLabel("Courier:");
-		lblCourier.setBounds(64, 85, 46, 14);
+		String name ="";
+		if(allCouriers){
+			name = "All Couriers";
+		}
+		else{
+			for(User user: userList)
+			{
+				name = user.getName();
+			}
+		}
+		
+		JLabel lblCourier = new JLabel("Courier: " + name );
+		lblCourier.setBounds(64, 85, 364, 14);
 		add(lblCourier);
 
 	}
