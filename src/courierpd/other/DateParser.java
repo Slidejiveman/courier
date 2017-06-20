@@ -11,7 +11,7 @@ public class DateParser {
 	
 	public static String printTime(Date date) {
 		
-		String hourString = "";
+		String hourString = String.valueOf(date.getHours());
 		String amPmString = "AM";
 		
 		// Afternoon
