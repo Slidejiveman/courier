@@ -7,8 +7,9 @@ public class DateParser {
 	@SuppressWarnings("deprecation")
 	public static String printDate(Date date) {
 		String dateYear = String.valueOf((date.getYear()+1900));
+		String dateMonth = String.valueOf((date.getMonth()+1));
 		
-		return date.getMonth() + "/" + date.getDate() + "/" + dateYear;
+		return dateMonth + "/" + date.getDate() + "/" + dateYear;
 	}
 	
 	@SuppressWarnings("deprecation")

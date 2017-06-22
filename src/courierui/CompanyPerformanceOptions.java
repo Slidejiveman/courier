@@ -25,6 +25,7 @@ import courierpd.enums.EmployeeRole;
 public class CompanyPerformanceOptions extends JPanel {
 	private JTextField textField;
 	private JTextField textField_1;
+	private boolean invalidEntry = false;
 	/**
 	 * Create the panel.
 	 */
@@ -76,18 +77,24 @@ public class CompanyPerformanceOptions extends JPanel {
 					Date startDate = parseStringDate(textField.getText());
 					Date endDate = parseStringDate(textField_1.getText());
 					
-					if(startDate.before(endDate))
+					if(startDate.before(endDate) && invalidEntry == false)
 					{
 						currentFrame.getContentPane().removeAll();
 						currentFrame.getContentPane().add(new CompanyPerformanceReport(currentFrame, activeUser, userList, startDate, endDate));
 						currentFrame.getContentPane().revalidate();
+					}
+					else if(startDate.before(endDate) && invalidEntry == true)
+					{
+						JOptionPane.showMessageDialog(null,
+								"Dates need to be entered in the format of 'January 1, 2017'", 
+								"Generation Failed", JOptionPane.ERROR_MESSAGE);
 					}
 					else
 					{
 						JOptionPane.showMessageDialog(null,
 								"End Date is not valid; it needs to be after the start date.", 
 								"Generation Failed", JOptionPane.ERROR_MESSAGE);
-				}
+					}
 			}
 		});
 		btnGenerate.setBounds(399, 385, 89, 23);
@@ -119,9 +126,7 @@ public class CompanyPerformanceOptions extends JPanel {
 			date.setDate(tempDate.getDate());
 			date.setYear(tempDate.getYear());
 		} catch (ParseException e1) {
-			JOptionPane.showMessageDialog(null,
-					"Dates need to be entered in the format of 'January 1, 2017'", 
-					"Generation Failed", JOptionPane.ERROR_MESSAGE);
+			invalidEntry = true;
 		}
 		return date;
 	}

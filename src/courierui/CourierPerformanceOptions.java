@@ -27,12 +27,14 @@ import courierpd.enums.EmployeeRole;
 public class CourierPerformanceOptions extends JPanel {
 	private JTextField textField;
 	private JTextField textField_1;
+	private boolean invalidEntry = false;
 	/**
 	 * Create the panel.
 	 */
 	public CourierPerformanceOptions(CourierMainFrame currentFrame, User activeUser) {
 		List<User> persistedUsers = EmployeeDBAO.listUsers();
 		List<User> userList = new ArrayList<User>();
+		
 		setLayout(null);
 		
 		JRadioButton rdbtnWeekly = new JRadioButton("Weekly");
@@ -110,11 +112,18 @@ public class CourierPerformanceOptions extends JPanel {
 				Date startDate = parseStringDate(textField.getText());
 				Date endDate = parseStringDate(textField_1.getText());
 				
-				if(startDate.before(endDate))
+				if(startDate.before(endDate) && invalidEntry == false)
 				{
 					currentFrame.getContentPane().removeAll();
 					currentFrame.getContentPane().add(new CourierPerformanceReport(currentFrame,activeUser, userList, chckbxNewCheckBox.isSelected(), startDate, endDate));
 					currentFrame.getContentPane().revalidate();
+				}
+				else if(startDate.before(endDate) && invalidEntry == true)
+				{
+					JOptionPane.showMessageDialog(null,
+							"Dates need to be entered in the format of 'January 1, 2017'", 
+							"Generation Failed", JOptionPane.ERROR_MESSAGE);
+					invalidEntry = false;
 				}
 				else
 				{
@@ -151,9 +160,7 @@ public class CourierPerformanceOptions extends JPanel {
 			date.setDate(tempDate.getDate());
 			date.setYear(tempDate.getYear());
 		} catch (ParseException e1) {
-			JOptionPane.showMessageDialog(null,
-					"Dates need to be entered in the format of 'January 1, 2017'", 
-					"Generation Failed", JOptionPane.ERROR_MESSAGE);
+			invalidEntry = true;
 		}
 		return date;
 	}

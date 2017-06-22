@@ -2,13 +2,22 @@ package courierui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import courierdm.DeliveryTicketDBAO;
 import courierpd.core.DeliveryTicket;
@@ -27,7 +36,6 @@ public class CourierPerformanceReport extends JPanel {
 		setLayout(null);
 
 		for(User user: userList)
-	
 		{
 			for(DeliveryTicket deliveryTicket: persistedDeliveryTickets)
 			{
@@ -44,6 +52,21 @@ public class CourierPerformanceReport extends JPanel {
 				}
 			}
 		}
+		
+		String name = "";
+		if(allCouriers)
+		{
+			name = "All Couriers";
+		}
+		else
+		{
+			for(User user: userList)
+			{
+				name = user.getName();
+			}
+		}
+		String name2 = name;
+		
 		JTextArea textArea = new JTextArea(reportFinalString);
 		textArea.setBounds(73, 135, 872, 299);
 		add(textArea);
@@ -75,6 +98,32 @@ public class CourierPerformanceReport extends JPanel {
 		JButton btnSaveAsPdf = new JButton("Save As PDF");
 		btnSaveAsPdf.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				Document document = new Document();
+				try {
+					final JFileChooser destinationChooser = new JFileChooser();
+					destinationChooser.setDialogTitle("Choose the File Destination Folder");
+					destinationChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+					destinationChooser.setAcceptAllFileFilterUsed(false); //disable the accept all files option
+					destinationChooser.showOpenDialog(null);
+					File destinationFolder = destinationChooser.getCurrentDirectory();
+					String folderName = destinationFolder.getAbsolutePath();
+					System.out.println("The selected path: "+folderName);
+				
+					PdfWriter.getInstance(document, new FileOutputStream(folderName+"/CourierPerformanceReportFor" + name2 + 
+					                         ".pdf"));
+					document.open();
+					Paragraph paragraph = new Paragraph();
+					paragraph.add(textArea.getText());
+					document.add(paragraph);
+					document.close();
+				} catch (FileNotFoundException | DocumentException e) {
+					e.printStackTrace();
+				}
+				
+				//Add code to save the instructions as on a PDF file
+				currentFrame.getContentPane().removeAll();
+				currentFrame.getContentPane().add(new CourierPerformanceReport(currentFrame, activeUser, userList, allCouriers, startDate, endDate));
+				currentFrame.revalidate();
 			}
 		});
 		btnSaveAsPdf.setBounds(320, 445, 108, 23);
@@ -102,17 +151,6 @@ public class CourierPerformanceReport extends JPanel {
 		JLabel lblDate = new JLabel("Date:");
 		lblDate.setBounds(64, 58, 344, 14);
 		add(lblDate);
-		
-		String name ="";
-		if(allCouriers){
-			name = "All Couriers";
-		}
-		else{
-			for(User user: userList)
-			{
-				name = user.getName();
-			}
-		}
 		
 		JLabel lblCourier = new JLabel("Courier: " + name );
 		lblCourier.setBounds(64, 85, 364, 14);

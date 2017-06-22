@@ -8,23 +8,21 @@ import java.io.FileOutputStream;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
-
-import courierdm.DeliveryTicketDBAO;
-import courierpd.core.DeliveryTicket;
-import courierpd.core.User;
-import courierpd.other.DateParser;
 import javax.swing.JTextArea;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+
+import courierdm.DeliveryTicketDBAO;
+import courierpd.core.DeliveryTicket;
+import courierpd.core.User;
+import courierpd.other.DateParser;
 
 public class CompanyPerformanceReport extends JPanel {
 

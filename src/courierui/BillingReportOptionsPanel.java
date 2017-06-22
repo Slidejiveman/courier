@@ -22,18 +22,11 @@ import javax.swing.JTextField;
 import courierdm.ClientDBAO;
 import courierpd.core.Client;
 import courierpd.core.User;
-import courierpd.map.Intersection;
-
-import javax.swing.JCheckBox;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.util.List;
-import java.awt.event.ActionEvent;
 
 public class BillingReportOptionsPanel extends JPanel {
 	private JTextField startDateTextField;
 	private JTextField endDateTextField;
+	private boolean invalidEntry = false;
 
 	/**
 	 * Create the panel.
@@ -105,11 +98,18 @@ public class BillingReportOptionsPanel extends JPanel {
 				Date startDate = parseStringDate(startDateTextField.getText());
 				Date endDate = parseStringDate(endDateTextField.getText());
 				
-				if(startDate.before(endDate))
+				if(startDate.before(endDate) && invalidEntry == false)
 				{
 					currentFrame.getContentPane().removeAll();
 					currentFrame.getContentPane().add(new BillingReportPanel(currentFrame, activeUser, clientList, chckbxSelectAllClients.isSelected(), startDate, endDate));
 					currentFrame.getContentPane().revalidate();
+				}
+				else if(startDate.before(endDate) && invalidEntry == true)
+				{
+					JOptionPane.showMessageDialog(null,
+							"Dates need to be entered in the format of 'January 1, 2017'", 
+							"Generation Failed", JOptionPane.ERROR_MESSAGE);
+					invalidEntry = false;
 				}
 				else
 				{
@@ -149,9 +149,7 @@ public class BillingReportOptionsPanel extends JPanel {
 			date.setDate(tempDate.getDate());
 			date.setYear(tempDate.getYear());
 		} catch (ParseException e1) {
-			JOptionPane.showMessageDialog(null,
-					"Dates need to be entered in the format of 'January 1, 2017'", 
-					"Generation Failed", JOptionPane.ERROR_MESSAGE);
+			invalidEntry = true;
 		}
 		return date;
 	}
