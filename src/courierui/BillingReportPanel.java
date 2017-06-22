@@ -1,5 +1,6 @@
 package courierui;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -70,6 +71,7 @@ public class BillingReportPanel extends JPanel {
 			}
 		}
 		JTextArea textArea = new JTextArea(reportFinalString);
+		textArea.setFont(new Font("Courier New", Font.PLAIN, 12));
 		textArea.setBounds(57, 92, 498, 258);
 		add(textArea);
 		

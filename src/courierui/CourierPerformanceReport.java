@@ -1,5 +1,6 @@
 package courierui;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -68,6 +69,7 @@ public class CourierPerformanceReport extends JPanel {
 		String name2 = name;
 		
 		JTextArea textArea = new JTextArea(reportFinalString);
+		textArea.setFont(new Font("Courier New", Font.PLAIN, 12));
 		textArea.setBounds(73, 135, 872, 299);
 		add(textArea);
 		
