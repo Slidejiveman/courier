@@ -333,8 +333,10 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 					
 					deliveryTicket.setEstDeliveryTime(new Timestamp(parseStringTime(DateParser.printTime(deliveryRoute.estimateDeliveryTime())).getTime()));
 					deliveryTicket.setEstPrice(deliveryRoute.estimatePrice());
-					if(!DeliveryTimeTextField.getText().equals(""))
+					if(!DeliveryTimeTextField.getText().equals("")){
+						System.out.println("Is bonus earned "+deliveryRoute.deliveryTimesMet());
 						deliveryTicket.setIsBonusEarned(deliveryRoute.deliveryTimesMet());
+					}
 					estimatesTransaction.commit();
 				}catch (Exception exception){
 					estimatesTransaction.rollback();
