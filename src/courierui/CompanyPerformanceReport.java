@@ -32,8 +32,11 @@ public class CompanyPerformanceReport extends JPanel {
 	 */
 	public CompanyPerformanceReport(CourierMainFrame currentFrame, User activeUser, List<User> userList, Date startDate, Date endDate) {
 		List<DeliveryTicket> persistedDeliveryTickets = DeliveryTicketDBAO.listDeliveryTickets();
-		String reportFinalString = "";
 		String newline = "\n";
+		String reportFinalString = "";
+		reportFinalString = reportFinalString + reportFinalString.format("%-1s %-12s %-11s %-15s %-18s %-22s %s", "", "Couriers ID", 
+				"Package ID", "Date of the Delivery", 
+				"Date of the Report", "Reported Delivery Time","Actual Delivery Time") + newline;;
 		setLayout(null);
 
 		//DefaultListModel listModel = new DefaultListModel();
@@ -44,42 +47,17 @@ public class CompanyPerformanceReport extends JPanel {
 				if ((deliveryTicket.getCourier().getNumber() == user.getNumber()) && (deliveryTicket.getOrderDate().after(startDate) && deliveryTicket.getOrderDate().before(endDate))) 
 				{ 
 					Date today = new Date();
-					reportFinalString = reportFinalString + reportFinalString.format("%-5s %-12s %-13s %-17s %-23s %-22s %s", "", deliveryTicket.getCourier().getNumber(), 
+					reportFinalString = reportFinalString + reportFinalString.format("%-5s %-12s %-13s %-17s %-20s %-22s %s", "", deliveryTicket.getCourier().getNumber(), 
 							deliveryTicket.getPackageID(),DateParser.printDate(deliveryTicket.getOrderDate()) , 
 							DateParser.printDate(today) , DateParser.printTime(deliveryTicket.getEstDeliveryTime()), DateParser.printTime(deliveryTicket.getActualDeliveryTime())) + newline;
-					//reportFinalString = reportFinalString + deliveryTicket.getCourier().getNumber() + "        " + deliveryTicket.getPackageID() + "       " + DateParser.printDate(deliveryTicket.getOrderDate()) + "     " + DateParser.printDate(today) +"      "+ DateParser.printTime(deliveryTicket.getEstDeliveryTime()) + "      " + DateParser.printTime(deliveryTicket.getActualDeliveryTime()) + newline;
 				}
 			}
 		}
 		
 		JTextArea textArea = new JTextArea(reportFinalString);
 		textArea.setFont(new Font("Courier New", Font.PLAIN, 12));
-		textArea.setBounds(38, 135, 778, 282);
+		textArea.setBounds(38, 76, 811, 341);
 		add(textArea);
-		
-		JLabel lblCouriersId = new JLabel("Couriers ID");
-		lblCouriersId.setBounds(56, 110, 78, 14);
-		add(lblCouriersId);
-		
-		JLabel lblPackageId = new JLabel("Package ID");
-		lblPackageId.setBounds(144, 110, 70, 14);
-		add(lblPackageId);
-		
-		JLabel lblDateOfThe = new JLabel("Date of the Delivery");
-		lblDateOfThe.setBounds(247, 110, 123, 14);
-		add(lblDateOfThe);
-		
-		JLabel lblDateOfThe_1 = new JLabel("Date of the Report");
-		lblDateOfThe_1.setBounds(380, 110, 108, 14);
-		add(lblDateOfThe_1);
-		
-		JLabel lblReportedDeliveryTime = new JLabel("Reported Delivery Time");
-		lblReportedDeliveryTime.setBounds(522, 110, 137, 14);
-		add(lblReportedDeliveryTime);
-		
-		JLabel lblActualDeliveryTime = new JLabel("Actual Delivery Time");
-		lblActualDeliveryTime.setBounds(689, 110, 127, 14);
-		add(lblActualDeliveryTime);
 		
 		JButton btnSaveAsPdf = new JButton("Save As PDF");
 		btnSaveAsPdf.addActionListener(new ActionListener() {
