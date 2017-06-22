@@ -1,7 +1,7 @@
 package courierpd.core;
 
 import java.io.Serializable;
-import java.sql.Time;
+
 import java.util.Comparator;
 import java.util.Date;
 
@@ -22,416 +22,453 @@ import courierpd.enums.TicketStatus;
 import courierpd.map.Route;
 
 /**
- * The Delivery Ticket is the heart of Ubiquity as well as of Acme Courier Services' business. 
- * It contains information related to Couriers, Order Takers, Clients, Routes, and much more. 
- * Delivery Tickets are the primary entity of interest in generating reports as well.
+ * The Delivery Ticket is the heart of Ubiquity as well as of Acme Courier
+ * Services' business. It contains information related to Couriers, Order
+ * Takers, Clients, Routes, and much more. Delivery Tickets are the primary
+ * entity of interest in generating reports as well.
  */
 @Entity(name = "delivery_ticket")
 public class DeliveryTicket implements Serializable, Comparable<DeliveryTicket> {
 
-    /**
-	 * Allows Serialization so that the item may be stored in the
-	 * database
+	/**
+	 * Allows Serialization so that the item may be stored in the database
 	 */
 	private static final long serialVersionUID = 4198685346241980809L;
 	/**
-     * The date and time the delivery ticket was opened.
-     */
-	@Column(name = "order_date", columnDefinition="DATETIME")
+	 * The date and time the delivery ticket was opened.
+	 */
+	@Column(name = "order_date", columnDefinition = "DATETIME")
 	@Temporal(TemporalType.TIMESTAMP)
-    private Date orderDate;
-    
-    /**
-     * This is the pick up time the courier is supposed to shoot for. 
-     * This is used when determining the departure time.
-     */
-	@Column(name = "requested_pickup_time", columnDefinition="DATETIME")
+	private Date orderDate;
+
+	/**
+	 * This is the pick up time the courier is supposed to shoot for. This is
+	 * used when determining the departure time.
+	 */
+	@Column(name = "requested_pickup_time", columnDefinition = "DATETIME")
 	@Temporal(TemporalType.TIMESTAMP)
-    private Date requestedPickUpTime;
-    /**
-     * The flag that determines which of the two clients to bill. 
-     * By default, the pickup client is assumed to be the one who is 
-     * billed because this is the client that initiated the delivery ticket. 
-     * It can be manually changed to the delivery client.
-     */
+	private Date requestedPickUpTime;
+	/**
+	 * The flag that determines which of the two clients to bill. By default,
+	 * the pickup client is assumed to be the one who is billed because this is
+	 * the client that initiated the delivery ticket. It can be manually changed
+	 * to the delivery client.
+	 */
 	@Column(name = "is_bill_pick_up", nullable = false)
-    private boolean isBillPickUp = true;
-    /**
-     * The unique identifier of the package as well as the delivery ticket in the system. 
-     * A package is not of much interest to the company or the software other than 
-     * the fact that it exists. The Delivery Ticket itself is a package's primary agency in Ubiquity.
-     */
-    @Id //signifies the primary key
-    @Column(name = "delivery_ticket_id", updatable = false, nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int packageID;
-    /**
-     * The time the courier left from the Office. 
-     * This is recorded by the Order Taker when the 
-     * courier notifies them that they are leaving.
-     */
-    @Column(name = "departure_time", columnDefinition="DATETIME")
+	private boolean isBillPickUp = true;
+	/**
+	 * The unique identifier of the package as well as the delivery ticket in
+	 * the system. A package is not of much interest to the company or the
+	 * software other than the fact that it exists. The Delivery Ticket itself
+	 * is a package's primary agency in Ubiquity.
+	 */
+	@Id // signifies the primary key
+	@Column(name = "delivery_ticket_id", updatable = false, nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int packageID;
+	/**
+	 * The time the courier left from the Office. This is recorded by the Order
+	 * Taker when the courier notifies them that they are leaving.
+	 */
+	@Column(name = "departure_time", columnDefinition = "DATETIME")
 	@Temporal(TemporalType.TIMESTAMP)
-    private Date actualDepartureTime;
-    /**
-     * The time the courier received the package from the pick-up client. 
-     * This should be recorded in the system by the courier via an email.
-     */
-    @Column(name = "pick_up_time", columnDefinition="DATETIME")
+	private Date actualDepartureTime;
+	/**
+	 * The time the courier received the package from the pick-up client. This
+	 * should be recorded in the system by the courier via an email.
+	 */
+	@Column(name = "pick_up_time", columnDefinition = "DATETIME")
 	@Temporal(TemporalType.TIMESTAMP)
-    private Date actualPickUpTime;
-    /**
-     * The time at which the courier delivered the package to the receiving client. 
-     * This should be reported by the courier via an email to Ubiquity.
-     */
-    @Column(name = "delivery_time", columnDefinition="DATETIME")
+	private Date actualPickUpTime;
+	/**
+	 * The time at which the courier delivered the package to the receiving
+	 * client. This should be reported by the courier via an email to Ubiquity.
+	 */
+	@Column(name = "delivery_time", columnDefinition = "DATETIME")
 	@Temporal(TemporalType.TIMESTAMP)
-    private Date actualDeliveryTime;
-    /**
-     * The time at which the courier returned to Acme Courier Services. 
-     * This is recorded by the order taker when the courier checks back in.
-     */
-    @Column(name = "return_time", columnDefinition="DATETIME")
+	private Date actualDeliveryTime;
+	/**
+	 * The time at which the courier returned to Acme Courier Services. This is
+	 * recorded by the order taker when the courier checks back in.
+	 */
+	@Column(name = "return_time", columnDefinition = "DATETIME")
 	@Temporal(TemporalType.TIMESTAMP)
-    private Date courierReturnTime;
-    /**
-     * A flag determined based on the actual delivery time and the bonus window business parameter. 
-     * If the actual delivery time is less than the estimated delivery time minus the bonus window, 
-     * then this flag is set to true and a bonus is received.
-     */
-    @Column(name = "bonus_earned", nullable = false)
-    private boolean isBonusEarned = false;
-    /**
-     * Special instructions that are provided to the Order Taker over the phone by the client. 
-     * Special Instructions are made available on the delivery instructions document 
-     * so that the courier can more easily fulfill them. These are not required, 
-     * but they should be held in the system to help the courier after arriving on site.
-     */
-    @Column(name = "special_instructions")
-    private String specialDeliveryInstructions;
-    /**
-     * The courier assigned to perform the delivery.
-     */
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "dt_courier_id", nullable = false, referencedColumnName="employee_id")
-    private Courier courier;
+	private Date courierReturnTime;
+	/**
+	 * A flag determined based on the actual delivery time and the bonus window
+	 * business parameter. If the actual delivery time is less than the
+	 * estimated delivery time minus the bonus window, then this flag is set to
+	 * true and a bonus is received.
+	 */
+	@Column(name = "bonus_earned", nullable = false)
+	private boolean isBonusEarned = false;
+	/**
+	 * Special instructions that are provided to the Order Taker over the phone
+	 * by the client. Special Instructions are made available on the delivery
+	 * instructions document so that the courier can more easily fulfill them.
+	 * These are not required, but they should be held in the system to help the
+	 * courier after arriving on site.
+	 */
+	@Column(name = "special_instructions")
+	private String specialDeliveryInstructions;
+	/**
+	 * The courier assigned to perform the delivery.
+	 */
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "dt_courier_id", nullable = false, referencedColumnName = "employee_id")
+	private Courier courier;
 
 	/**
-     * The client who will be receiving the package.
-     */
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "dt_delivery_client_id", nullable = false, referencedColumnName="client_id")
-    private Client deliveryClient;
-    /**
-     * The client who is sending the package.
-     */
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "dt_pick_up_client_id", nullable = false, referencedColumnName="client_id")
-    private Client pickUpClient;
-    /**
-     * The route that the courier will take to perform the delivery and return 
-     * back to the office. This route is also used to determine the estimated 
-     * price and delivery time.
-     */
-    @Transient
-    private transient Route shortestPath;
-    
+	 * The client who will be receiving the package.
+	 */
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "dt_delivery_client_id", nullable = false, referencedColumnName = "client_id")
+	private Client deliveryClient;
 	/**
-     * The estimated delivery time of the package. The estimated delivery 
-     * time is determined using the Route, but it is stored in the database 
-     * as part of the delivery ticket.
-     */
-    @Column(name = "estimated_delivery_time", columnDefinition="DATETIME")
+	 * The client who is sending the package.
+	 */
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "dt_pick_up_client_id", nullable = false, referencedColumnName = "client_id")
+	private Client pickUpClient;
+	/**
+	 * The route that the courier will take to perform the delivery and return
+	 * back to the office. This route is also used to determine the estimated
+	 * price and delivery time.
+	 */
+	@Transient
+	private transient Route shortestPath;
+
+	/**
+	 * The estimated delivery time of the package. The estimated delivery time
+	 * is determined using the Route, but it is stored in the database as part
+	 * of the delivery ticket.
+	 */
+	@Column(name = "estimated_delivery_time", columnDefinition = "DATETIME")
 	@Temporal(TemporalType.TIMESTAMP)
-    private Date estDeliveryTime;
-    /**
-     * The estimated number of blocks traveled, round-trip, for the delivery. 
-     * This is determined with the help of a Route but stored as part of a delivery ticket.
-     */
-    @Column(name = "estimated_blocks", nullable = false)
-    private int estBlocks;
-    /**
-     * The estimated price is the estimated amount that the client will be 
-     * billed for the service. This is determined with the help of a route, 
-     * but it is stored as part of a delivery ticket.
-     */
-    @Column(name = "estimated_price", nullable = false)
-    private float estPrice;
-    /**
-     * The employee who took the order from the calling client.
-     */
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "dt_order_taker_id", nullable = false, referencedColumnName="employee_id")
-    private OrderTaker orderTaker;
-    /**
-     * The state of the delivery ticket. 
-     * Certain actions, reporting, updating, deleting, etc., 
-     * are based on the state of the delivery ticket.
-     */
-    @Enumerated(EnumType.STRING)
-    @Column(name = "ticket_status", nullable = false)
-    private TicketStatus status = courierpd.enums.TicketStatus.Opened;
-    /**
-     * The estimated time the the courier will have to 
-     * depart in order to arrive at the destination on time.
-     */
-    @Column(name = "estimated_departure_time", columnDefinition="DATETIME")
+	private Date estDeliveryTime;
+	/**
+	 * The estimated number of blocks traveled, round-trip, for the delivery.
+	 * This is determined with the help of a Route but stored as part of a
+	 * delivery ticket.
+	 */
+	@Column(name = "estimated_blocks", nullable = false)
+	private int estBlocks;
+	/**
+	 * The estimated price is the estimated amount that the client will be
+	 * billed for the service. This is determined with the help of a route, but
+	 * it is stored as part of a delivery ticket.
+	 */
+	@Column(name = "estimated_price", nullable = false)
+	private float estPrice;
+	/**
+	 * The employee who took the order from the calling client.
+	 */
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "dt_order_taker_id", nullable = false, referencedColumnName = "employee_id")
+	private OrderTaker orderTaker;
+	/**
+	 * The state of the delivery ticket. Certain actions, reporting, updating,
+	 * deleting, etc., are based on the state of the delivery ticket.
+	 */
+	@Enumerated(EnumType.STRING)
+	@Column(name = "ticket_status", nullable = false)
+	private TicketStatus status = courierpd.enums.TicketStatus.Opened;
+	/**
+	 * The estimated time the the courier will have to depart in order to arrive
+	 * at the destination on time.
+	 */
+	@Column(name = "estimated_departure_time", columnDefinition = "DATETIME")
 	@Temporal(TemporalType.TIMESTAMP)
-    private Date estimatedDepartureTime;
+	private Date estimatedDepartureTime;
 
-    /**
-     * Returns the order date.
-     */
-    public Date getOrderDate() {
-        return this.orderDate;
-    }
+	/**
+	 * Returns the order date.
+	 */
+	public Date getOrderDate() {
+		return this.orderDate;
+	}
 
-    /**
-     * Sets the date for the order.
-     * @param orderDate The date of the order.
-     */
-    public void setOrderDate(Date orderDate) {
-        this.orderDate = orderDate;
-    }
+	/**
+	 * Sets the date for the order.
+	 * 
+	 * @param orderDate
+	 *            The date of the order.
+	 */
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;
+	}
 
-    /**
-     * Returns the special delivery instructions from the client.
-     */
-    public String getSpecialDeliveryInstructions() {
-        return this.specialDeliveryInstructions;
-    }
+	/**
+	 * Returns the special delivery instructions from the client.
+	 */
+	public String getSpecialDeliveryInstructions() {
+		return this.specialDeliveryInstructions;
+	}
 
-    /**
-     * Sets the special delivery instructions in the system.
-     * @param specialDeliveryInstructions The special delivery instructions to
-     */
-    public void setSpecialDeliveryInstructions(String specialDeliveryInstructions) {
-        this.specialDeliveryInstructions = specialDeliveryInstructions;
-    }
+	/**
+	 * Sets the special delivery instructions in the system.
+	 * 
+	 * @param specialDeliveryInstructions
+	 *            The special delivery instructions to
+	 */
+	public void setSpecialDeliveryInstructions(String specialDeliveryInstructions) {
+		this.specialDeliveryInstructions = specialDeliveryInstructions;
+	}
 
-    /**
-     * The default constructor of a delivery ticket.
-     */
-    public DeliveryTicket() {
-        
-    }
+	/**
+	 * The default constructor of a delivery ticket.
+	 */
+	public DeliveryTicket() {
 
-    /**
-     * Returns the time requested by the client for package pick-up.
-     */
-    public Date getRequestedPickUpTime() {
-        return this.requestedPickUpTime;
-    }
+	}
 
-    /**
-     * Sets the time requested by the client for package pick-up.
-     * @param requestedPickUpTime The time requested by the client for package pick-up.
-     */
-    public void setRequestedPickUpTime(Date requestedPickUpTime) {
-        this.requestedPickUpTime = requestedPickUpTime;
-    }
+	/**
+	 * Returns the time requested by the client for package pick-up.
+	 */
+	public Date getRequestedPickUpTime() {
+		return this.requestedPickUpTime;
+	}
 
-    /**
-     * Return the flag which determines which customer will be billed.
-     */
-    public boolean getIsBillPickUp() {
-        return this.isBillPickUp;
-    }
+	/**
+	 * Sets the time requested by the client for package pick-up.
+	 * 
+	 * @param requestedPickUpTime
+	 *            The time requested by the client for package pick-up.
+	 */
+	public void setRequestedPickUpTime(Date requestedPickUpTime) {
+		this.requestedPickUpTime = requestedPickUpTime;
+	}
 
-    /**
-     * Set the flag which determines which customer will be billed.
-     * @param isBillPickUp The flag which determines the customer to bill.
-     */
-    public void setIsBillPickUp(boolean isBillPickUp) {
-        this.isBillPickUp = isBillPickUp;
-    }
+	/**
+	 * Return the flag which determines which customer will be billed.
+	 */
+	public boolean getIsBillPickUp() {
+		return this.isBillPickUp;
+	}
 
-    /**
-     * Returns the unique identifier for the delivery ticket.
-     */
-    public int getPackageID() {
-        return this.packageID;
-    }
+	/**
+	 * Set the flag which determines which customer will be billed.
+	 * 
+	 * @param isBillPickUp
+	 *            The flag which determines the customer to bill.
+	 */
+	public void setIsBillPickUp(boolean isBillPickUp) {
+		this.isBillPickUp = isBillPickUp;
+	}
 
-    /**
-     * Sets the unique identifier for a delivery ticket.
-     * @param packageID
-     */
-    public void setPackageID(int packageID) {
-        this.packageID = packageID;
-    }
+	/**
+	 * Returns the unique identifier for the delivery ticket.
+	 */
+	public int getPackageID() {
+		return this.packageID;
+	}
 
-    /**
-     * Returns the actual departure time of a courier leaving to make a delivery.
-     */
-    public Date getActualDepartureTime() {
-        return this.actualDepartureTime;
-    }
+	/**
+	 * Sets the unique identifier for a delivery ticket.
+	 * 
+	 * @param packageID
+	 */
+	public void setPackageID(int packageID) {
+		this.packageID = packageID;
+	}
 
-    /**
-     * Sets the actual departure time of a courier as reported to an Order Taker just prior to delivery.
-     * @param actualDepartureTime The actual departure time of a courier.
-     */
-    public void setActualDepartureTime(Date actualDepartureTime) {
-        this.actualDepartureTime = actualDepartureTime;
-    }
+	/**
+	 * Returns the actual departure time of a courier leaving to make a
+	 * delivery.
+	 */
+	public Date getActualDepartureTime() {
+		return this.actualDepartureTime;
+	}
 
-    /**
-     * Returns the actual pick-up time of the package.
-     */
-    public Date getActualPickUpTime() {
-        return this.actualPickUpTime;
-    }
+	/**
+	 * Sets the actual departure time of a courier as reported to an Order Taker
+	 * just prior to delivery.
+	 * 
+	 * @param actualDepartureTime
+	 *            The actual departure time of a courier.
+	 */
+	public void setActualDepartureTime(Date actualDepartureTime) {
+		this.actualDepartureTime = actualDepartureTime;
+	}
 
-    /**
-     * Sets the actual pick-up time of the package.
-     * @param actualPickUpTime The actual pick up time of the package.
-     */
-    public void setActualPickUpTime(Date actualPickUpTime) {
-        this.actualPickUpTime = actualPickUpTime;
-    }
+	/**
+	 * Returns the actual pick-up time of the package.
+	 */
+	public Date getActualPickUpTime() {
+		return this.actualPickUpTime;
+	}
 
-    /**
-     * Returns the actual delivery time of the package.
-     */
-    public Date getActualDeliveryTime() {
-        return this.actualDeliveryTime;
-    }
+	/**
+	 * Sets the actual pick-up time of the package.
+	 * 
+	 * @param actualPickUpTime
+	 *            The actual pick up time of the package.
+	 */
+	public void setActualPickUpTime(Date actualPickUpTime) {
+		this.actualPickUpTime = actualPickUpTime;
+	}
 
-    /**
-     * Sets the actual delivery time of the package.
-     * @param actualDeliveryTime the actual delivery time of the package.
-     */
-    public void setActualDeliveryTime(Date actualDeliveryTime) {
-        this.actualDeliveryTime = actualDeliveryTime;
-    }
+	/**
+	 * Returns the actual delivery time of the package.
+	 */
+	public Date getActualDeliveryTime() {
+		return this.actualDeliveryTime;
+	}
 
-    /**
-     * Returns the courier's return time.
-     */
-    public Date getCourierReturnTime() {
-        return this.courierReturnTime;
-    }
+	/**
+	 * Sets the actual delivery time of the package.
+	 * 
+	 * @param actualDeliveryTime
+	 *            the actual delivery time of the package.
+	 */
+	public void setActualDeliveryTime(Date actualDeliveryTime) {
+		this.actualDeliveryTime = actualDeliveryTime;
+	}
 
-    /**
-     * Sets the courier return time in the system.
-     * @param courierReturnTime The time the courier returned to Acme Courier Services after a delivery.
-     */
-    public void setCourierReturnTime(Date courierReturnTime) {
-        this.courierReturnTime = courierReturnTime;
-    }
+	/**
+	 * Returns the courier's return time.
+	 */
+	public Date getCourierReturnTime() {
+		return this.courierReturnTime;
+	}
 
-    /**
-     * Returns the bonus earned flag.
-     */
-    public boolean getIsBonusEarned() {
-        return this.isBonusEarned;
-    }
+	/**
+	 * Sets the courier return time in the system.
+	 * 
+	 * @param courierReturnTime
+	 *            The time the courier returned to Acme Courier Services after a
+	 *            delivery.
+	 */
+	public void setCourierReturnTime(Date courierReturnTime) {
+		this.courierReturnTime = courierReturnTime;
+	}
 
-    /**
-     * Sets the bonus earned flag.
-     * @param isBonusEarned Whether or not a bonus is returned.
-     */
-    public void setIsBonusEarned(boolean isBonusEarned) {
-        this.isBonusEarned = isBonusEarned;
-    }
+	/**
+	 * Returns the bonus earned flag.
+	 */
+	public boolean getIsBonusEarned() {
+		return this.isBonusEarned;
+	}
 
-    /**
-     * Returns the status of the delivery ticket.
-     */
-    public TicketStatus getStatus() {
-        return this.status;
-    }
+	/**
+	 * Sets the bonus earned flag.
+	 * 
+	 * @param isBonusEarned
+	 *            Whether or not a bonus is returned.
+	 */
+	public void setIsBonusEarned(boolean isBonusEarned) {
+		this.isBonusEarned = isBonusEarned;
+	}
 
-    /**
-     * Sets the status of the delivery ticket.
-     * @param status The status of the delivery ticket: Open, Closed, or Canceled.
-     */
-    public void setStatus(TicketStatus status) {
-        this.status = status;
-    }
+	/**
+	 * Returns the status of the delivery ticket.
+	 */
+	public TicketStatus getStatus() {
+		return this.status;
+	}
 
-    /**
-     * Returns the estimated delivery time.
-     */
-    public Date getEstDeliveryTime() {
-        return this.estDeliveryTime;
-    }
+	/**
+	 * Sets the status of the delivery ticket.
+	 * 
+	 * @param status
+	 *            The status of the delivery ticket: Open, Closed, or Canceled.
+	 */
+	public void setStatus(TicketStatus status) {
+		this.status = status;
+	}
 
-    /**
-     * Sets the estimated delivery time.
-     * @param estDeliveryTime The estimated delivery time.
-     */
-    public void setEstDeliveryTime(Date estDeliveryTime) {
-        this.estDeliveryTime = estDeliveryTime;
-    }
+	/**
+	 * Returns the estimated delivery time.
+	 */
+	public Date getEstDeliveryTime() {
+		return this.estDeliveryTime;
+	}
 
-    /**
-     * Returns the estimated number of blocks it will take to 
-     * complete a delivery rounded to a whole number.
-     */
-    public int getEstBlocks() {
-        return this.estBlocks;
-    }
+	/**
+	 * Sets the estimated delivery time.
+	 * 
+	 * @param estDeliveryTime
+	 *            The estimated delivery time.
+	 */
+	public void setEstDeliveryTime(Date estDeliveryTime) {
+		this.estDeliveryTime = estDeliveryTime;
+	}
 
-    /**
-     * Sets the estimated number of blocks as a whole number.
-     * @param estBlocks The whole number estimate of the number of blocks required to complete a delivery.
-     */
-    public void setEstBlocks(int estBlocks) {
-        this.estBlocks = estBlocks;
-    }
+	/**
+	 * Returns the estimated number of blocks it will take to complete a
+	 * delivery rounded to a whole number.
+	 */
+	public int getEstBlocks() {
+		return this.estBlocks;
+	}
 
-    /**
-     * Get the estimated price of the delivery.
-     */
-    public float getEstPrice() {
-        return this.estPrice;
-    }
+	/**
+	 * Sets the estimated number of blocks as a whole number.
+	 * 
+	 * @param estBlocks
+	 *            The whole number estimate of the number of blocks required to
+	 *            complete a delivery.
+	 */
+	public void setEstBlocks(int estBlocks) {
+		this.estBlocks = estBlocks;
+	}
 
-    /**
-     * Set the estimated price of the delivery.
-     * @param estPrice The estimated price of the delivery.
-     */
-    public void setEstPrice(float estPrice) {
-        this.estPrice = estPrice;
-    }
+	/**
+	 * Get the estimated price of the delivery.
+	 */
+	public float getEstPrice() {
+		return this.estPrice;
+	}
 
-    /**
-     * Returns the estimated departure time for a courier's delivery to be on time.
-     */
-    public Date getEstimatedDepartureTime() {
-        return this.estimatedDepartureTime;
-    }
+	/**
+	 * Set the estimated price of the delivery.
+	 * 
+	 * @param estPrice
+	 *            The estimated price of the delivery.
+	 */
+	public void setEstPrice(float estPrice) {
+		this.estPrice = estPrice;
+	}
 
-    /**
-     * Sets the estimated departure time that a courier will 
-     * have to meet in order to arrive on time.
-     * @param estimatedDepartureTime The estimated departure time required for the delivery to arrive on time.
-     */
-    public void setEstimatedDepartureTime(Date estimatedDepartureTime) {
-        this.estimatedDepartureTime = estimatedDepartureTime;
-    }
+	/**
+	 * Returns the estimated departure time for a courier's delivery to be on
+	 * time.
+	 */
+	public Date getEstimatedDepartureTime() {
+		return this.estimatedDepartureTime;
+	}
 
-    /**
-     * Gets the serialization unique identifier
-     * @return serialVersionUID
-     */
-    public static long getSerialversionuid() {
+	/**
+	 * Sets the estimated departure time that a courier will have to meet in
+	 * order to arrive on time.
+	 * 
+	 * @param estimatedDepartureTime
+	 *            The estimated departure time required for the delivery to
+	 *            arrive on time.
+	 */
+	public void setEstimatedDepartureTime(Date estimatedDepartureTime) {
+		this.estimatedDepartureTime = estimatedDepartureTime;
+	}
+
+	/**
+	 * Gets the serialization unique identifier
+	 * 
+	 * @return serialVersionUID
+	 */
+	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-    
-    /**
-     * Creates a unique ID for the package associated with a delivery ticket. 
-     * Therefore, this also creates a unique ID for a delivery ticket.
-     */
-    public void generatePackageID() {
-        // TODO - implement DeliveryTicket.generatePackageID
-        throw new UnsupportedOperationException();
-    }
 
+	/**
+	 * Creates a unique ID for the package associated with a delivery ticket.
+	 * Therefore, this also creates a unique ID for a delivery ticket.
+	 */
+	public void generatePackageID() {
+		// TODO - implement DeliveryTicket.generatePackageID
+		throw new UnsupportedOperationException();
+	}
 
-    public Courier getCourier() {
+	public Courier getCourier() {
 		return courier;
 	}
 
@@ -462,7 +499,7 @@ public class DeliveryTicket implements Serializable, Comparable<DeliveryTicket> 
 	public void setOrderTaker(OrderTaker orderTaker) {
 		this.orderTaker = orderTaker;
 	}
-	
+
 	public Route getShortestPath() {
 		return shortestPath;
 	}
@@ -472,17 +509,18 @@ public class DeliveryTicket implements Serializable, Comparable<DeliveryTicket> 
 	}
 
 	public void setPickupCustomer(Client client) {
-		this.pickUpClient=client;
-		
+		this.pickUpClient = client;
+
 	}
 
 	public void setDeliveryCustomer(Client client) {
-		this.deliveryClient=client;
+		this.deliveryClient = client;
 	}
-	public Date getOrderPlacementTime(){
+
+	public Date getOrderPlacementTime() {
 		return this.orderDate;
 	}
-	
+
 	/**
 	 * This function checks to see if the delivery ticket is okay to delete
 	 * based on its status. Cancelled delivery tickets may be deleted.
@@ -491,109 +529,102 @@ public class DeliveryTicket implements Serializable, Comparable<DeliveryTicket> 
 	 */
 	public boolean isOkToDelete() {
 		boolean retval = false;
-		
+
 		if (this.getStatus().equals(TicketStatus.Canceled)) {
 			retval = true;
 		}
-		
+
 		return retval;
 	}
-	
+
 	@Override
-	public String toString (){
-		return String.format("%-20s %-40s %-20s %-25s %s", this.getPackageID(), 
-				this.getOrderDate(),this.getStatus().toString(), 
-				this.getPickUpClient().getName(), this.getDeliveryClient().getName());
+	public String toString() {
+		return String.format("%-20s %-40s %-20s %-25s %s", this.getPackageID(), this.getOrderDate(),
+				this.getStatus().toString(), this.getPickUpClient().getName(), this.getDeliveryClient().getName());
 	}
 
 	/**
-	 * Compares based on the package id.
-	 * It returns a negative number, a positive number, or 0
-	 * based on the result of the comparison.
-	 * The default comparison should be between package IDs.
+	 * Compares based on the package id. It returns a negative number, a
+	 * positive number, or 0 based on the result of the comparison. The default
+	 * comparison should be between package IDs.
 	 */
 	@Override
 	public int compareTo(DeliveryTicket compareTicket) {
-		
+
 		// Ascending order
 		return this.packageID - compareTicket.getPackageID();
 	}
-	
-	/**
-	 * Compares two delivery tickets based on the natural alphabetical
-	 * Ordering of sending (pick up) client names.
-	 * Two Strings are compared. The returns are treated the same
-	 * way as the delivery ticket compareTo method.
-	 */
-	public static Comparator<DeliveryTicket> DeliveryTicketSendingClientComparator =
-			new Comparator<DeliveryTicket>() {
 
-				@Override
-				public int compare(DeliveryTicket ticket1, DeliveryTicket ticket2) {
-					
-					String sender1Name = ticket1.getPickUpClient().getName();
-					String sender2Name = ticket2.getPickUpClient().getName();
-					
-					// Ascending order
-					return sender1Name.compareTo(sender2Name);
-				}
-		
-	};
-	
 	/**
-	 * Functions in the same way as the SendingClient comparator except it
-	 * looks at the Delivery Tickets receiving clients.
+	 * Compares two delivery tickets based on the natural alphabetical Ordering
+	 * of sending (pick up) client names. Two Strings are compared. The returns
+	 * are treated the same way as the delivery ticket compareTo method.
 	 */
-	public static Comparator<DeliveryTicket> DeliveryTicketReceivingClientComparator =
-			new Comparator<DeliveryTicket>() {
+	public static Comparator<DeliveryTicket> DeliveryTicketSendingClientComparator = new Comparator<DeliveryTicket>() {
 
-				@Override
-				public int compare(DeliveryTicket ticket1, DeliveryTicket ticket2) {
-					
-					String receiver1Name = ticket1.getDeliveryClient().getName();
-					String receiver2Name = ticket2.getDeliveryClient().getName();
-					
-					// Ascending order
-					return receiver1Name.compareTo(receiver2Name);
-				}
-		
+		@Override
+		public int compare(DeliveryTicket ticket1, DeliveryTicket ticket2) {
+
+			String sender1Name = ticket1.getPickUpClient().getName();
+			String sender2Name = ticket2.getPickUpClient().getName();
+
+			// Ascending order
+			return sender1Name.compareTo(sender2Name);
+		}
+
 	};
-	
+
 	/**
-	 * Compares the string names of statuses and sorts them by their
-	 * natural ordering. So, the EmployeeRoles are translated to their
-	 * string values and then put in order alphabetically.
+	 * Functions in the same way as the SendingClient comparator except it looks
+	 * at the Delivery Tickets receiving clients.
 	 */
-	public static Comparator<DeliveryTicket> DeliveryTicketStatusComparator =
-			new Comparator<DeliveryTicket>() {
+	public static Comparator<DeliveryTicket> DeliveryTicketReceivingClientComparator = new Comparator<DeliveryTicket>() {
 
-				@Override
-				public int compare(DeliveryTicket ticket1, DeliveryTicket ticket2) {
-					
-					String status1Name = ticket1.getStatus().toString();
-					String status2Name = ticket2.getStatus().toString();
-					
-					// Ascending order
-					return status1Name.compareTo(status2Name);
-				}		
+		@Override
+		public int compare(DeliveryTicket ticket1, DeliveryTicket ticket2) {
+
+			String receiver1Name = ticket1.getDeliveryClient().getName();
+			String receiver2Name = ticket2.getDeliveryClient().getName();
+
+			// Ascending order
+			return receiver1Name.compareTo(receiver2Name);
+		}
+
 	};
-	
+
+	/**
+	 * Compares the string names of statuses and sorts them by their natural
+	 * ordering. So, the EmployeeRoles are translated to their string values and
+	 * then put in order alphabetically.
+	 */
+	public static Comparator<DeliveryTicket> DeliveryTicketStatusComparator = new Comparator<DeliveryTicket>() {
+
+		@Override
+		public int compare(DeliveryTicket ticket1, DeliveryTicket ticket2) {
+
+			String status1Name = ticket1.getStatus().toString();
+			String status2Name = ticket2.getStatus().toString();
+
+			// Ascending order
+			return status1Name.compareTo(status2Name);
+		}
+	};
+
 	/**
 	 * Compare the string values of the order dates. If the dates are equal,
 	 * then they will be sorted together as one unit. Otherwise they will be
 	 * sorted as expected.
 	 */
-	public static Comparator<DeliveryTicket> DeliveryTicketOrderDateComparator =
-			new Comparator<DeliveryTicket>() {
+	public static Comparator<DeliveryTicket> DeliveryTicketOrderDateComparator = new Comparator<DeliveryTicket>() {
 
-				@Override
-				public int compare(DeliveryTicket ticket1, DeliveryTicket ticket2) {
-					
-					String orderDate1Str = ticket1.getOrderDate().toString();
-					String orderDate2Str = ticket2.getOrderDate().toString();
-					
-					// Ascending order
-					return orderDate1Str.compareTo(orderDate2Str);
-				}		
+		@Override
+		public int compare(DeliveryTicket ticket1, DeliveryTicket ticket2) {
+
+			String orderDate1Str = ticket1.getOrderDate().toString();
+			String orderDate2Str = ticket2.getOrderDate().toString();
+
+			// Ascending order
+			return orderDate1Str.compareTo(orderDate2Str);
+		}
 	};
 }

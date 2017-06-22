@@ -84,9 +84,9 @@ public class DeliveryTicketListPanel extends JPanel {
 		list.setBounds(50, 100, 900,380);
 		add(list);
 		
-		// The combobox causes the screen to be revalidated
+		// The comboBox causes the screen to be revalidated
 		JComboBox sortComboBox = new JComboBox();
-		sortComboBox.addItem("Package Id");         // Make sure items are added to the combobox before
+		sortComboBox.addItem("Package Id");         // Make sure items are added to the comboBox before
 		sortComboBox.addItem("Order Date");         // the listener code is added. There will be a stack
 		sortComboBox.addItem("Status");             // overflow otherwise!
 		sortComboBox.addItem("Sender names");
@@ -97,7 +97,7 @@ public class DeliveryTicketListPanel extends JPanel {
 			// selected item's natural ordering. This will also
 			// refresh the screen so that the sorting is displayed.
 			public void itemStateChanged(ItemEvent event) {
-				Object item = event.getItem(); // Will be a string from the combobox
+				Object item = event.getItem(); // Will be a string from the comboBox
 				if (item != null) {
 					mainFrame.getContentPane().removeAll();
 					mainFrame.getContentPane().add(new DeliveryTicketListPanel(mainFrame, item.toString(), activeUser));

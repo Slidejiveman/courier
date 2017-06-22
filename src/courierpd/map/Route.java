@@ -1,10 +1,11 @@
 package courierpd.map;
 
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+import courierdm.BusinessParametersDBAO;
+import courierpd.core.BusinessParameters;
 import courierpd.core.DeliveryTicket;
 import courierpd.enums.Direction;
 
@@ -62,11 +63,17 @@ public class Route {
     private ArrayList<Intersection> pickupToDeliveryPath;
     private ArrayList<Intersection> deliveryToOfficePath;
     private Integer blocksCount=0;
+    private Integer blocksToPickup=0;
+    private Integer blocksToDelivery=0;
+    private BusinessParametersDBAO parametersDBAO = new BusinessParametersDBAO();
+    BusinessParameters params = new BusinessParameters();
     
-    public Route() {
+    @SuppressWarnings("static-access")
+	public Route() {
       setOfficeToPickupPath(new ArrayList<Intersection>());
       setPickupToDeliveryPath(new ArrayList<Intersection>());
       setDeliveryToOfficePath(new ArrayList<Intersection>());
+      this.params= this.parametersDBAO.listBusinessParameterss().get(0);
     }
 
     /**
@@ -77,14 +84,37 @@ public class Route {
      * converting that to miles then dividing that by the courier's average speed.
      */
     @SuppressWarnings("deprecation")
-	public LocalTime estimateDeliveryTime() {
-    	double minutesUsed =(0.1 * this.estimateBlocks()/5);
-        Date deliveryTime = this.getCurrentOrder().getActualDepartureTime();
-        deliveryTime.setMinutes((int) (this.currentOrder.getActualDepartureTime().getMinutes()+minutesUsed));
-    	return LocalTime.of(deliveryTime.getHours(), deliveryTime.getMinutes());
+	public Date estimateDeliveryTime() {
+    	Date estimatedDeliveryTime = new Date();
+    	System.out.println("Blocks to delivery" +blocksToDelivery);
+    	int minutesUsed = params.getDeliveryDelay()+(int) Math.ceil(0.1 * 60*(this.blocksToDelivery-this.blocksToPickup)/(params.getAvgCourierSpeed()));
+    	System.out.println("Minutes used to delivery: "+minutesUsed);
+    	int hours = (int)(minutesUsed/60);
+    	System.out.println("Hours: "+hours);
+		int minutes = (minutesUsed%60);
+		System.out.println("Minutes: "+minutes);
+		estimatedDeliveryTime.setHours(this.estimateDepartureTime().getHours()+hours);
+		estimatedDeliveryTime.setMinutes(this.currentOrder.getRequestedPickUpTime().getMinutes()+minutes);
+		System.out.println("delivery time hour: "+estimatedDeliveryTime.getHours());
+		System.out.println("delivery time mins: "+estimatedDeliveryTime.getMinutes());
+    	return  estimatedDeliveryTime;
     }
 
-    /**
+    @SuppressWarnings("deprecation")
+	public Date estimateDepartureTime() {
+		Date estimatedPickupTime = new Date();
+    	System.out.println("Blocks to pickup" +blocksToPickup);
+
+		int minutesToPickup = params.getPickUpDelay()+(int)Math.ceil(0.1*60*this.blocksToPickup/(params.getAvgCourierSpeed()));
+		int hours = (int)(minutesToPickup/60);
+		int minutes = (minutesToPickup%60);
+		System.out.println("time minutes"+ (this.currentOrder.getRequestedPickUpTime().getMinutes()));
+		estimatedPickupTime.setHours(this.currentOrder.getRequestedPickUpTime().getHours()-hours);
+		estimatedPickupTime.setMinutes(this.currentOrder.getRequestedPickUpTime().getMinutes()-minutes);
+		return estimatedPickupTime;
+	}
+
+	/**
      * Calculates the number of blocks that should be traveled 
      * throughout the deliver. This is determined with the used 
      * intersections and calculated based on the difference between 
@@ -103,7 +133,7 @@ public class Route {
      * of blocks times the business parameters for billing base and rate.
      */
     public float estimatePrice() {
-        return (10+(2*this.estimateBlocks()));
+        return (float) (params.getBillingBase()+(params.getBillingRate()*this.estimateBlocks()));
     }
 
     /**
@@ -204,18 +234,22 @@ public class Route {
 	}
 	
 	public String getTranslatedDirections(){
+		
 		String directions = "\n\n";
 		String tab = "\t";
 		directions+=tab+tab+" From "+this.getOfficeToPickupPath().get(0).getName()+" (office) to the pickup location: \n";
 		translatePath(this.officeToPickupPath);
 		directions+=getsimplifiedDirections();
+		blocksToPickup+=blocksCount;
 		directions+=tab+tab+" From "+this.getPickupToDeliveryPath().get(0).getName()+" (the pickup location) to the delivery location: \n";
 		translatePath(this.pickupToDeliveryPath);
 		directions+=getsimplifiedDirections();
+		blocksToDelivery+=blocksCount;
 		directions+=tab+tab+" From "+this.getDeliveryToOfficePath().get(0).getName()+" (the delivery location) back to office: \n";
 		translatePath(this.deliveryToOfficePath);
 		directions+=getsimplifiedDirections();
 		directions+="\n";
+		this.currentOrder.setEstBlocks(blocksCount);
 		return directions;
 	}
 	public String translatePath(ArrayList<Intersection> path){
@@ -395,6 +429,15 @@ public class Route {
 			streetName = "G Street";
 		}
 		return streetName;
+	}
+
+	public boolean deliveryTimesMet() {
+		if((this.currentOrder.getActualDeliveryTime().getTime()
+				-this.currentOrder.getEstDeliveryTime().getTime())>=params.getBonusWindow()
+				*600000){
+			return true;
+		}else	
+			return false;
 	}
 
 }

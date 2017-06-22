@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 
 
 import javax.swing.JLabel;
+import javax.persistence.EntityTransaction;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
@@ -17,8 +18,10 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import courierpd.core.DeliveryTicket;
 import courierpd.core.User;
 import courierpd.map.Route;
+import courierpd.other.DateParser;
 
 import java.io.*;
 
@@ -33,6 +36,10 @@ public class DeliveryDirectionsPanel extends JPanel {
 	 * Create the panel.
 	 * @param deliveryRoute 
 	 * @param currentFrame 
+	 * @param deliveryTicket 
+	 * @param deliveryTicket 
+	 * @param userTransaction 
+	 * @param estimatesTransaction 
 	 * @param deliveryRoute2 
 	 */
 	public DeliveryDirectionsPanel(CourierMainFrame currentFrame, String deliveryRoute, Route route, User activeUser) {
@@ -86,11 +93,11 @@ public class DeliveryDirectionsPanel extends JPanel {
 		estBlocksValue.setBounds(846, 23, 103, 14);
 		add(estBlocksValue);
 		
-		JLabel estDepartureTimeValue = new JLabel(route.getCurrentOrder().getEstimatedDepartureTime().toString());
+		JLabel estDepartureTimeValue = new JLabel(DateParser.printTime(route.estimateDepartureTime()));
 		estDepartureTimeValue.setBounds(846, 48, 103, 43);
 		add(estDepartureTimeValue);
 		
-		JLabel estDeliveryTimeValue = new JLabel(route.estimateDeliveryTime().toString());
+		JLabel estDeliveryTimeValue = new JLabel(DateParser.printTime(route.estimateDeliveryTime()));
 		estDeliveryTimeValue.setBounds(846, 102, 103, 14);
 		add(estDeliveryTimeValue);
 		
@@ -133,16 +140,24 @@ public class DeliveryDirectionsPanel extends JPanel {
 					e.printStackTrace();
 				}
 				
-				
-				
 				//Add code to save the instructions as on a PDF file
 				currentFrame.getContentPane().removeAll();
 				currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame, "Package Id", activeUser));
 				currentFrame.revalidate();
 			}
 		});
-		btnSave.setBounds(420, 496, 164, 23);
+		btnSave.setBounds(672, 496, 164, 23);
 		add(btnSave);
+		JButton btnBackToTicket = new JButton("Back To Ticket");
+		btnBackToTicket.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				currentFrame.getContentPane().removeAll();
+				currentFrame.getContentPane().add(new AddUpdateDeliveryTicketPanel(currentFrame, route.getCurrentOrder(),activeUser, false));
+				currentFrame.revalidate();
+			}
+		});
+		btnBackToTicket.setBounds(187, 496, 129, 23);
+		add(btnBackToTicket);
 
 	}
 }
