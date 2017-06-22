@@ -44,7 +44,10 @@ public class CompanyPerformanceReport extends JPanel {
 				if ((deliveryTicket.getCourier().getNumber() == user.getNumber()) && (deliveryTicket.getOrderDate().after(startDate) && deliveryTicket.getOrderDate().before(endDate))) 
 				{ 
 					Date today = new Date();
-					reportFinalString = reportFinalString + deliveryTicket.getCourier().getNumber() + "        " + deliveryTicket.getPackageID() + "       " + DateParser.printDate(deliveryTicket.getOrderDate()) + "     " + DateParser.printDate(today) +"      "+ DateParser.printTime(deliveryTicket.getEstDeliveryTime()) + "      " + DateParser.printTime(deliveryTicket.getActualDeliveryTime()) + newline;
+					reportFinalString = reportFinalString + reportFinalString.format("%-5s %-12s %-13s %-17s %-23s %-22s %s", "", deliveryTicket.getCourier().getNumber(), 
+							deliveryTicket.getPackageID(),DateParser.printDate(deliveryTicket.getOrderDate()) , 
+							DateParser.printDate(today) , DateParser.printTime(deliveryTicket.getEstDeliveryTime()), DateParser.printTime(deliveryTicket.getActualDeliveryTime())) + newline;
+					//reportFinalString = reportFinalString + deliveryTicket.getCourier().getNumber() + "        " + deliveryTicket.getPackageID() + "       " + DateParser.printDate(deliveryTicket.getOrderDate()) + "     " + DateParser.printDate(today) +"      "+ DateParser.printTime(deliveryTicket.getEstDeliveryTime()) + "      " + DateParser.printTime(deliveryTicket.getActualDeliveryTime()) + newline;
 				}
 			}
 		}
