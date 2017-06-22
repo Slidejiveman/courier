@@ -88,6 +88,7 @@ public class CompanyPerformanceOptions extends JPanel {
 						JOptionPane.showMessageDialog(null,
 								"Dates need to be entered in the format of '01/01/2017'", 
 								"Generation Failed", JOptionPane.ERROR_MESSAGE);
+						invalidEntry = false;
 					}
 					else
 					{
