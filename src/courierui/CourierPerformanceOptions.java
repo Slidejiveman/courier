@@ -121,7 +121,7 @@ public class CourierPerformanceOptions extends JPanel {
 				else if(startDate.before(endDate) && invalidEntry == true)
 				{
 					JOptionPane.showMessageDialog(null,
-							"Dates need to be entered in the format of 'January 1, 2017'", 
+							"Dates need to be entered in the format of '01/01/2017'", 
 							"Generation Failed", JOptionPane.ERROR_MESSAGE);
 					invalidEntry = false;
 				}
@@ -153,7 +153,7 @@ public class CourierPerformanceOptions extends JPanel {
 		Date date = new Date();
 		Date tempDate = null;
 		DateFormat dateFormatter;
-		dateFormatter = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
+		dateFormatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
 		try {
 			tempDate = dateFormatter.parse(timeString);
 			date.setMonth(tempDate.getMonth());

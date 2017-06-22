@@ -73,7 +73,7 @@ public class CourierPerformanceReport extends JPanel {
 		textArea.setBounds(73, 135, 872, 299);
 		add(textArea);
 		
-		JLabel lblCouriersId = new JLabel("Date: " + DateParser.printDate(startDate) + "-" + DateParser.printDate(endDate));
+		JLabel lblCouriersId = new JLabel("Date: ");
 		lblCouriersId.setBounds(73, 110, 61, 14);
 		add(lblCouriersId);
 		
@@ -150,7 +150,7 @@ public class CourierPerformanceReport extends JPanel {
 		lblBonusRecieved.setBounds(845, 110, 116, 14);
 		add(lblBonusRecieved);
 		
-		JLabel lblDate = new JLabel("Date:");
+		JLabel lblDate = new JLabel("Date: " + DateParser.printDate(startDate) + "-" + DateParser.printDate(endDate));
 		lblDate.setBounds(64, 58, 344, 14);
 		add(lblDate);
 		
