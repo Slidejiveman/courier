@@ -2,32 +2,31 @@ package courierui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import courierdm.ClientDBAO;
 import courierpd.core.Client;
 import courierpd.core.User;
-import courierpd.map.Intersection;
-
-import javax.swing.JCheckBox;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.util.List;
-import java.awt.event.ActionEvent;
 
 public class BillingReportOptionsPanel extends JPanel {
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField startDateTextField;
+	private JTextField endDateTextField;
+	private boolean invalidEntry = false;
 
 	/**
 	 * Create the panel.
@@ -55,19 +54,17 @@ public class BillingReportOptionsPanel extends JPanel {
 		DefaultListModel listModel = new DefaultListModel();
 		for(Client client: persistedClients)
 			comboBox.addItem(client);
-		//comboBox.getSelectedIndex();
-		//clientList.add((Client) comboBox.getSelectedItem());
 		add(comboBox);
 		
-		textField = new JTextField();
-		textField.setBounds(360, 225, 144, 20);
-		add(textField);
-		textField.setColumns(10);
+		startDateTextField = new JTextField();
+		startDateTextField.setBounds(360, 225, 144, 20);
+		add(startDateTextField);
+		startDateTextField.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(360, 270, 144, 20);
-		add(textField_1);
+		endDateTextField = new JTextField();
+		endDateTextField.setColumns(10);
+		endDateTextField.setBounds(360, 270, 144, 20);
+		add(endDateTextField);
 		
 		JCheckBox chckbxSelectAllClients = new JCheckBox("Select All Clients");
 		chckbxSelectAllClients.addActionListener(new ActionListener(){
@@ -98,9 +95,29 @@ public class BillingReportOptionsPanel extends JPanel {
 					clientList.add((Client) comboBox.getSelectedItem());
 				}
 				
-				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new BillingReportPanel(currentFrame, activeUser, clientList));
-				currentFrame.getContentPane().revalidate();
+				Date startDate = parseStringDate(startDateTextField.getText());
+				Date endDate = parseStringDate(endDateTextField.getText());
+				
+				if(startDate.before(endDate) && invalidEntry == false)
+				{
+					currentFrame.getContentPane().removeAll();
+					currentFrame.getContentPane().add(new BillingReportPanel(currentFrame, activeUser, clientList, chckbxSelectAllClients.isSelected(), startDate, endDate));
+					currentFrame.getContentPane().revalidate();
+				}
+				else if(startDate.before(endDate) && invalidEntry == true)
+				{
+					JOptionPane.showMessageDialog(null,
+							"Dates need to be entered in the format of '01/01/2017'", 
+							"Generation Failed", JOptionPane.ERROR_MESSAGE);
+					invalidEntry = false;
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null,
+							"End Date is not valid; it needs to be after the start date.", 
+							"Generation Failed", JOptionPane.ERROR_MESSAGE);
+				}
+				
 			}
 		});
 		add(btnGenerateReport);
@@ -117,5 +134,23 @@ public class BillingReportOptionsPanel extends JPanel {
 		btnNewButton.setBounds(428, 376, 115, 23);
 		add(btnNewButton);
 
+	}
+	
+	@SuppressWarnings("deprecation")
+	public Date parseStringDate (String timeString){
+	
+		Date date = new Date();
+		Date tempDate = null;
+		DateFormat dateFormatter;
+		dateFormatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+		try {
+			tempDate = dateFormatter.parse(timeString);
+			date.setMonth(tempDate.getMonth());
+			date.setDate(tempDate.getDate());
+			date.setYear(tempDate.getYear());
+		} catch (ParseException e1) {
+			invalidEntry = true;
+		}
+		return date;
 	}
 }

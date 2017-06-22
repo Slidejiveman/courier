@@ -1,64 +1,111 @@
 package courierui;
 
-import javax.swing.JPanel;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.util.Date;
+import java.util.List;
 
-import courierdm.ClientDBAO;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import courierdm.DeliveryTicketDBAO;
 import courierpd.core.Client;
 import courierpd.core.DeliveryTicket;
 import courierpd.core.User;
-
-import javax.swing.JLabel;
-import javax.swing.JList;
-
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
-
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
+import courierpd.other.DateParser;
 
 public class BillingReportPanel extends JPanel {
 
 	/**
 	 * Create the panel.
 	 */
-	public BillingReportPanel(CourierMainFrame currentFrame, User activeUser, List<Client> clientList) {
+	public BillingReportPanel(CourierMainFrame currentFrame, User activeUser, List<Client> clientList, boolean allClients, Date startDate, Date endDate) {
 		List<DeliveryTicket> persistedDeliveryTickets = DeliveryTicketDBAO.listDeliveryTickets();
+		String reportFinalString = "";
+		String newline = "\n";
+		
 		setLayout(null);
 		
 		JLabel lblClient = new JLabel("Client: ");
 		lblClient.setBounds(69, 35, 46, 14);
 		add(lblClient);
 		
-		JLabel lblInsertName = new JLabel("Insert Name");
-		lblInsertName.setBounds(125, 35, 88, 14);
+		String name = "";
+		if(allClients)
+		{
+			name = "All Clients";
+		}
+		else
+		{
+			for(Client client: clientList)
+			{
+				name = client.getName();
+			}
+		}
+		String name2 = name;
+		
+		JLabel lblInsertName = new JLabel(name);
+		lblInsertName.setBounds(125, 35, 189, 14);
 		add(lblInsertName);
 		
-		DefaultListModel listModel = new DefaultListModel();
 		for(Client client: clientList)
-		{
+		{ 
 			for(DeliveryTicket deliveryTicket: persistedDeliveryTickets)
 			{
-				if((deliveryTicket.getPickUpClient() == client && deliveryTicket.getIsBillPickUp()) || (deliveryTicket.getDeliveryClient() == client && !deliveryTicket.getIsBillPickUp()))
+				if(((deliveryTicket.getPickUpClient() == client && deliveryTicket.getIsBillPickUp()) || (deliveryTicket.getDeliveryClient() == client && !deliveryTicket.getIsBillPickUp())) && (deliveryTicket.getOrderDate().after(startDate) && deliveryTicket.getOrderDate().before(endDate)))
 				{
-					listModel.addElement(deliveryTicket.getOrderDate() + "    " + deliveryTicket.getPackageID() + "    " + deliveryTicket.getActualPickUpTime() + "    " + deliveryTicket.getActualDeliveryTime() + "    " + deliveryTicket.getEstPrice());
+					reportFinalString = reportFinalString + DateParser.printDate(deliveryTicket.getOrderDate()) + " " + deliveryTicket.getPackageID() + " " + DateParser.printTime(deliveryTicket.getActualPickUpTime()) + " " + DateParser.printTime(deliveryTicket.getActualDeliveryTime()) + " " + deliveryTicket.getEstPrice() + newline;
 				}
 			}
 		}
-		
-		JList list = new JList(listModel);
-		list.setFont(new Font("Courier New", Font.PLAIN, 12));
-		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
-		list.setBounds(39, 92, 528, 269);
-		add(list);
+		JTextArea textArea = new JTextArea(reportFinalString);
+		textArea.setFont(new Font("Courier New", Font.PLAIN, 12));
+		textArea.setBounds(57, 92, 498, 258);
+		add(textArea);
 		
 		JButton btnSaveAsPdf = new JButton("Save as PDF");
+		btnSaveAsPdf.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Document document = new Document();
+				try {
+					final JFileChooser destinationChooser = new JFileChooser();
+					destinationChooser.setDialogTitle("Choose the File Destination Folder");
+					destinationChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+					destinationChooser.setAcceptAllFileFilterUsed(false); //disable the accept all files option
+					destinationChooser.showOpenDialog(null);
+					File destinationFolder = destinationChooser.getCurrentDirectory();
+					String folderName = destinationFolder.getAbsolutePath();
+					System.out.println("The selected path: "+folderName);
+				
+					PdfWriter.getInstance(document, new FileOutputStream(folderName+"/billingReportFor" + 
+					                       name2 + ".pdf"));
+					document.open();
+					Paragraph paragraph = new Paragraph();
+					paragraph.add(textArea.getText());
+					document.add(paragraph);
+					document.close();
+				} catch (FileNotFoundException | DocumentException e) {
+					e.printStackTrace();
+				}
+				
+				//Add code to save the instructions as on a PDF file
+				currentFrame.getContentPane().removeAll();
+				currentFrame.getContentPane().add(new BillingReportPanel(currentFrame, activeUser, clientList, allClients, startDate, endDate));
+				currentFrame.revalidate();
+			}
+		});
 		btnSaveAsPdf.setBounds(125, 372, 123, 23);
 		add(btnSaveAsPdf);
 		
@@ -85,16 +132,15 @@ public class BillingReportPanel extends JPanel {
 		add(lblPackageId);
 		
 		JLabel lblPickupTime = new JLabel("Pick-up Time");
-		lblPickupTime.setBounds(235, 67, 69, 14);
+		lblPickupTime.setBounds(235, 67, 100, 14);
 		add(lblPickupTime);
 		
 		JLabel lblDeliveryTime = new JLabel("Delivery Time");
-		lblDeliveryTime.setBounds(358, 67, 69, 14);
+		lblDeliveryTime.setBounds(358, 67, 100, 14);
 		add(lblDeliveryTime);
 		
 		JLabel lblBillingRate = new JLabel("Billing Rate");
-		lblBillingRate.setBounds(468, 67, 63, 14);
+		lblBillingRate.setBounds(468, 67, 87, 14);
 		add(lblBillingRate);
-
 	}
 }

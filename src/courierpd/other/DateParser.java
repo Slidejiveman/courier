@@ -7,14 +7,16 @@ public class DateParser {
 	@SuppressWarnings("deprecation")
 	public static String printDate(Date date) {
 		String dateYear = String.valueOf((date.getYear()+1900));
+		String dateMonth = String.valueOf((date.getMonth()+1));
 		
-		return date.getMonth() + "/" + date.getDate() + "/" + dateYear;
+		return dateMonth + "/" + date.getDate() + "/" + dateYear;
 	}
 	
 	@SuppressWarnings("deprecation")
 	public static String printTime(Date date) {
 		
 		String hourString = String.valueOf(date.getHours());
+		String minuteString = String.valueOf(date.getMinutes());
 		String amPmString = "AM";
 		
 		// Afternoon
@@ -27,7 +29,12 @@ public class DateParser {
 			hourString = String.valueOf(date.getHours() % 12);			
 		}
 		
-		return hourString + ":" + date.getMinutes() + " " + amPmString;
+		// Adding a leading 0 to the string
+		if (date.getMinutes() < 10) {
+			minuteString = "0" + minuteString;
+		}
+		
+		return hourString + ":" + minuteString + " " + amPmString;
 	}
 
 }
