@@ -49,7 +49,9 @@ public class CourierPerformanceReport extends JPanel {
 					else {
 						bonusstr = "No";
 					}
-					reportFinalString = reportFinalString + DateParser.printDate(deliveryTicket.getOrderDate()) + "       " + deliveryTicket.getCourier().getNumber() + "        " + DateParser.printTime(deliveryTicket.getRequestedPickUpTime()) + "       " + DateParser.printTime(deliveryTicket.getActualPickUpTime()) + "     " + DateParser.printTime(deliveryTicket.getEstDeliveryTime()) + "      " + DateParser.printTime(deliveryTicket.getActualDeliveryTime()) + "     " + bonusstr + newline;
+					reportFinalString = reportFinalString + reportFinalString.format("%-1s %-12s %-13s %-22s %-22s %-20s %s", "", DateParser.printDate(deliveryTicket.getOrderDate()), 
+							deliveryTicket.getCourier().getNumber(),DateParser.printTime(deliveryTicket.getRequestedPickUpTime()) , 
+							DateParser.printTime(deliveryTicket.getActualPickUpTime()) , DateParser.printTime(deliveryTicket.getEstDeliveryTime()), DateParser.printTime(deliveryTicket.getActualDeliveryTime())) + newline;
 				}
 			}
 		}
