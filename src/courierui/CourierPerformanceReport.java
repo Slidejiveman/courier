@@ -5,14 +5,12 @@ import java.awt.event.ActionListener;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 import courierdm.DeliveryTicketDBAO;
-import courierpd.core.Client;
 import courierpd.core.DeliveryTicket;
 import courierpd.core.User;
 import courierpd.other.DateParser;
@@ -24,9 +22,10 @@ public class CourierPerformanceReport extends JPanel {
 	 */
 	public CourierPerformanceReport(CourierMainFrame currentFrame, User activeUser, List<User> userList, boolean allCouriers, Date startDate, Date endDate) {
 		List<DeliveryTicket> persistedDeliveryTickets = DeliveryTicketDBAO.listDeliveryTickets();
+		String reportFinalString = "";
+		String newline = "\n";
 		setLayout(null);
 
-		DefaultListModel listModel = new DefaultListModel();
 		for(User user: userList)
 	
 		{
@@ -41,16 +40,15 @@ public class CourierPerformanceReport extends JPanel {
 					else {
 						bonusstr = "No";
 					}
-					listModel.addElement(DateParser.printDate(deliveryTicket.getOrderDate()) + "       " + deliveryTicket.getCourier().getNumber() + "        " + DateParser.printTime(deliveryTicket.getRequestedPickUpTime()) + "       " + DateParser.printTime(deliveryTicket.getActualPickUpTime()) + "     " + DateParser.printTime(deliveryTicket.getEstDeliveryTime()) + "      " + DateParser.printTime(deliveryTicket.getActualDeliveryTime()) + "     " + bonusstr); 
-			
+					reportFinalString = reportFinalString + DateParser.printDate(deliveryTicket.getOrderDate()) + "       " + deliveryTicket.getCourier().getNumber() + "        " + DateParser.printTime(deliveryTicket.getRequestedPickUpTime()) + "       " + DateParser.printTime(deliveryTicket.getActualPickUpTime()) + "     " + DateParser.printTime(deliveryTicket.getEstDeliveryTime()) + "      " + DateParser.printTime(deliveryTicket.getActualDeliveryTime()) + "     " + bonusstr + newline;
 				}
 			}
 		}
-		JList list = new JList(listModel);
-		list.setBounds(64, 135, 897, 288);
-		add(list);
+		JTextArea textArea = new JTextArea(reportFinalString);
+		textArea.setBounds(73, 135, 872, 299);
+		add(textArea);
 		
-		JLabel lblCouriersId = new JLabel("Date: " /*+ DateParser.printDate(firstDate) + "-" + DateParser.printDate(secondDate)*/);
+		JLabel lblCouriersId = new JLabel("Date: " + DateParser.printDate(startDate) + "-" + DateParser.printDate(endDate));
 		lblCouriersId.setBounds(73, 110, 61, 14);
 		add(lblCouriersId);
 		
@@ -119,6 +117,5 @@ public class CourierPerformanceReport extends JPanel {
 		JLabel lblCourier = new JLabel("Courier: " + name );
 		lblCourier.setBounds(64, 85, 364, 14);
 		add(lblCourier);
-
 	}
 }

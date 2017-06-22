@@ -39,7 +39,6 @@ public class CompanyPerformanceReport extends JPanel {
 
 		//DefaultListModel listModel = new DefaultListModel();
 		for(User user: userList)
-	
 		{
 			for(DeliveryTicket deliveryTicket: persistedDeliveryTickets)
 			{
