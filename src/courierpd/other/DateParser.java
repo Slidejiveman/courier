@@ -16,6 +16,7 @@ public class DateParser {
 	public static String printTime(Date date) {
 		
 		String hourString = String.valueOf(date.getHours());
+		String minuteString = String.valueOf(date.getMinutes());
 		String amPmString = "AM";
 		
 		// Afternoon
@@ -28,7 +29,12 @@ public class DateParser {
 			hourString = String.valueOf(date.getHours() % 12);			
 		}
 		
-		return hourString + ":" + date.getMinutes() + " " + amPmString;
+		// Adding a leading 0 to the string
+		if (date.getMinutes() < 10) {
+			minuteString = "0" + minuteString;
+		}
+		
+		return hourString + ":" + minuteString + " " + amPmString;
 	}
 
 }
