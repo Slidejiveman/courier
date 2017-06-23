@@ -41,7 +41,7 @@ public class DateParser {
 	public static String subtractDates(Date date1, int numberDays) {
 		int dayDifference, monthDifference, yearDifference;
 		String dateYear, dateMonth;
-		// see if the subtraction of the number days, 7 or 30, 
+		// see if the subtraction of the number days, 7 or 28, 
 		// will rollover to a negative number
 		dayDifference = date1.getDate() - numberDays;
 		monthDifference = date1.getMonth();
