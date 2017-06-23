@@ -70,7 +70,7 @@ public class DateParser {
 			}
 		}
 		dateYear = String.valueOf(yearDifference + 1900);
-		dateMonth = String.valueOf(dayDifference + 1);
+		dateMonth = String.valueOf(monthDifference + 1);
 		// return the date formatted as a string
 		return dateMonth + "/" + dayDifference + "/" + dateYear;
 		

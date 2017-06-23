@@ -34,6 +34,9 @@ public class CourierPerformanceReport extends JPanel {
 		List<DeliveryTicket> persistedDeliveryTickets = DeliveryTicketDBAO.listDeliveryTickets();
 		String reportFinalString = "";
 		String newline = "\n";
+		reportFinalString = reportFinalString + reportFinalString.format("%-1s %-12s %-13s %-22s %-22s %-25s %s", "", "Date", 
+				"Courier ID","Estimated Pickup Time", 
+				"Actual Pickup Time", "Estimated Delivery Time", "Actual Delivery Time") + newline;
 		setLayout(null);
 
 		for(User user: userList)
@@ -49,7 +52,7 @@ public class CourierPerformanceReport extends JPanel {
 					else {
 						bonusstr = "No";
 					}
-					reportFinalString = reportFinalString + reportFinalString.format("%-1s %-12s %-13s %-22s %-22s %-20s %s", "", DateParser.printDate(deliveryTicket.getOrderDate()), 
+					reportFinalString = reportFinalString + reportFinalString.format("%-1s %-17s %-13s %-22s %-22s %-25s %s", "", DateParser.printDate(deliveryTicket.getOrderDate()), 
 							deliveryTicket.getCourier().getNumber(),DateParser.printTime(deliveryTicket.getRequestedPickUpTime()) , 
 							DateParser.printTime(deliveryTicket.getActualPickUpTime()) , DateParser.printTime(deliveryTicket.getEstDeliveryTime()), DateParser.printTime(deliveryTicket.getActualDeliveryTime())) + newline;
 				}
@@ -72,32 +75,8 @@ public class CourierPerformanceReport extends JPanel {
 		
 		JTextArea textArea = new JTextArea(reportFinalString);
 		textArea.setFont(new Font("Courier New", Font.PLAIN, 12));
-		textArea.setBounds(73, 135, 872, 299);
+		textArea.setBounds(73, 110, 872, 324);
 		add(textArea);
-		
-		JLabel lblCouriersId = new JLabel("Date: ");
-		lblCouriersId.setBounds(73, 110, 61, 14);
-		add(lblCouriersId);
-		
-		JLabel lblPackageId = new JLabel("Courier's ID");
-		lblPackageId.setBounds(144, 110, 70, 14);
-		add(lblPackageId);
-		
-		JLabel lblDateOfThe = new JLabel("Estimated Pickup Time");
-		lblDateOfThe.setBounds(247, 110, 137, 14);
-		add(lblDateOfThe);
-		
-		JLabel lblDateOfThe_1 = new JLabel("Actual Pickup Time");
-		lblDateOfThe_1.setBounds(418, 110, 127, 14);
-		add(lblDateOfThe_1);
-		
-		JLabel lblReportedDeliveryTime = new JLabel("Estimated Delivery Time");
-		lblReportedDeliveryTime.setBounds(551, 110, 151, 14);
-		add(lblReportedDeliveryTime);
-		
-		JLabel lblActualDeliveryTime = new JLabel("Actual Delivery Time");
-		lblActualDeliveryTime.setBounds(712, 110, 127, 14);
-		add(lblActualDeliveryTime);
 		
 		JButton btnSaveAsPdf = new JButton("Save As PDF");
 		btnSaveAsPdf.addActionListener(new ActionListener() {
@@ -147,10 +126,6 @@ public class CourierPerformanceReport extends JPanel {
 		JLabel lblCompanyPerformanceReport = new JLabel("Courier Performance Report");
 		lblCompanyPerformanceReport.setBounds(337, 40, 216, 14);
 		add(lblCompanyPerformanceReport);
-		
-		JLabel lblBonusRecieved = new JLabel("Bonus Recieved");
-		lblBonusRecieved.setBounds(845, 110, 116, 14);
-		add(lblBonusRecieved);
 		
 		JLabel lblDate = new JLabel("Date: " + DateParser.printDate(startDate) + "-" + DateParser.printDate(endDate));
 		lblDate.setBounds(64, 58, 344, 14);
