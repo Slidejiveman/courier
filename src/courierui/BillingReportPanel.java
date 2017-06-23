@@ -91,7 +91,7 @@ public class BillingReportPanel extends JPanel {
 					String folderName = destinationFolder.getAbsolutePath();
 					System.out.println("The selected path: "+folderName);
 				
-					PdfWriter.getInstance(document, new FileOutputStream(folderName+"/billingReportFor" + 
+					PdfWriter.getInstance(document, new FileOutputStream(folderName+"/BillingReportFor" + 
 					                       name2 + ".pdf"));
 					document.open();
 					Paragraph paragraph = new Paragraph();
