@@ -23,6 +23,7 @@ import javax.swing.JTextField;
 import courierdm.EmployeeDBAO;
 import courierpd.core.User;
 import courierpd.enums.EmployeeRole;
+import courierpd.other.DateParser;
 
 public class CourierPerformanceOptions extends JPanel {
 	private JTextField textField;
@@ -38,10 +39,24 @@ public class CourierPerformanceOptions extends JPanel {
 		setLayout(null);
 		
 		JRadioButton rdbtnWeekly = new JRadioButton("Weekly");
+		rdbtnWeekly.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	        	Date tempDate = parseStringDate(textField_1.getText());
+	            textField.setText(DateParser.subtractDates(tempDate, 7));
+	        }
+	    });
 		rdbtnWeekly.setBounds(626, 221, 109, 23);
 		add(rdbtnWeekly);
 		
 		JRadioButton rdbtnMonthly = new JRadioButton("Monthly");
+		rdbtnMonthly.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	        	Date tempDate = parseStringDate(textField_1.getText());
+	            textField.setText(DateParser.subtractDates(tempDate, 30));
+	        }
+	    });
 		rdbtnMonthly.setBounds(626, 247, 109, 23);
 		add(rdbtnMonthly);
 		
@@ -91,12 +106,15 @@ public class CourierPerformanceOptions extends JPanel {
 		comboBox.setBounds(444, 159, 141, 20);
 		add(comboBox);
 		
-		textField = new JTextField();
+		Date today = new Date();
+		String weekAgo = DateParser.subtractDates(today, 7);
+		
+		textField = new JTextField(weekAgo);
 		textField.setBounds(444, 205, 141, 20);
 		add(textField);
 		textField.setColumns(10);
 		
-		textField_1 = new JTextField();
+		textField_1 = new JTextField(DateParser.printDate(today));
 		textField_1.setBounds(444, 248, 141, 20);
 		add(textField_1);
 		textField_1.setColumns(10);
