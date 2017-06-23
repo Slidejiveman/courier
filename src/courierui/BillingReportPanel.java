@@ -69,7 +69,6 @@ public class BillingReportPanel extends JPanel {
 					reportFinalString = reportFinalString + reportFinalString.format("%-12s %-11s %-17s %-16s %s", DateParser.printDate(deliveryTicket.getOrderDate()), 
 							deliveryTicket.getPackageID(),DateParser.printTime(deliveryTicket.getActualPickUpTime()), 
 							DateParser.printTime(deliveryTicket.getActualDeliveryTime()),deliveryTicket.getEstPrice()) + newline;
-					//reportFinalString = reportFinalString + DateParser.printDate(deliveryTicket.getOrderDate()) + " " + deliveryTicket.getPackageID() + " " + DateParser.printTime(deliveryTicket.getActualPickUpTime()) + " " + DateParser.printTime(deliveryTicket.getActualDeliveryTime()) + " " + deliveryTicket.getEstPrice() + newline;
 				}
 			}
 		}
