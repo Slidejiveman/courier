@@ -432,9 +432,11 @@ public class Route {
 	}
 
 	public boolean deliveryTimesMet() {
-		if((this.currentOrder.getActualDeliveryTime().getTime()
-				-this.currentOrder.getEstDeliveryTime().getTime())>=params.getBonusWindow()
-				*600000){
+		System.out.println("Difference: "+(this.currentOrder.getActualDeliveryTime().getTime()
+				-this.currentOrder.getEstDeliveryTime().getTime()));
+		if((this.currentOrder.getEstDeliveryTime().getTime()-this.currentOrder.getActualDeliveryTime().getTime()
+				)<=params.getBonusWindow()
+				*60000){
 			return true;
 		}else	
 			return false;
