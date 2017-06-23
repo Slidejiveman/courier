@@ -66,7 +66,10 @@ public class BillingReportPanel extends JPanel {
 			{
 				if(((deliveryTicket.getPickUpClient() == client && deliveryTicket.getIsBillPickUp()) || (deliveryTicket.getDeliveryClient() == client && !deliveryTicket.getIsBillPickUp())) && (deliveryTicket.getOrderDate().after(startDate) && deliveryTicket.getOrderDate().before(endDate)))
 				{
-					reportFinalString = reportFinalString + DateParser.printDate(deliveryTicket.getOrderDate()) + " " + deliveryTicket.getPackageID() + " " + DateParser.printTime(deliveryTicket.getActualPickUpTime()) + " " + DateParser.printTime(deliveryTicket.getActualDeliveryTime()) + " " + deliveryTicket.getEstPrice() + newline;
+					reportFinalString = reportFinalString + reportFinalString.format("%-12s %-11s %-17s %-16s %s", DateParser.printDate(deliveryTicket.getOrderDate()), 
+							deliveryTicket.getPackageID(),DateParser.printTime(deliveryTicket.getActualPickUpTime()), 
+							DateParser.printTime(deliveryTicket.getActualDeliveryTime()),deliveryTicket.getEstPrice()) + newline;
+					//reportFinalString = reportFinalString + DateParser.printDate(deliveryTicket.getOrderDate()) + " " + deliveryTicket.getPackageID() + " " + DateParser.printTime(deliveryTicket.getActualPickUpTime()) + " " + DateParser.printTime(deliveryTicket.getActualDeliveryTime()) + " " + deliveryTicket.getEstPrice() + newline;
 				}
 			}
 		}
