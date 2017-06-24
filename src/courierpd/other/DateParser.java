@@ -55,7 +55,20 @@ public class DateParser {
 					|| date1.getMonth() == 11) {
 				dayDifference += 31; 
 			} else if (date1.getMonth() == 1) {
-				dayDifference += 28;
+				// Account for leap year
+				if ((yearDifference + 1900) % 4 == 0) {
+					if ((yearDifference + 1900) % 100 == 0) {
+						if ((yearDifference + 1900) % 400 == 0) {
+							dayDifference += 29; // Divisible by 100 and 400, so its a leap year
+						} else {
+							dayDifference += 28; // Divisible by 100 but not 400, so its not a leap year
+						}
+					} else {
+						dayDifference += 29;     // Divisible by 4, but not 100, so its a leap year
+					}
+				} else {
+				    dayDifference += 28;         // Not Divisible by 4, so its not a leap year
+				}
 			} else {
 				dayDifference += 30;
 			}
