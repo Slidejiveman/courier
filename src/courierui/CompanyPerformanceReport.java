@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import javax.swing.JTextArea;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import courierdm.DeliveryTicketDBAO;
@@ -34,9 +36,10 @@ public class CompanyPerformanceReport extends JPanel {
 		List<DeliveryTicket> persistedDeliveryTickets = DeliveryTicketDBAO.listDeliveryTickets();
 		String newline = "\n";
 		String reportFinalString = "";
-		reportFinalString = reportFinalString + reportFinalString.format("%-1s %-12s %-11s %-15s %-18s %-22s %s", "", "Couriers ID", 
-				"Package ID", "Date of the Delivery", 
-				"Date of the Report", "Reported Delivery Time","Actual Delivery Time") + newline;;
+		Date today = new Date();
+		reportFinalString = reportFinalString + reportFinalString.format("%-1s %-20s %-11s","", "Date of the Report: ", DateParser.printDate(today)) + newline;
+		reportFinalString = reportFinalString + reportFinalString.format("%-1s %-12s %-11s %-14s %-23s %s", "", "Couriers ID", 
+				"Package ID", "Delivery Date", "Reported Delivery Time","Actual Delivery Time") + newline;;
 		setLayout(null);
 
 		//DefaultListModel listModel = new DefaultListModel();
@@ -46,10 +49,8 @@ public class CompanyPerformanceReport extends JPanel {
 			{
 				if ((deliveryTicket.getCourier().getNumber() == user.getNumber()) && (deliveryTicket.getOrderDate().after(startDate) && deliveryTicket.getOrderDate().before(endDate))) 
 				{ 
-					Date today = new Date();
-					reportFinalString = reportFinalString + reportFinalString.format("%-5s %-12s %-13s %-17s %-20s %-22s %s", "", deliveryTicket.getCourier().getNumber(), 
-							deliveryTicket.getPackageID(),DateParser.printDate(deliveryTicket.getOrderDate()) , 
-							DateParser.printDate(today) , DateParser.printTime(deliveryTicket.getEstDeliveryTime()), DateParser.printTime(deliveryTicket.getActualDeliveryTime())) + newline;
+					reportFinalString = reportFinalString + reportFinalString.format("%-5s %-12s %-9s %-18s %-23s %s", "", deliveryTicket.getCourier().getNumber(), 
+							deliveryTicket.getPackageID(),DateParser.printDate(deliveryTicket.getOrderDate()), DateParser.printTime(deliveryTicket.getEstDeliveryTime()), DateParser.printTime(deliveryTicket.getActualDeliveryTime())) + newline;
 				}
 			}
 		}
@@ -75,8 +76,16 @@ public class CompanyPerformanceReport extends JPanel {
 				
 					PdfWriter.getInstance(document, new FileOutputStream(folderName+"/CompanyPerformanceReport" + 
 					                         ".pdf"));
+					BaseFont bf = null;
+					try {
+						bf = BaseFont.createFont(BaseFont.COURIER,BaseFont.WINANSI,BaseFont.NOT_EMBEDDED);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					document.open();
 					Paragraph paragraph = new Paragraph();
+					paragraph.setFont(new com.itextpdf.text.Font(bf, 8));
 					paragraph.add(textArea.getText());
 					document.add(paragraph);
 					document.close();

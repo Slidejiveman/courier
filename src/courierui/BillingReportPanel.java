@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import javax.swing.JTextArea;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import courierdm.DeliveryTicketDBAO;
@@ -33,14 +35,8 @@ public class BillingReportPanel extends JPanel {
 	 */
 	public BillingReportPanel(CourierMainFrame currentFrame, User activeUser, List<Client> clientList, boolean allClients, Date startDate, Date endDate) {
 		List<DeliveryTicket> persistedDeliveryTickets = DeliveryTicketDBAO.listDeliveryTickets();
-		String reportFinalString = "";
 		String newline = "\n";
-		
-		setLayout(null);
-		
-		JLabel lblClient = new JLabel("Client: ");
-		lblClient.setBounds(69, 35, 46, 14);
-		add(lblClient);
+		String reportFinalString = "";
 		
 		String name = "";
 		if(allClients)
@@ -56,9 +52,12 @@ public class BillingReportPanel extends JPanel {
 		}
 		String name2 = name;
 		
-		JLabel lblInsertName = new JLabel(name);
-		lblInsertName.setBounds(125, 35, 189, 14);
-		add(lblInsertName);
+		reportFinalString = reportFinalString + reportFinalString.format("%-9s %s ", "Client: ", name2) + newline;
+		reportFinalString = reportFinalString + reportFinalString.format("%-10s %-11s %-12s %-14s %s", "Date", 
+				"Package ID","Pickup Time", 
+				"Delivery Time","Price") + newline;
+		
+		setLayout(null);
 		
 		for(Client client: clientList)
 		{ 
@@ -66,7 +65,7 @@ public class BillingReportPanel extends JPanel {
 			{
 				if(((deliveryTicket.getPickUpClient() == client && deliveryTicket.getIsBillPickUp()) || (deliveryTicket.getDeliveryClient() == client && !deliveryTicket.getIsBillPickUp())) && (deliveryTicket.getOrderDate().after(startDate) && deliveryTicket.getOrderDate().before(endDate)))
 				{
-					reportFinalString = reportFinalString + reportFinalString.format("%-12s %-11s %-17s %-16s %s", DateParser.printDate(deliveryTicket.getOrderDate()), 
+					reportFinalString = reportFinalString + reportFinalString.format("%-13s %-9s %-13s %-13s %s", DateParser.printDate(deliveryTicket.getOrderDate()), 
 							deliveryTicket.getPackageID(),DateParser.printTime(deliveryTicket.getActualPickUpTime()), 
 							DateParser.printTime(deliveryTicket.getActualDeliveryTime()),deliveryTicket.getEstPrice()) + newline;
 				}
@@ -74,7 +73,7 @@ public class BillingReportPanel extends JPanel {
 		}
 		JTextArea textArea = new JTextArea(reportFinalString);
 		textArea.setFont(new Font("Courier New", Font.PLAIN, 12));
-		textArea.setBounds(57, 92, 498, 258);
+		textArea.setBounds(184, 97, 498, 315);
 		add(textArea);
 		
 		JButton btnSaveAsPdf = new JButton("Save as PDF");
@@ -93,8 +92,16 @@ public class BillingReportPanel extends JPanel {
 				
 					PdfWriter.getInstance(document, new FileOutputStream(folderName+"/BillingReportFor" + 
 					                       name2 + ".pdf"));
+					BaseFont bf = null;
+					try {
+						bf = BaseFont.createFont(BaseFont.COURIER,BaseFont.WINANSI,BaseFont.NOT_EMBEDDED);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					document.open();
 					Paragraph paragraph = new Paragraph();
+					paragraph.setFont(new com.itextpdf.text.Font(bf, 8));
 					paragraph.add(textArea.getText());
 					document.add(paragraph);
 					document.close();
@@ -108,7 +115,7 @@ public class BillingReportPanel extends JPanel {
 				currentFrame.revalidate();
 			}
 		});
-		btnSaveAsPdf.setBounds(125, 372, 123, 23);
+		btnSaveAsPdf.setBounds(252, 434, 123, 23);
 		add(btnSaveAsPdf);
 		
 		JButton btnCancel = new JButton("Cancel");
@@ -120,29 +127,7 @@ public class BillingReportPanel extends JPanel {
 				currentFrame.getContentPane().revalidate();
 			}
 		});
-		btnCancel.setBounds(358, 372, 114, 23);
+		btnCancel.setBounds(485, 434, 114, 23);
 		add(btnCancel);
-		
-		
-		
-		JLabel lblDate = new JLabel("Date");
-		lblDate.setBounds(57, 67, 46, 14);
-		add(lblDate);
-		
-		JLabel lblPackageId = new JLabel("Package ID");
-		lblPackageId.setBounds(135, 67, 78, 14);
-		add(lblPackageId);
-		
-		JLabel lblPickupTime = new JLabel("Pick-up Time");
-		lblPickupTime.setBounds(235, 67, 100, 14);
-		add(lblPickupTime);
-		
-		JLabel lblDeliveryTime = new JLabel("Delivery Time");
-		lblDeliveryTime.setBounds(358, 67, 100, 14);
-		add(lblDeliveryTime);
-		
-		JLabel lblBillingRate = new JLabel("Billing Rate");
-		lblBillingRate.setBounds(468, 67, 87, 14);
-		add(lblBillingRate);
 	}
 }
