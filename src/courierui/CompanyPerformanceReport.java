@@ -38,7 +38,7 @@ public class CompanyPerformanceReport extends JPanel {
 		String newline = "\n";
 		String reportFinalString = "";
 		Date today = new Date();
-		reportFinalString = reportFinalString + reportFinalString.format("%-1s %-20s %-11s","", "Date of the Report: ", DateParser.printDate(today)) + newline;
+		reportFinalString = reportFinalString + reportFinalString.format("%-1s %-20s %-11s","", "Date of the Report: ", DateParser.printDate(today)) + newline + newline;
 		reportFinalString = reportFinalString + reportFinalString.format("%-1s %-12s %-11s %-14s %-23s %s", "", "Couriers ID", 
 				"Package ID", "Delivery Date", "Reported Delivery Time","Actual Delivery Time") + newline;;
 		setLayout(null);

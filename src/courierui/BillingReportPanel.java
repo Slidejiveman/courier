@@ -51,9 +51,9 @@ public class BillingReportPanel extends JPanel {
 				name = client.getName();
 			}
 		}
-		String name2 = name;
+		String name2 = name;             
 		
-		reportFinalString = reportFinalString + reportFinalString.format("%-9s %s ", "Client: ", name2) + newline;
+		reportFinalString = reportFinalString + reportFinalString.format("%-9s %s ", "Client: ", name2) + newline + newline;
 		reportFinalString = reportFinalString + reportFinalString.format("%-10s %-11s %-12s %-14s %s", "Date", 
 				"Package ID","Pickup Time", 
 				"Delivery Time","Price") + newline;
