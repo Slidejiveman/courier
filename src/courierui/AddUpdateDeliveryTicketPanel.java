@@ -372,6 +372,8 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 						errorPaneMessages+= "\n";
 						errorPaneMessages+= "No pick up time specified";
 						System.out.println("No pick up time specified.");
+						JOptionPane.showMessageDialog(currentFrame, "Requested Pickup Time is Required","INPUT ERRORS",JOptionPane.ERROR_MESSAGE);
+						userTransaction.rollback();
 					}
 					if(isAdd){
 						deliveryTicket.setOrderDate(new Timestamp(new Date().getTime()));

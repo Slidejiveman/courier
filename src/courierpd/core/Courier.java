@@ -3,15 +3,10 @@ package courierpd.core;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
-
-import courierpd.enums.EmployeeRole;
 
 /**
  * Represents the courier who performs the delivery of a package. 
@@ -61,6 +56,7 @@ public class Courier extends User {
      * Sets the number of deliveries the courier has made on a given day.
      * @param deliveriesToday The number of deliveries made today.
      */
+	@Transient
 	private ArrayList<DeliveryTicket> assignedTickets = new ArrayList<DeliveryTicket>();
     public void setDeliveriesToday(int deliveriesToday) {
         this.deliveriesToday = deliveriesToday;

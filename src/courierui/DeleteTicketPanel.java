@@ -8,6 +8,7 @@ import courierpd.core.DeliveryTicket;
 import courierpd.core.User;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.persistence.EntityTransaction;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -58,6 +59,10 @@ public class DeleteTicketPanel extends JPanel {
 					currentFrame.getContentPane().removeAll();
 					currentFrame.getContentPane().add(new DeliveryTicketListPanel(currentFrame, "Package Id", activeUser));
 					currentFrame.revalidate();
+				} else {
+					JOptionPane.showMessageDialog(null,
+							"Cannot delete this Delivery Ticket because it is not canceled.", 
+							"Delete Failed", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
