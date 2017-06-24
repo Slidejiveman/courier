@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import javax.swing.JTextArea;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import courierdm.DeliveryTicketDBAO;
@@ -34,9 +36,24 @@ public class CourierPerformanceReport extends JPanel {
 		List<DeliveryTicket> persistedDeliveryTickets = DeliveryTicketDBAO.listDeliveryTickets();
 		String reportFinalString = "";
 		String newline = "\n";
-		reportFinalString = reportFinalString + reportFinalString.format("%-1s %-12s %-13s %-22s %-22s %-25s %s", "", "Date", 
-				"Courier ID","Estimated Pickup Time", 
-				"Actual Pickup Time", "Estimated Delivery Time", "Actual Delivery Time") + newline;
+		String name = "";
+		if(allCouriers)
+		{
+			name = "All Couriers";
+		}
+		else
+		{
+			for(User user: userList)
+			{
+				name = user.getName();
+			}
+		}
+		String name2 = name;
+		reportFinalString = reportFinalString + reportFinalString.format("%-7s %s", "Date: ", DateParser.printDate(startDate) + "-" + DateParser.printDate(endDate)) + newline;
+		reportFinalString = reportFinalString + reportFinalString.format("%-9s %s", "Courier: ", name2) + newline + newline;
+		reportFinalString = reportFinalString + reportFinalString.format("%-1s %-9s %-11s %-16s %-12s %-14s %14s %8s", "", "Date", 
+				"Courier ID","Est Pickup Time", 
+				"Pickup Time", "Est Delivery Time", "Delivery Time", "Bonus") + newline;
 		setLayout(null);
 
 		for(User user: userList)
@@ -52,30 +69,16 @@ public class CourierPerformanceReport extends JPanel {
 					else {
 						bonusstr = "No";
 					}
-					reportFinalString = reportFinalString + reportFinalString.format("%-1s %-17s %-13s %-22s %-22s %-25s %s", "", DateParser.printDate(deliveryTicket.getOrderDate()), 
+					reportFinalString = reportFinalString + reportFinalString.format("%-1s %-13s %-10s %-14s %-15s %-16s %-15s %s", "", DateParser.printDate(deliveryTicket.getOrderDate()), 
 							deliveryTicket.getCourier().getNumber(),DateParser.printTime(deliveryTicket.getRequestedPickUpTime()) , 
-							DateParser.printTime(deliveryTicket.getActualPickUpTime()) , DateParser.printTime(deliveryTicket.getEstDeliveryTime()), DateParser.printTime(deliveryTicket.getActualDeliveryTime())) + newline;
+							DateParser.printTime(deliveryTicket.getActualPickUpTime()) , DateParser.printTime(deliveryTicket.getEstDeliveryTime()), DateParser.printTime(deliveryTicket.getActualDeliveryTime()), bonusstr) + newline;
 				}
 			}
 		}
 		
-		String name = "";
-		if(allCouriers)
-		{
-			name = "All Couriers";
-		}
-		else
-		{
-			for(User user: userList)
-			{
-				name = user.getName();
-			}
-		}
-		String name2 = name;
-		
 		JTextArea textArea = new JTextArea(reportFinalString);
 		textArea.setFont(new Font("Courier New", Font.PLAIN, 12));
-		textArea.setBounds(73, 110, 872, 324);
+		textArea.setBounds(73, 89, 872, 345);
 		add(textArea);
 		
 		JButton btnSaveAsPdf = new JButton("Save As PDF");
@@ -94,8 +97,16 @@ public class CourierPerformanceReport extends JPanel {
 				
 					PdfWriter.getInstance(document, new FileOutputStream(folderName+"/CourierPerformanceReportFor" + name2 + 
 					                         ".pdf"));
+					BaseFont bf = null;
+					try {
+						bf = BaseFont.createFont(BaseFont.COURIER,BaseFont.WINANSI,BaseFont.NOT_EMBEDDED);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					document.open();
 					Paragraph paragraph = new Paragraph();
+					paragraph.setFont(new com.itextpdf.text.Font(bf, 8));
 					paragraph.add(textArea.getText());
 					document.add(paragraph);
 					document.close();
@@ -126,13 +137,5 @@ public class CourierPerformanceReport extends JPanel {
 		JLabel lblCompanyPerformanceReport = new JLabel("Courier Performance Report");
 		lblCompanyPerformanceReport.setBounds(337, 40, 216, 14);
 		add(lblCompanyPerformanceReport);
-		
-		JLabel lblDate = new JLabel("Date: " + DateParser.printDate(startDate) + "-" + DateParser.printDate(endDate));
-		lblDate.setBounds(64, 58, 344, 14);
-		add(lblDate);
-		
-		JLabel lblCourier = new JLabel("Courier: " + name );
-		lblCourier.setBounds(64, 85, 364, 14);
-		add(lblCourier);
 	}
 }
