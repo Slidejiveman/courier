@@ -61,6 +61,7 @@ public class Courier extends User {
      * Sets the number of deliveries the courier has made on a given day.
      * @param deliveriesToday The number of deliveries made today.
      */
+	
 	private ArrayList<DeliveryTicket> assignedTickets = new ArrayList<DeliveryTicket>();
     public void setDeliveriesToday(int deliveriesToday) {
         this.deliveriesToday = deliveriesToday;

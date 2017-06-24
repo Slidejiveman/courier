@@ -366,7 +366,7 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 					
 					deliveryTicket.setSpecialDeliveryInstructions(specialDeliverytextArea.getText());
 					deliveryTicket.setStatus((TicketStatus)statusComboBox.getSelectedItem());
-					if(requestedPickupTimetextField.getText()!=("")){
+					if(!requestedPickupTimetextField.getText().equals("")){
 						deliveryTicket.setRequestedPickUpTime(new Timestamp(parseStringTime(requestedPickupTimetextField.getText()).getTime()));
 					}else{
 						errorPaneMessages+= "\n";
