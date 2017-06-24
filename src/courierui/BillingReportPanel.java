@@ -130,5 +130,9 @@ public class BillingReportPanel extends JPanel {
 		});
 		btnCancel.setBounds(485, 434, 114, 23);
 		add(btnCancel);
+		
+		JLabel lblBillingReport = new JLabel("Billing Report");
+		lblBillingReport.setBounds(384, 53, 176, 14);
+		add(lblBillingReport);
 	}
 }
