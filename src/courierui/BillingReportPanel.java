@@ -54,9 +54,9 @@ public class BillingReportPanel extends JPanel {
 		String name2 = name;             
 		
 		reportFinalString = reportFinalString + reportFinalString.format("%-9s %s ", "Client: ", name2) + newline + newline;
-		reportFinalString = reportFinalString + reportFinalString.format("%-10s %-11s %-12s %-14s %s", "Date", 
+		reportFinalString = reportFinalString + reportFinalString.format("%-10s %-11s %-12s %-14s %-7s %s", "Date", 
 				"Package ID","Pickup Time", 
-				"Delivery Time","Price") + newline;
+				"Delivery Time","Price", "Client") + newline;
 		
 		setLayout(null);
 		
@@ -66,15 +66,25 @@ public class BillingReportPanel extends JPanel {
 			{
 				if(((deliveryTicket.getPickUpClient() == client && deliveryTicket.getIsBillPickUp()) || (deliveryTicket.getDeliveryClient() == client && !deliveryTicket.getIsBillPickUp())) && (deliveryTicket.getOrderDate().after(startDate) && deliveryTicket.getOrderDate().before(endDate)) && (deliveryTicket.getStatus() == TicketStatus.Closed))
 				{
-					reportFinalString = reportFinalString + reportFinalString.format("%-13s %-9s %-13s %-13s %s", DateParser.printDate(deliveryTicket.getOrderDate()), 
+					String clientName;
+					if(deliveryTicket.getPickUpClient() == client && deliveryTicket.getIsBillPickUp())
+					{
+						clientName = deliveryTicket.getPickUpClient().getName();
+					}
+					else
+					{
+						clientName = deliveryTicket.getDeliveryClient().getName();
+					}
+					
+					reportFinalString = reportFinalString + reportFinalString.format("%-13s %-9s %-13s %-13s %-6s %s", DateParser.printDate(deliveryTicket.getOrderDate()), 
 							deliveryTicket.getPackageID(),DateParser.printTime(deliveryTicket.getActualPickUpTime()), 
-							DateParser.printTime(deliveryTicket.getActualDeliveryTime()),deliveryTicket.getEstPrice()) + newline;
+							DateParser.printTime(deliveryTicket.getActualDeliveryTime()),deliveryTicket.getEstPrice(), clientName) + newline;
 				}
 			}
 		}
 		JTextArea textArea = new JTextArea(reportFinalString);
 		textArea.setFont(new Font("Courier New", Font.PLAIN, 12));
-		textArea.setBounds(184, 97, 498, 315);
+		textArea.setBounds(111, 97, 647, 315);
 		add(textArea);
 		
 		JButton btnSaveAsPdf = new JButton("Save as PDF");

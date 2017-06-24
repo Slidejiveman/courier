@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 import courierdm.ClientDBAO;
 import courierpd.core.Client;
 import courierpd.core.User;
+import courierpd.other.DateParser;
 
 public class BillingReportOptionsPanel extends JPanel {
 	private JTextField startDateTextField;
@@ -56,12 +57,15 @@ public class BillingReportOptionsPanel extends JPanel {
 			comboBox.addItem(client);
 		add(comboBox);
 		
-		startDateTextField = new JTextField();
+		Date today = new Date();
+		String weekAgo = DateParser.subtractDates(today, 7);
+		
+		startDateTextField = new JTextField(weekAgo);
 		startDateTextField.setBounds(360, 225, 144, 20);
 		add(startDateTextField);
 		startDateTextField.setColumns(10);
 		
-		endDateTextField = new JTextField();
+		endDateTextField = new JTextField(DateParser.printDate(today));
 		endDateTextField.setColumns(10);
 		endDateTextField.setBounds(360, 270, 144, 20);
 		add(endDateTextField);
