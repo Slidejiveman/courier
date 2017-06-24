@@ -15,6 +15,9 @@ import javax.swing.JScrollBar;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
@@ -131,9 +134,27 @@ public class DeliveryDirectionsPanel extends JPanel {
 				
 					PdfWriter.getInstance(document, new FileOutputStream(folderName+"/directionsForTicketNo" + 
 					                       route.getCurrentOrder().getPackageID() + ".pdf"));
+					document.setPageSize(PageSize.A5); 
+			        //document.setMargins(36, 36, 36, 36);
+			        document.setMarginMirroring(true);
 					document.open();
+					
+					Paragraph titleParagraph = new Paragraph(); // Adding the title paragraph
+					titleParagraph.setLeading(1.0f, 1.0f);
+					titleParagraph.add("Delivery Directions to "
+					+route.getCurrentOrder().getDeliveryClient().getName()+"'s Location: "
+							+route.getCurrentOrder().getDeliveryClient().getLocation()+"\n");
+					
 					Paragraph paragraph = new Paragraph();
+					paragraph.setLeading(0.0f, 1.0f);
 					paragraph.add(directionstextArea.getText());
+					paragraph.setAlignment(Element.ALIGN_LEFT);
+					
+					paragraph.setIndentationLeft(50);
+					titleParagraph.setAlignment(Element.ALIGN_CENTER);
+					titleParagraph.setSpacingAfter(0);
+					paragraph.setSpacingBefore(0);
+					document.add(titleParagraph);
 					document.add(paragraph);
 					document.close();
 				} catch (FileNotFoundException | DocumentException e) {

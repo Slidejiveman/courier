@@ -1,6 +1,8 @@
 package courierpd.map;
 
 import java.util.ArrayList;
+
+import courierdm.CourierEntityManager;
 import courierdm.IntersectionDBAO;
 import courierpd.core.DeliveryTicket;
 
@@ -40,6 +42,7 @@ public class PathAlgorithm {
         Intersection deliveryLocation = currentOrder.getDeliveryClient().getLocation();
         //add all open intersections from the map into the nodes set
         for(Intersection intersection: IntersectionDBAO.listIntersections()){
+    		CourierEntityManager.getEntityManager().refresh(intersection);
         	if(intersection.getIsOpen()){
             	allNodes.add(intersection);
         	}

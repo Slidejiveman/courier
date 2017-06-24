@@ -93,8 +93,8 @@ public class Route {
     	System.out.println("Hours: "+hours);
 		int minutes = (minutesUsed%60);
 		System.out.println("Minutes: "+minutes);
-		estimatedDeliveryTime.setHours(this.estimateDepartureTime().getHours()+hours);
 		estimatedDeliveryTime.setMinutes(this.currentOrder.getRequestedPickUpTime().getMinutes()+minutes);
+		estimatedDeliveryTime.setHours(this.currentOrder.getRequestedPickUpTime().getHours()+hours);
 		System.out.println("delivery time hour: "+estimatedDeliveryTime.getHours());
 		System.out.println("delivery time mins: "+estimatedDeliveryTime.getMinutes());
     	return  estimatedDeliveryTime;
@@ -386,18 +386,21 @@ public class Route {
 						turnDirection="Turn Right, ";
 					}
 				}
-				direction +=tab+tab+tab+turnDirection+ " keep straight "+" for "+ ((toIndex+1)-fromIndex) 
-						+" blocks to "+this.usedIntersections.get(toIndex+1).getName()+" on the "
-						+getStreetNameGivenCoordinate(usedIntersections.get(toIndex));
+				if(fromIndex == 0){
+					direction +=tab+tab+tab+ " keep straight "+directions.get(toIndex)+" for "+ ((toIndex+1)-fromIndex) 
+							+" blocks to "+this.usedIntersections.get(toIndex+1).getName();
+				}else{
+					direction +=tab+tab+tab+turnDirection+ " keep straight "+directions.get(toIndex)+" for "+ ((toIndex+1)-fromIndex) 
+							+" blocks to "+this.usedIntersections.get(toIndex+1).getName();
+				}
 				direction+="\n";
 				toIndex++;
 				fromIndex=toIndex;
 			}
 			if(toIndex == this.directions.size()-1){
 				simplifiedDirections.add(this.directions.get(toIndex));
-				direction +=tab+tab+tab+turnDirection+ "keep straight "+" for "+ ((toIndex+1)-fromIndex) 
-						+" blocks to "+this.usedIntersections.get(toIndex+1).getName()+" on the "
-						+getStreetNameGivenCoordinate(usedIntersections.get(toIndex));
+				direction +=tab+tab+tab+turnDirection+ "keep straight "+directions.get(toIndex)+" for " +((toIndex+1)-fromIndex) 
+						+" blocks to "+this.usedIntersections.get(toIndex+1).getName();
 				direction+="\n";
 			}
 			
@@ -435,7 +438,7 @@ public class Route {
 		System.out.println("Difference: "+(this.currentOrder.getActualDeliveryTime().getTime()
 				-this.currentOrder.getEstDeliveryTime().getTime()));
 		if((this.currentOrder.getEstDeliveryTime().getTime()-this.currentOrder.getActualDeliveryTime().getTime()
-				)<=params.getBonusWindow()
+				)>=params.getBonusWindow()
 				*60000){
 			return true;
 		}else	

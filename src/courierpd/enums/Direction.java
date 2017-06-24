@@ -21,5 +21,5 @@ public enum Direction {
     /**
      * Represents the direction West.
      */
-    West
+    West, Start
 }

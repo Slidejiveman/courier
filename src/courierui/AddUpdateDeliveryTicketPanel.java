@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -18,11 +21,14 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import courierdm.ClientDBAO;
 import courierdm.CourierEntityManager;
 import courierdm.DeliveryTicketDBAO;
 import courierdm.EmployeeDBAO;
+import courieremail.EmailUtil;
 import courierpd.core.Client;
 import courierpd.core.Courier;
 import courierpd.core.DefaultCourierAlgorithm;
@@ -34,10 +40,6 @@ import courierpd.enums.TicketStatus;
 import courierpd.map.PathAlgorithm;
 import courierpd.map.Route;
 import courierpd.other.DateParser;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 public class AddUpdateDeliveryTicketPanel extends JPanel {
 	/**
@@ -180,6 +182,78 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 			chckbxBonus.setSelected(deliveryTicket.getIsBonusEarned());
 			chckbxBonus.setEnabled(false);
 		}
+		departureTimetextField.getDocument().addDocumentListener(new DocumentListener(){
+
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				//deliveryTicket.getCourier().setIsOutForDelivery(true);
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent arg0) {
+				deliveryTicket.getCourier().setIsOutForDelivery(true);
+				System.out.println("Courier delivery status: "+deliveryTicket.getCourier().getIsOutForDelivery());
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent arg0) {
+				deliveryTicket.getCourier().setIsOutForDelivery(false);
+				System.out.println("Courier delivery status: "+deliveryTicket.getCourier().getIsOutForDelivery());
+			}
+			
+		});
+		
+		DeliveryTimeTextField.getDocument().addDocumentListener(new DocumentListener(){
+
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				//send client e-mails
+				//this also happens if updated from the courier's incoming emails
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent arg0) {
+				//send client e-mails
+				EmailUtil.sendConfirmationMail(deliveryTicket.getDeliveryClient().getEmail(), 
+						deliveryTicket.getPickUpClient().getEmail(), // string email will be made into Addresses
+						"ubiquitymail@gmail.com", "smtp.gmail.com",
+			    		 deliveryTicket);
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent arg0) {
+				//send client e-mails
+			}
+			
+		});
+		
+		courierRetTimetextField.getDocument().addDocumentListener(new DocumentListener(){
+
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				//deliveryTicket.setStatus(TicketStatus.Closed);
+				//deliveryTicket.getCourier().setIsOutForDelivery(false);
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent arg0) {
+				deliveryTicket.setStatus(TicketStatus.Closed);
+				statusComboBox.setSelectedItem(TicketStatus.Closed);
+				deliveryTicket.getCourier().setIsOutForDelivery(false);
+				System.out.println("Courier delivery status: "+deliveryTicket.getCourier().getIsOutForDelivery());
+
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent arg0) {
+				deliveryTicket.setStatus(TicketStatus.Opened);
+				statusComboBox.setSelectedItem(TicketStatus.Opened);
+				deliveryTicket.getCourier().setIsOutForDelivery(true);
+				System.out.println("Courier delivery status: "+deliveryTicket.getCourier().getIsOutForDelivery());
+
+			}
+			
+		});
 		PickupCustomercomboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				departureTimetextField.setText("");
@@ -249,6 +323,8 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 		if(isAdd){
 			statusComboBox.setSelectedItem(TicketStatus.Opened);
 			statusComboBox.setEnabled(false);
+		}else{
+			statusComboBox.setSelectedItem(deliveryTicket.getStatus());
 		}
 		statusComboBox.setBounds(720, 102, 170, 20);
 		OrderInfopanel.add(statusComboBox);
@@ -278,6 +354,7 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 					if(buttonGroup.isSelected(rdbtnBillToPickup.getModel())) {
 						deliveryTicket.setIsBillPickUp(true);
 					} else {
+						deliveryTicket.setIsBillPickUp(false);
 					}
 					
 					deliveryTicket.setOrderTaker((OrderTaker)activeUser);
@@ -337,6 +414,7 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 						System.out.println("Is bonus earned "+deliveryRoute.deliveryTimesMet());
 						deliveryTicket.setIsBonusEarned(deliveryRoute.deliveryTimesMet());
 					}
+					
 					estimatesTransaction.commit();
 				}catch (Exception exception){
 					estimatesTransaction.rollback();
@@ -366,6 +444,7 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 						if(buttonGroup.isSelected(rdbtnBillToPickup.getModel())) {
 							deliveryTicket.setIsBillPickUp(true);
 						} else {
+							deliveryTicket.setIsBillPickUp(false);
 						}
 						
 						deliveryTicket.setOrderTaker((OrderTaker)activeUser);
@@ -430,7 +509,13 @@ public class AddUpdateDeliveryTicketPanel extends JPanel {
 						estimatesTransaction.rollback();
 						JOptionPane.showMessageDialog(currentFrame, errorPaneMessages,"INPUT ERRORS",JOptionPane.ERROR_MESSAGE);
 					}
+					if(!deliveryTicket.getCourier().getAssignedTickets().contains(deliveryTicket)){
+						deliveryTicket.getCourier().getAssignedTickets().add(deliveryTicket);
+						deliveryTicket.getCourier().setDeliveriesToday(
+								deliveryTicket.getCourier().getDeliveriesToday()+1);
+					}
 					
+					System.out.println("Courier's deliveries: "+deliveryTicket.getCourier().getDeliveriesToday());
 					deliveryRoute.setCurrentOrder(deliveryTicket);
 					//Frame revalidation section
 					CourierEntityManager.getEntityManager().refresh(deliveryTicket);

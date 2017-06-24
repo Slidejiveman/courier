@@ -1,5 +1,6 @@
 package courierpd.core;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.Column;
@@ -60,6 +61,7 @@ public class Courier extends User {
      * Sets the number of deliveries the courier has made on a given day.
      * @param deliveriesToday The number of deliveries made today.
      */
+	private ArrayList<DeliveryTicket> assignedTickets = new ArrayList<DeliveryTicket>();
     public void setDeliveriesToday(int deliveriesToday) {
         this.deliveriesToday = deliveriesToday;
     }
@@ -92,5 +94,19 @@ public class Courier extends User {
     public Courier() {
         
     }
+
+	/**
+	 * @return the assignedTickets
+	 */
+	public ArrayList<DeliveryTicket> getAssignedTickets() {
+		return assignedTickets;
+	}
+
+	/**
+	 * @param assignedTickets the assignedTickets to set
+	 */
+	public void setAssignedTickets(ArrayList<DeliveryTicket> assignedTickets) {
+		this.assignedTickets = assignedTickets;
+	}
 
 }
