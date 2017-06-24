@@ -25,6 +25,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import courierdm.DeliveryTicketDBAO;
 import courierpd.core.DeliveryTicket;
 import courierpd.core.User;
+import courierpd.enums.TicketStatus;
 import courierpd.other.DateParser;
 
 public class CourierPerformanceReport extends JPanel {
@@ -60,7 +61,7 @@ public class CourierPerformanceReport extends JPanel {
 		{
 			for(DeliveryTicket deliveryTicket: persistedDeliveryTickets)
 			{
-				if ((deliveryTicket.getCourier().getNumber() == user.getNumber()) && ((deliveryTicket.getOrderDate().after(startDate) && deliveryTicket.getOrderDate().before(endDate))))
+				if ((deliveryTicket.getCourier().getNumber() == user.getNumber()) && ((deliveryTicket.getOrderDate().after(startDate) && deliveryTicket.getOrderDate().before(endDate))) && (deliveryTicket.getStatus() == TicketStatus.Closed))
 				{ 
 					String bonusstr;
 					if(deliveryTicket.getIsBonusEarned()){
