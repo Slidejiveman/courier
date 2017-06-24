@@ -26,6 +26,7 @@ import courierdm.DeliveryTicketDBAO;
 import courierpd.core.Client;
 import courierpd.core.DeliveryTicket;
 import courierpd.core.User;
+import courierpd.enums.TicketStatus;
 import courierpd.other.DateParser;
 
 public class BillingReportPanel extends JPanel {
@@ -63,7 +64,7 @@ public class BillingReportPanel extends JPanel {
 		{ 
 			for(DeliveryTicket deliveryTicket: persistedDeliveryTickets)
 			{
-				if(((deliveryTicket.getPickUpClient() == client && deliveryTicket.getIsBillPickUp()) || (deliveryTicket.getDeliveryClient() == client && !deliveryTicket.getIsBillPickUp())) && (deliveryTicket.getOrderDate().after(startDate) && deliveryTicket.getOrderDate().before(endDate)))
+				if(((deliveryTicket.getPickUpClient() == client && deliveryTicket.getIsBillPickUp()) || (deliveryTicket.getDeliveryClient() == client && !deliveryTicket.getIsBillPickUp())) && (deliveryTicket.getOrderDate().after(startDate) && deliveryTicket.getOrderDate().before(endDate)) && (deliveryTicket.getStatus() == TicketStatus.Closed))
 				{
 					reportFinalString = reportFinalString + reportFinalString.format("%-13s %-9s %-13s %-13s %s", DateParser.printDate(deliveryTicket.getOrderDate()), 
 							deliveryTicket.getPackageID(),DateParser.printTime(deliveryTicket.getActualPickUpTime()), 
