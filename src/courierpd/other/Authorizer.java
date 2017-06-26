@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 
 import courierdm.EmployeeDBAO;
 import courierpd.core.User;
+import courierpd.enums.EmployeeRole;
 
 /**
  * The Authorizer class backs the login screen. 
@@ -44,10 +45,12 @@ public class Authorizer {
     public void validateLoginCredentials(String userName,String passWord) {
         
     	for (User user : authorizedUsers) {
-    		if (user.getUsername().equals(userName)){
-    		   if (user.getPassword().equals(passWord)) {
-    			   activeUser = user;
-    		   }  
+    		if (!user.getEmployeeRole().equals(EmployeeRole.Courier)) {
+	    		if (user.getUsername().equals(userName)){
+	    		   if (user.getPassword().equals(passWord)) {
+	    			   activeUser = user;
+	    		   }  
+	    		} 
     		}
     	}
     	if (activeUser == null) {
