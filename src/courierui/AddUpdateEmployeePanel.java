@@ -194,13 +194,17 @@ public class AddUpdateEmployeePanel extends JPanel {
 					userTransaction.rollback();
 				}
 				
-				if(textField_2.getText() != null) {
-					employee.setUsername(textField_2.getText());
-				}			
-				if(passwordField.getPassword() != null && PasswordValidator.validate(passwordField.getText())) { // Text is not encrypted
-					employee.setPassword(passwordField.getPassword().toString());
-				} else {
-					userTransaction.rollback();
+				// Couriers do not need usernames and passwords
+				if (!comboBox_1.getModel().getSelectedItem().equals(EmployeeRole.Courier)) {
+					if(textField_2.getText() != null) {
+						employee.setUsername(textField_2.getText());
+					}	
+				
+					if(passwordField.getPassword() != null && PasswordValidator.validate(passwordField.getText())) { // Text is not encrypted
+						employee.setPassword(passwordField.getPassword().toString());
+					} else {
+						userTransaction.rollback();
+					}
 				}
 				employee.setShift((Integer) comboBox.getModel().getSelectedItem());
 				employee.setIsActive(chckbxIsEmployeeActive.isSelected());
